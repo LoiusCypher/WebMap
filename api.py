@@ -5,17 +5,24 @@ from collections import OrderedDict
 from nmapreport.functions import *
 
 def rmNotes(request, hashstr):
-	if 'auth' not in request.session:
-		return False
+        if 'auth' not in request.session:
+                return HttpResponse(json.dumps({'error': 'unauthorized'}),
+                                    content_type="application/json",
+                                    status=401)
 
-	scanfilemd5 = hashlib.md5(str(request.session['scanfile']).encode('utf-8')).hexdigest()
-	if re.match('^[a-f0-9]{32,32}$', hashstr) is not None:
-		os.remove('/opt/notes/'+scanfilemd5+'_'+hashstr+'.notes')
-		res = {'ok':'notes removed'}
-	else:
-		res = {'error':'invalid format'}
+        scanfilemd5 = hashlib.md5(str(request.session['scanfile']).encode('utf-8')).hexdigest()
 
-	return HttpResponse(json.dumps(res), content_type="application/json")
+        if re.match('^[a-f0-9]{32}$', hashstr):
+                filepath = '/opt/notes/' + scanfilemd5 + '_' + hashstr + '.notes'
+                if os.path.exists(filepath):
+                        os.remove(filepath)
+                        res = {'ok': 'notes removed'}
+                else:
+                        res = {'error': 'notes not found'}
+        else:
+                res = {'error': 'invalid format'}
+
+        return HttpResponse(json.dumps(res), content_type="application/json")
 
 def saveNotes(request):
 	if 'auth' not in request.session:
@@ -35,20 +42,29 @@ def saveNotes(request):
 	return HttpResponse(json.dumps(res), content_type="application/json")
 
 def rmlabel(request, objtype, hashstr):
-	if 'auth' not in request.session:
-		return False
+        if 'auth' not in request.session:
+                return HttpResponse(json.dumps({'error': 'unauthorized'}),
+                                    content_type="application/json",
+                                    status=401)
 
-	types = {
-		'host':True,
-		'port':True
-	}
+        types = {
+                'host': True,
+                'port': True
+        }
 
-	scanfilemd5 = hashlib.md5(str(request.session['scanfile']).encode('utf-8')).hexdigest()
+        scanfilemd5 = hashlib.md5(str(request.session['scanfile']).encode('utf-8')).hexdigest()
 
-	if re.match('^[a-f0-9]{32,32}$', hashstr) is not None:
-		os.remove('/opt/notes/'+scanfilemd5+'_'+hashstr+'.'+objtype+'.label')
-		res = {'ok':'label removed'}
-		return HttpResponse(json.dumps(res), content_type="application/json")
+        if objtype in types and re.match('^[a-f0-9]{32}$', hashstr):
+                filepath = '/opt/notes/{}_{}.{}.label'.format(scanfilemd5, hashstr, objtype)
+                if os.path.exists(filepath):
+                        os.remove(filepath)
+                        res = {'ok': 'label removed'}
+                else:
+                        res = {'error': 'label not found'}
+        else:
+                res = {'error': 'invalid format'}
+
+        return HttpResponse(json.dumps(res), content_type="application/json")
 
 def label(request, objtype, label, hashstr):
 	labels = {
