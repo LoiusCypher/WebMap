@@ -1,6 +1,6 @@
 <p align="center">
 <img width="300" src="https://i.imgur.com/puyIfHT.jpg" /><br>
-A Web Dashbord for Nmap XML Report 
+A Web Dashbord for Nmap XML Report
 </p>
 
 ## Table Of Contents
@@ -62,7 +62,7 @@ $ curl -sL http://bit.ly/webmapsetup | bash
 ```
 
 ### Run without Docker
-This project is designed to run on a Docker container. IMHO it isn't a good idea to run this on a custom Django installation, 
+This project is designed to run on a Docker container. IMHO it isn't a good idea to run this on a custom Django installation,
 but if you need it you can find all building steps inside the [Dockerfile](https://github.com/SabyasachiRana/WebMap/blob/master/docker/Dockerfile).
 
 ## Video
@@ -107,7 +107,7 @@ You love WebMap and you know python? We need your help! This is what we want dep
 ![WebMap](https://i.imgur.com/alWZix9.png)
 
 ## XML Filenames
-When creating the PDF version of the Nmap XML Report, the XML filename is used as document title on the first page. 
+When creating the PDF version of the Nmap XML Report, the XML filename is used as document title on the first page.
 WebMap will replace some parts of the filename as following:
 
 - `_` will replaced by a space (` `)
@@ -117,8 +117,8 @@ Example: `ACME_Ltd..xml`<br>
 PDF title: `ACME Ltd.`
 
 ## CVE and Exploits
-thanks to the amazing API services by circl.lu, WebMap is able to looking for CVE and Exploits for each CPE collected by Nmap. 
-Not all CPE are checked over the circl.lu API, but only when a specific version is specified 
+thanks to the amazing API services by circl.lu, WebMap is able to looking for CVE and Exploits for each CPE collected by Nmap.
+Not all CPE are checked over the circl.lu API, but only when a specific version is specified
 (for example: `cpe:/a:microsoft:iis:7.5` and not `cpe:/o:microsoft:windows`).
 
 ## Network View
@@ -263,7 +263,8 @@ curl -v 'http://localhost:8000/api/v1/scan/hackthebox.xml/10.10.10.87?token=<tok
 ...
 ```
 
-## Third Parts
+
+## Third Party Components
 - [Django](https://www.djangoproject.com)
 - [Materialize CSS](https://materializecss.com)
 - [Clipboard.js](https://clipboardjs.com)
@@ -272,9 +273,9 @@ curl -v 'http://localhost:8000/api/v1/scan/hackthebox.xml/10.10.10.87?token=<tok
 - [API cve.circl.lu](https://cve.circl.lu)
 - [vis.js](http://visjs.org/)
 
+
 ## Security Issues
-This app is not intended to be exposed to the internet, but to be used as localhost web application. Please, **DO NOT expose** this app to the internet, use your localhost or, 
-in case you can't do it, take care to filter who and what can access to WebMap with a firewall rule or something like that. 
-Exposing this app to the whole internet could lead not only to a stored XSS but also to a leakage of sensitive/critical/private 
-informations about your port scan. Please, be smart.
+This app is not intended to be exposed to the internet, but to be used as localhost web application. Please, **DO NOT expose** this app to the internet, use your localhost or, in case you can't do it, take care to filter who and what can access to WebMap with a firewall rule or something like that.
+Exposing this app to the whole internet could lead not only to a stored XSS but also to a leakage of sensitive/critical/private
+information about your port scan. Please, be smart.
 
