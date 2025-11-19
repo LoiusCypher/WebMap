@@ -29,7 +29,7 @@ RUN mkdir /opt/xml && mkdir /opt/notes && \
 
 RUN pip3 install Django requests xmltodict && \
     cd /opt/ && django-admin startproject nmapdashboard && cd /opt/nmapdashboard && \
-    git clone https://github.com/SabyasachiRana/WebMap.git nmapreport && \
+    git clone https://github.com/kbrown1504/CYBR-Capstone.git nmapreport && \
     cd nmapreport && git checkout master
 
 RUN cp /opt/nmapdashboard/nmapreport/docker/settings.py /opt/nmapdashboard/nmapdashboard/

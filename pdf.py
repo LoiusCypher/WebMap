@@ -17,7 +17,7 @@ def reportPDFView(request):
 	}
 
 	if 'scanfile' in request.session:
-		oo = xmltodict.parse(open('/opt/xml/'+request.session['scanfile'], 'r').read())
+		oo = xmltodict.parse(open('/opt/xml/'+request.session['scanfiledir']+request.session['scanfile'], 'r').read())
 		r['out2'] = json.dumps(oo['nmaprun'], indent=4)
 		o = json.loads(r['out2'])
 	else:

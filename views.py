@@ -17,16 +17,20 @@ def login(request):
 	return render(request, 'nmapreport/nmap_auth.html', r)
 
 def setscanfile(request, scanfile):
-	xmlfiles = os.listdir('/opt/xml')
 
-	for i in xmlfiles:
-		if i == scanfile:
-			request.session['scanfile'] = i
-			break
+	dirs = os.listdir('/opt/xml')
+	for dir in dirs:
+		xmlfiles = os.listdir('/opt/xml/'+dir+'/nmap')
 
-	if scanfile == 'unset':
-		if 'scanfile' in request.session:
-			del(request.session['scanfile'])
+		for i in xmlfiles:
+			if i == scanfile:
+				request.session['scanfiledir'] = dir+'/nmap/'
+				request.session['scanfile'] = i
+				break
+
+		if scanfile == 'unset':
+			if 'scanfile' in request.session:
+				del(request.session['scanfile'])
 
 	return render(request, 'nmapreport/nmap_hostdetails.html', { 'js': '<script> location.href="/"; </script>' })
 
@@ -42,7 +46,7 @@ def details(request, address):
 	else:
 		r['auth'] = True
 
-	oo = xmltodict.parse(open('/opt/xml/'+request.session['scanfile'], 'r').read())
+	oo = xmltodict.parse(open('/opt/xml/'+request.session['scanfiledir']+request.session['scanfile'], 'r').read())
 	r['out2'] = json.dumps(oo['nmaprun'], indent=4)
 	o = json.loads(r['out2'])
 
@@ -323,6 +327,68 @@ def details(request, address):
 	'}); '+\
 	'</script>'
 
+	r['niktotable'] = ''
+	r['errorCount'] = 0
+	r['checkCount'] = 0
+	r['vulnCount'] = 0
+	niktoDir = '/opt/xml/'+request.session['scanfiledir']+'../nikto/'
+	niktoScans = os.listdir(niktoDir)
+	for scan in niktoScans:
+		try:
+			d = xmltodict.parse(open(niktoDir+scan, 'r').read())
+		except:
+			continue
+		#niktoAddr = json.dumps(d.get('niktoscan').get('niktoscan')[0].get('scandetails').get('@targetip')).strip('\"')
+		# if niktoAddr == r['address']:
+			# niktoJson = json.dumps(d['niktoscan']).strip('\"')
+			#r['niktocommand'] = '<p>nikto ' + json.dumps(d['niktoscan']['niktoscan'][0]['@options']).strip('\"') + '</p>'
+		try:
+			scans = []
+			scans = d['niktoscan']['niktoscan']
+			if isinstance(scans, dict):
+				scans = [scans]
+			
+			for scan in scans:
+				scanDetails = scan['scandetails']
+
+				niktoAddr = json.dumps(scanDetails['@targetip']).strip('\"')
+
+				if niktoAddr == r['address']:
+					r['niktocommand'] = '<p>nikto ' + json.dumps(scan['@options']).strip('\"') + '</p>'
+
+					# scanDetails = scan.get('scandetails')
+					r['errorCount'] += int(json.dumps(scanDetails['@errors']).strip('\"'))
+					r['checkCount'] += int(json.dumps(scanDetails['@checks']).strip('\"'))
+
+					issues = []
+					issues = scanDetails.get('item')
+					if isinstance(issues, dict):
+						issues = [issues]
+					issueCount = 0
+					for issue in issues:
+						r['vulnCount'] += 1
+
+						r['niktotable'] += '<tr><td style="width:200px;">'
+
+						issueCount += 1
+
+						issueDesc = json.dumps(issue['description']).strip('\"')
+						issueLocation = json.dumps(issue['namelink']).strip('\"')
+						issueId = int(json.dumps(issue['@osvdbid']).strip('\"'))
+						issueLink = json.dumps(issue['@osvdblink']).strip('\"')
+
+						r['niktotable'] += '<div class="small" style="margin-top:10px;">'
+						r['niktotable'] += '<span class="grey-text"><b>Location: </b><a href=' + issueLocation + '>' + issueLocation + '</a></span>'
+						r['niktotable'] += '<p><b class="grey-text">Vulnerability Description: </b>' + issueDesc + '</p>'
+
+						# r['nikto'] += '<p><b>Issue ' + str(issueCount) + '.</b></p><p>' + json.dumps(issue['description']).strip('\"') + '</p>'
+						
+						if issueId != 0: r['niktotable'] += '<p><b class="grey-text">Details: </b>OSVDB-'+ str(issueId) +\
+							'</p><a href=' + issueLink + '>' + issueLink + '</a><br>'
+						r['niktotable'] += '</div></td></tr>'
+		except:
+			continue
+
 	return render(request, 'nmapreport/nmap_portdetails.html', r)
 
 def index(request, filterservice="", filterportid=""):
@@ -337,65 +403,67 @@ def index(request, filterservice="", filterportid=""):
 	r['webmapver'] = 'WebMap '+gitcmd.read()+'<br>This project is currently a beta, please <b>DO NOT</b> expose WebMap to internet.<br>This version is <b>NOT</b> production ready.'
 
 	if 'scanfile' in request.session:
-		oo = xmltodict.parse(open('/opt/xml/'+request.session['scanfile'], 'r').read())
+		oo = xmltodict.parse(open('/opt/xml/'+request.session['scanfiledir']+request.session['scanfile'], 'r').read())
 		r['out2'] = json.dumps(oo['nmaprun'], indent=4)
 		o = json.loads(r['out2'])
 	else:
 		# no file selected
-		xmlfiles = os.listdir('/opt/xml')
+		dirs = os.listdir('/opt/xml')
 
 		r['tr'] = {}
 		r['stats'] = { 'po':0, 'pc':0, 'pf':0}
 
 		xmlfilescount = 0
-		for i in xmlfiles:
-			if re.search('\.xml$', i) is None:
-				continue
+		for dir in dirs:
+			xmlfiles = os.listdir('/opt/xml/'+dir+'/nmap')
+			for i in xmlfiles:
+				if re.search('\.xml$', i) is None:
+					continue
 
-			#portstats = {}
-			xmlfilescount = (xmlfilescount + 1)
+				portstats = {}
+				xmlfilescount = (xmlfilescount + 1)
 
-			try:
-				oo = xmltodict.parse(open('/opt/xml/'+i, 'r').read())
-			except:
-				r['tr'][i] = {'filename':html.escape(i), 'start': 0, 'startstr': 'Incomplete / Invalid', 'hostnum':0, 'href':'#!', 'portstats':{'po':0,'pc':0,'pf':0}}
-				continue
+				try:
+					oo = xmltodict.parse(open('/opt/xml/'+dir+'/nmap/'+i, 'r').read())
+				except:
+					r['tr'][i] = {'filename':html.escape(i), 'start': 0, 'startstr': 'Incomplete / Invalid', 'hostnum':0, 'href':'#!', 'portstats':{'po':0,'pc':0,'pf':0}}
+					continue
 
-			r['out2'] = json.dumps(oo['nmaprun'], indent=4)
-			o = json.loads(r['out2'])
+				r['out2'] = json.dumps(oo['nmaprun'], indent=4)
+				o = json.loads(r['out2'])
 
-			if 'host' in o:
-				if type(o['host']) is not dict:
-					hostnum = str(len(o['host']))
+				if 'host' in o:
+					if type(o['host']) is not dict:
+						hostnum = str(len(o['host']))
+					else:
+						hostnum = '1'
 				else:
-					hostnum = '1'
-			else:
-				hostnum = '0'
+					hostnum = '0'
 
-			if hostnum != '0':
-				viewhref = '/setscanfile/'+html.escape(i)
-			else:
-				viewhref = '#!'
+				if hostnum != '0':
+					viewhref = '/setscanfile/'+html.escape(i)
+				else:
+					viewhref = '#!'
 
-			filename = i
-			if re.search('^webmapsched\_[0-9\.]+',i):
-				m = re.search('^webmapsched\_([0-9\.]+)\_(.+)',i)
-				filename = '<i class="fas fa-calendar-alt grey-text"></i> '+html.escape(m.group(2))
+				filename = i
+				if re.search('^webmapsched\_[0-9\.]+',i):
+					m = re.search('^webmapsched\_([0-9\.]+)\_(.+)',i)
+					filename = '<i class="fas fa-calendar-alt grey-text"></i> '+html.escape(m.group(2))
 
-			portstats = nmap_ports_stats(i)
+				portstats = nmap_ports_stats(dir+'/nmap/', i)
 
-			r['stats']['po'] = (r['stats']['po'] + portstats['po'])
-			r['stats']['pc'] = (r['stats']['pc'] + portstats['pc'])
-			r['stats']['pf'] = (r['stats']['pf'] + portstats['pf'])
+				r['stats']['po'] = (r['stats']['po'] + portstats['po'])
+				r['stats']['pc'] = (r['stats']['pc'] + portstats['pc'])
+				r['stats']['pf'] = (r['stats']['pf'] + portstats['pf'])
 
-			r['tr'][o['@start']] = {
-				'filename':filename,
-				'start': o['@start'],
-				'startstr': html.escape(o['@startstr']),
-				'hostnum':hostnum,
-				'href':viewhref,
-				'portstats':portstats
-			}
+				r['tr'][o['@start']] = {
+					'filename':filename,
+					'start': o['@start'],
+					'startstr': html.escape(o['@startstr']),
+					'hostnum':hostnum,
+					'href':viewhref,
+					'portstats':portstats
+				}
 
 		r['tr'] = OrderedDict(sorted(r['tr'].items()))
 		r['stats']['xmlcount'] = xmlfilescount
@@ -809,9 +877,9 @@ def scan_diff(request, f1, f2):
 		r['auth'] = True
 
 	try:
-		if xmltodict.parse(open('/opt/xml/'+f1, 'r').read()) is not None:
+		if xmltodict.parse(open('/opt/xml/'+request.session['scanfiledir']+f1, 'r').read()) is not None:
 			r['f1'] = f1
-		if xmltodict.parse(open('/opt/xml/'+f2, 'r').read()) is not None:
+		if xmltodict.parse(open('/opt/xml/'+request.session['scanfiledir']+f2, 'r').read()) is not None:
 			r['f2'] = f2
 	except:
 		r['f1'] = ''

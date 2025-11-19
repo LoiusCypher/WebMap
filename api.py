@@ -79,7 +79,7 @@ def port_details(request, address, portid):
 	if 'auth' not in request.session:
 		return False
 
-	oo = xmltodict.parse(open('/opt/xml/'+request.session['scanfile'], 'r').read())
+	oo = xmltodict.parse(open('/opt/xml/'+request.session['scanfiledir']+request.session['scanfile'], 'r').read())
 	r['out'] = json.dumps(oo['nmaprun'], indent=4)
 	o = json.loads(r['out'])
 
@@ -175,7 +175,7 @@ def apiv1_hostdetails(request, scanfile, faddress=""):
 	if token_check(request.GET['token']) is not True:
 		return HttpResponse(json.dumps({'error':'invalid token'}, indent=4), content_type="application/json")
 
-	oo = xmltodict.parse(open('/opt/xml/'+scanfile, 'r').read())
+	oo = xmltodict.parse(open('/opt/xml/'+request.session['scanfiledir']+scanfile, 'r').read())
 	out2 = json.dumps(oo['nmaprun'], indent=4)
 	o = json.loads(out2)
 
@@ -333,7 +333,7 @@ def apiv1_scan(request):
 		xmlfilescount = (xmlfilescount + 1)
 
 		try:
-			oo = xmltodict.parse(open('/opt/xml/'+i, 'r').read())
+			oo = xmltodict.parse(open('/opt/xml/'+request.session['scanfiledir']+i, 'r').read())
 		except:
 			r['scans'][i] = {'filename':html.escape(i), 'startstr': '', 'nhost':0, 'port_stats':{'open':0,'closed':0,'filtered':0}}
 			continue
@@ -349,7 +349,7 @@ def apiv1_scan(request):
 		else:
 			hostnum = '0'
 
-		portstats = nmap_ports_stats(i)
+		portstats = nmap_ports_stats(request.session['scanfiledir']+'/nmap/', i)
 
 		r['scans'][i] = {'filename':html.escape(i), 'startstr': html.escape(o['@startstr']), 'nhost':hostnum, 'port_stats':{'open':portstats['po'],'closed':portstats['pc'],'filtered':portstats['pf']}}
 

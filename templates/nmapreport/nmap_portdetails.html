@@ -79,6 +79,30 @@
 		</div>
 		{% endif %}
 
+		{% if niktocommand %}
+		<div class="card wmcard">
+			<div class="card-content">
+				<span class="card-title">Nikto Results</span>
+				<span class="blue-text">{{ niktocommand|safe }}</span>
+				<br>
+				<table>
+					<thead>
+						<th>
+							<span>
+								<p><b>Checks Run: </b>{{ checkCount|safe }}</p>
+								<p><b>Errors: </b>{{ errorCount|safe }}</p>
+								<p><b>Vulnerbilities Discovered: </b>{{ vulnCount|safe }}</p>
+							</span>
+						</th>
+					</thead>
+					<tbody>
+						{{ niktotable|safe }}
+					</tbody>
+				</table>
+			</div>
+		</div>
+		{% endif %}
+
 		{% if cvelist %}
 		<div class="card wmcard">
 			<div class="card-content">

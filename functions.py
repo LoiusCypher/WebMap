@@ -41,9 +41,9 @@ def fromOSTypeToFontAwesome(ostype):
 	else:
 		return 'fas fa-question'
 
-def nmap_ports_stats(scanfile):
+def nmap_ports_stats(scanfileDir, scanfile):
 	try:
-		oo = xmltodict.parse(open('/opt/xml/'+scanfile, 'r').read())
+		oo = xmltodict.parse(open('/opt/xml/'+scanfileDir+scanfile, 'r').read())
 	except:
 		return {'po':0,'pc':0,'pf':0}
 

@@ -209,10 +209,10 @@
 	<ul>
 		<li><i class="material-icons">track_changes</i> <a href="/setscanfile/unset">Show all nmap scan</a></li>
 		<li><i class="material-icons">settings_input_antenna</i> <a href="/">Show scan details</a></li>
-		<li><i class="material-icons">add_box</i> <a href="#!" onclick="javascript:newscan();">New Nmap scan</a></li>
+		<!-- <li><i class="material-icons">add_box</i> <a href="#!" onclick="javascript:newscan();">New Nmap scan</a></li> -->
 		{% if scanfile %}
-			<li><i class="fas fa-file-pdf" style="margin-left:2px;font-size:20px;"></i> <a href="#!" onclick="javascript:genPDF('{{ scanmd5 }}');">PDF Report</a></li>
-			<li><i class="fas fa-bug" style="margin-left:2px;font-size:20px;"></i> <a href="#!" onclick="javascript:checkCVE();">Check CVE</a></li>
+			<!-- <li><i class="fas fa-file-pdf" style="margin-left:2px;font-size:20px;"></i> <a href="#!" onclick="javascript:genPDF('{{ scanmd5 }}');">PDF Report</a></li>
+			<li><i class="fas fa-bug" style="margin-left:2px;font-size:20px;"></i> <a href="#!" onclick="javascript:checkCVE();">Check CVE</a></li> -->
 			<li><i class="fas fa-project-diagram" style="margin-left:2px;font-size:18px;"></i> <a href="/report/view/network">Network View</a></li>
 		{% endif %}
 		<li id="activescan_line" style="display:none;" class="wm_line"><div>scan</div></li>
