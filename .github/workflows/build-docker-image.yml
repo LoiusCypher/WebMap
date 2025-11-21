@@ -4,9 +4,9 @@ on:
   push:
     branches: |
       - '**'
-      - "!master"
-      - "!latest"
-      - "!release*"
+      - '!master'
+        #- '!latest'
+        #      - '!release*'
 
 env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
