@@ -40,6 +40,6 @@ for i in schedfiles:
 
 			time.sleep(10)
 		else:
-		    print("[DEBUG] nextrun:"+str(nextrun - time.time()))
+			print("[DEBUG] nextrun:"+str(nextrun - time.time()))
 			print("[SKIP]  scan:"+sched['params']['filename']+" id:"+str(sched['number'])+" (nextrun:"+str(nextrun)+" / now:"+str(time.time())+")")
 
