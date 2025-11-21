@@ -60,7 +60,7 @@ $ # pull new image from dockerhub
 $ docker pull loiusc/webmap
 ```
 
-The mapped docker volumes make sure that scans, notes and labels will persist.
+The mapped docker volumes make sure that scans, notes, labels and schedules will persist.
 
 ### Run without Docker
 This project is designed to run on a Docker container. IMHO it isn't a good idea to run this on a custom Django installation, 

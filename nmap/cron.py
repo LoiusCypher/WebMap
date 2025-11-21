@@ -14,7 +14,7 @@ def gethours(f):
 	}[f]
 
 for i in schedfiles:
-	if re.search('^[a-f0-9]{32,32}\.json$', i.strip()) is not None:
+	if re.search(r'^[a-f0-9]{32,32}\.json$', i.strip()) is not None:
 		sched = json.loads(open('/opt/schedule/'+i, "r").read())
 		
 		nextrun = (sched['lastrun'] + gethours(sched['params']['frequency']))
