@@ -17,8 +17,8 @@ for i in schedfiles:
 	if re.search(r'^[a-f0-9]{32,32}\.json$', i.strip()) is not None:
 		sched = json.loads(open('/opt/schedule/'+i, "r").read())
 		
-		print("[DEBUG] nextrun:"+str(nextrun - time.time()))
 		nextrun = (sched['lastrun'] + gethours(sched['params']['frequency']))
+		print("[DEBUG] nextrun:"+str(nextrun - time.time()))
 		if nextrun <= time.time():
 			sched['number'] = (sched['number']+1)
 			print("[RUN]   scan:"+sched['params']['filename']+" id:"+str(sched['number'])+" (nextrun:"+str(nextrun)+" / now:"+str(time.time())+")")
