@@ -46,7 +46,7 @@ def nmap_newscan(request):
 			if request.POST['schedule'] == "true":
 				schedobj = {'params':request.POST, 'lastrun':time.time(), 'number':0}
 				filenamemd5 = hashlib.md5(str(request.POST['filename']).encode('utf-8')).hexdigest()
-				writefile = settings.BASE_DIR+'/nmapreport/nmap/schedule/'+filenamemd5+'.json'
+				writefile = '/opt/schedule/'+filenamemd5+'.json'
 				file = open(writefile, "w")
 				file.write(json.dumps(schedobj, indent=4))
 
