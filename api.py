@@ -129,12 +129,13 @@ def genPDF(request):
 		return False
 
 	if 'scanfile' in request.session:
-		pdffile = hashlib.md5(str(request.session['scanfile']).encode('utf-8')).hexdigest()
-		if os.path.exists('/opt/nmapdashboard/nmapreport/static/'+pdffile+'.pdf'):
-			os.remove('/opt/nmapdashboard/nmapreport/static/'+pdffile+'.pdf')
+		pdffile = hashlib.md5(str(request.session['scanfile']).encode('utf-8')).hexdigest()+'.pdf'
+		pdfpath = '/opt/nmapdashboard/nmapreport/static/'+pdffile
+		if os.path.exists(pdfpath):
+			os.remove(pdfpath)
 
-		os.popen('/opt/wkhtmltox/bin/wkhtmltopdf --cookie sessionid '+request.session._session_key+' --enable-javascript --javascript-delay 6000 http://127.0.0.1:8000/view/pdf/ /opt/nmapdashboard/nmapreport/static/'+pdffile+'.pdf')
-		res = {'ok':'PDF created', 'file':'/static/'+pdffile+'.pdf'}
+		os.popen('wkhtmltopdf --cookie sessionid '+request.session._session_key+' --enable-javascript --javascript-delay 6000 http://127.0.0.1:8000/view/pdf/ '+pdfpath)
+		res = {'ok':'PDF created', 'file':'/static/'+pdffile}
 		return HttpResponse(json.dumps(res), content_type="application/json")
 
 def getCVE(request):
@@ -202,7 +203,7 @@ def apiv1_hostdetails(request, scanfile, faddress=""):
 	labelhost = {}
 	labelfiles = os.listdir('/opt/notes')
 	for lf in labelfiles:
-		m = re.match('^('+scanmd5+')_([a-z0-9]{32,32})\.host\.label$', lf)
+		m = re.match('^('+scanmd5+r')_([a-z0-9]{32,32})\.host\.label$', lf)
 		if m is not None:
 			if m.group(1) not in labelhost:
 				labelhost[m.group(1)] = {}
@@ -212,7 +213,7 @@ def apiv1_hostdetails(request, scanfile, faddress=""):
 	noteshost = {}
 	notesfiles = os.listdir('/opt/notes')
 	for nf in notesfiles:
-		m = re.match('^('+scanmd5+')_([a-z0-9]{32,32})\.notes$', nf)
+		m = re.match('^('+scanmd5+r')_([a-z0-9]{32,32})\.notes$', nf)
 		if m is not None:
 			if m.group(1) not in noteshost:
 				noteshost[m.group(1)] = {}
@@ -335,6 +336,7 @@ def apiv1_scan(request):
 		return HttpResponse(json.dumps({'error':'invalid token'}, indent=4), content_type="application/json")
 
 	gitcmd = os.popen('cd /opt/nmapdashboard/nmapreport && git rev-parse --abbrev-ref HEAD')
+
 	r['webmap_version'] = gitcmd.read().strip()
 
 	xmlfiles = os.listdir('/opt/xml')
@@ -343,7 +345,7 @@ def apiv1_scan(request):
 
 	xmlfilescount = 0
 	for i in xmlfiles:
-		if re.search('\.xml$', i) is None:
+		if re.search(r'\.xml$', i) is None:
 			continue
 
 		xmlfilescount = (xmlfilescount + 1)
