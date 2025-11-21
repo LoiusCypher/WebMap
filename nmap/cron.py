@@ -25,9 +25,9 @@ for i in schedfiles:
 			sched['lastrun'] = time.time()
 
 			nmapout_file = cdir+'/nse/ -oX /tmp/'+str(sched['number'])+'_'+sched['params']['filename']
-			nmapout_cmd = 'nmap '+sched['params']['params']+' --script='+nmapout_file+'.active '+sched['params']['target']+' > /dev/null 2>&1 && '+
-			'sleep 5 && mv /tmp/'+nmapout_file+'.active /opt/xml/webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+' && '+
-			'ls -lart /opt/xml/webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+' && python3 '+cdir+'/cve.py webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+''
+			nmapout_cmd = 'nmap '+sched['params']['params']+' --script='+nmapout_file+'.active '+sched['params']['target']+' > /dev/null 2>&1 && '
+			nmapout_cmd = nmapout_cmd+'sleep 5 && mv /tmp/'+nmapout_file+'.active /opt/xml/webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+' && '
+			nmapout_cmd = nmapout_cmd+'ls -lart /opt/xml/webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+' && python3 '+cdir+'/cve.py webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+''
 			nmapout = os.popen('nmap '+sched['params']['params']+' --script='+nmapout_file+'.active '+sched['params']['target']+' > /dev/null 2>&1 && '+
 			'sleep 5 && mv /tmp/'+nmapout_file+'.active /opt/xml/webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+' && '+
 			'ls -lart /opt/xml/webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+' && python3 '+cdir+'/cve.py webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+'').readlines()
