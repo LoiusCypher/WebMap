@@ -47,7 +47,7 @@ jobs:
             # only push for now event on selected branches
             type=ref,event=branch
           images: |
-            loiusc/${{ github.repository }}
+            loiusc/webmap
             ghcr.io/${{ github.repository }}
       -
         name: Set up QEMU
