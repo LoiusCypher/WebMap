@@ -46,7 +46,7 @@ RUN pip install --upgrade pip && \
     django-admin startproject nmapdashboard
 
 COPY --exclude=.github --exclude=docker . /opt/nmapdashboard/nmapreport
-RUN wget -P nmapdashboard/nmapreport/nmap/nse https://raw.githubusercontent.com/vulnerability-lookup/vulnerability-lookup/main/tools/vulnerability-lookup.nse
+RUN wget -P nmapdashboard/nmapreport/nmap/nse https://raw.githubusercontent.com/vulnerability-lookup/vulnerability-lookup/refs/heads/main/tools/vulnerability-lookup.nse
 
 COPY docker/settings.py docker/urls.py /opt/nmapdashboard/nmapdashboard
 COPY docker/tzdata.sh /root/tzdata.sh
