@@ -24,18 +24,12 @@ for i in schedfiles:
 			print("[RUN]   scan:"+sched['params']['filename']+" id:"+str(sched['number'])+" (nextrun:"+str(nextrun)+" / now:"+str(time.time())+")")
 
 			sched['lastrun'] = time.time()
+			nextrun = (sched['lastrun'] + gethours(sched['params']['frequency']))
 
-			nmapout = os.popen('nmap '+sched['params']['params']+' --script='+cdir+'/nse/ -oX /tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active '+sched['params']['target']+' > /dev/null 2>&1 && '+
+			nmapout = os.popen('nmap '+sched['params']['params']+' --script='+cdir+'/nse/ -oX /tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active '+sched['params']['target']+' > /dev/null 2>&1 ; '+
 			'sleep 5 && mv /tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active /opt/xml/webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+' && '+
 			'python3 '+cdir+'/cve.py webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+'').readlines()
 
-			print(nmapout)
-
-			nextrun = (sched['lastrun'] + gethours(sched['params']['frequency']))
-			nmap_tmp_path = '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active'
-			nmap_out_file = 'webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']
-			nmapout = os.popen('nmap '+sched['params']['params']+' --script='+cdir+'/nse/ -oX '+nmap_tmp_path+' '+sched['params']['target']+' > /dev/null '+
-			' ; sleep 5 && mv '+nmap_tmp_path+' /opt/xml/'+nmap_out_file+' && python3 '+cdir+'/cve.py '+nmap_out_file+'').readlines()
 			print(nmapout)
 
 			f = open('/opt/schedule/'+i, "w")
