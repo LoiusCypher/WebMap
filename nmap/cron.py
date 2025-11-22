@@ -13,6 +13,7 @@ def gethours(f):
 		'1m': 2592000
 	}[f]
 
+nextsched=time.time()+gethours('1m')
 for i in schedfiles:
 	if re.search(r'^[a-f0-9]{32,32}\.json$', i.strip()) is not None:
 		sched = json.loads(open('/opt/schedule/'+i, "r").read())
@@ -23,13 +24,14 @@ for i in schedfiles:
 			print("[RUN]   scan:"+sched['params']['filename']+" id:"+str(sched['number'])+" (nextrun:"+str(nextrun)+" / now:"+str(time.time())+")")
 
 			sched['lastrun'] = time.time()
+			nextrun = (sched['lastrun'] + gethours(sched['params']['frequency']))
 
 			nmapout_file = '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']
-			nmapout_cmd = 'nmap '+sched['params']['params']+' --script='+cdir+'/nse/ -oX '+nmapout_file+'.active '+sched['params']['target']+' > /dev/null 2>&1 && '
+			nmapout_cmd = 'nmap '+sched['params']['params']+' --script '+cdir+'/nse/ -oX '+nmapout_file+'.active '+sched['params']['target']+' > /dev/null 2>&1 && '
 			nmapout_cmd = nmapout_cmd+'sleep 5 && mv '+nmapout_file+'.active /opt/xml/webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']
 			nmapout_cmd = nmapout_cmd+' && python3 '+cdir+'/cve.py webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+''
 
-			nmapout = os.popen('nmap '+sched['params']['params']+' --script='+nmapout_file+'.active '+sched['params']['target']+
+			nmapout = os.popen('nmap '+sched['params']['params']+' --script '+nmapout_file+'.active '+sched['params']['target']+
 			' && sleep 5 && mv '+nmapout_file+'.active /opt/xml/webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+
 			' && python3 '+cdir+'/cve.py webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+'').readlines()
 
@@ -44,4 +46,6 @@ for i in schedfiles:
 		else:
 			print("[DEBUG] nextrun:"+str(nextrun - time.time()))
 			print("[SKIP]  scan:"+sched['params']['filename']+" id:"+str(sched['number'])+" (nextrun:"+str(nextrun)+" / now:"+str(time.time())+")")
+		nextsched=min(nextsched,nextrun)
+	print("[DEBUG] nextrun:"+str(nextsched - time.time()))
 
