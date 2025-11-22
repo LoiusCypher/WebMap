@@ -33,9 +33,9 @@ for i in schedfiles:
 			' && sleep 5 && mv '+nmapout_file+'.active /opt/xml/webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+
 			' && python3 '+cdir+'/cve.py webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+'').readlines()
 
-            print('file: '+nmapout_file)
-            print('cmd: '+nmapout_cmd)
-            print('out: '+nmapout)
+			print('file: '+nmapout_file)
+			print('cmd: '+nmapout_cmd)
+			print('out: '+nmapout)
 
 			f = open('/opt/schedule/'+i, "w")
 			f.write(json.dumps(sched, indent=4))
