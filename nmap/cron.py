@@ -2,50 +2,63 @@ from django.conf import settings
 import os, re, json, time
 import subprocess, shutil, shlex
 
-cdir = os.path.dirname(os.path.realpath(__file__))
+def cron_gen_tmp_file_name(sched):
+	return '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active'
 
-schedfiles = os.listdir('/opt/schedule/')
+def cron_run_scan(sched):
+	nmap_tmp_out = '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active'
+	nmapprocess = subprocess.Popen([shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+cdir+'/nse/',
+		'-oX', nmap_tmp_out, sched['params']['target']], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+	stdout, stderr = nmapprocess.communicate()
+	print('[DONE] '+stderr+stdout)
 
-def gethours(f):
-	return {
-		'1h': 3600,
-		'1d': 86400,
-		'1w': 604800,
-		'1m': 2592000
-	}[f]
+def cron():
+	cdir = os.path.dirname(os.path.realpath(__file__))
 
-nextsched=time.time()+gethours('1m')
-for i in schedfiles:
-	if re.search(r'^[a-f0-9]{32,32}\.json$', i.strip()) is not None:
-		sched = json.loads(open('/opt/schedule/'+i, "r").read())
-		
-		nextrun = (sched['lastrun'] + gethours(sched['params']['frequency']))
-		if nextrun <= time.time():
-			sched['number'] = (sched['number']+1)
-			print("[RUN]   scan:"+sched['params']['filename']+" id:"+str(sched['number'])+" (nextrun:"+str(nextrun)+" / now:"+str(time.time())+")")
+	schedfiles = os.listdir('/opt/schedule/')
 
-			sched['lastrun'] = time.time()
-			nextrun = sched['lastrun'] + gethours(sched['params']['frequency'])
+	def gethours(f):
+		return {
+			'1h': 3600,
+			'1d': 86400,
+			'1w': 604800,
+			'1m': 2592000
+		}[f]
 
-			nmap_tmp_out = '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active'
-			nmapprocess = subprocess.Popen([shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+cdir+'/nse/',
-				'-oX', nmap_tmp_out, sched['params']['target']], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-			stdout, stderr = nmapprocess.communicate()
-			print('[DONE] '+stderr+stdout)
+	nextsched=time.time()+gethours('1m')
+	for i in schedfiles:
+		if re.search(r'^[a-f0-9]{32,32}\.json$', i.strip()) is not None:
+			sched = json.loads(open('/opt/schedule/'+i, "r").read())
 
-			time.sleep(5)
-			nmap_out_file = 'webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']
-			shutil.move(nmap_tmp_out, '/opt/xml/'+nmap_out_file)
-			nmapout = os.popen( 'python3 '+cdir+'/cve.py webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+'').readlines()
+			nextrun = (sched['lastrun'] + gethours(sched['params']['frequency']))
+			if nextrun <= time.time():
+				sched['number'] = (sched['number']+1)
+				print("[RUN]   scan:"+sched['params']['filename']+" id:"+str(sched['number'])+" (nextrun:"+str(nextrun)+" / now:"+str(time.time())+")")
 
-			print(nmapout)
+				sched['lastrun'] = time.time()
+				nextrun = sched['lastrun'] + gethours(sched['params']['frequency'])
 
-			f = open('/opt/schedule/'+i, "w")
-			f.write(json.dumps(sched, indent=4))
+				nmap_tmp_out = '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active'
+				nmapprocess = subprocess.Popen([shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+cdir+'/nse/',
+					'-oX', nmap_tmp_out, sched['params']['target']], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+				stdout, stderr = nmapprocess.communicate()
+				print('[DONE] '+stderr+stdout)
 
-			time.sleep(10)
-		else:
-			print("[SKIP]  scan:"+sched['params']['filename']+" id:"+str(sched['number'])+" (nextrun:"+str(nextrun)+" / now:"+str(time.time())+")")
-		nextsched=min(nextsched,nextrun)
-	print("[DEBUG] nextsched:"+str(nextsched - time.time()))
+				time.sleep(5)
+				nmap_out_file = 'webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']
+				shutil.move(nmap_tmp_out, '/opt/xml/'+nmap_out_file)
+				nmapout = os.popen( 'python3 '+cdir+'/cve.py webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+'').readlines()
 
+				print(nmapout)
+
+				f = open('/opt/schedule/'+i, "w")
+				f.write(json.dumps(sched, indent=4))
+
+				time.sleep(10)
+			else:
+				print("[SKIP]  scan:"+sched['params']['filename']+" id:"+str(sched['number'])+" (nextrun:"+str(nextrun)+" / now:"+str(time.time())+")")
+			nextsched=min(nextsched,nextrun)
+		print("[DEBUG] nextsched:"+str(nextsched - time.time()))
+
+if __name__ == '__main__':
+    cron()
