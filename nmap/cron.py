@@ -24,10 +24,12 @@ for i in schedfiles:
 			print("[RUN]   scan:"+sched['params']['filename']+" id:"+str(sched['number'])+" (nextrun:"+str(nextrun)+" / now:"+str(time.time())+")")
 
 			sched['lastrun'] = time.time()
-			nextrun = (sched['lastrun'] + gethours(sched['params']['frequency']))
+			nextrun = sched['lastrun'] + gethours(sched['params']['frequency'])
 
-			nmapprocess = Popen([shutil.which('nmap'), sched['params']['params'], '--script='+cdir+'/nse/', '-oX', '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active', sched['params']['target']+' > /dev/null 2>&1'], stdout=PIPE, stderr=PIPE, text=True)
-            stdout, stderr = nmapprocess.communicate()
+			nmapprocess = Popen([shutil.which('nmap'), sched['params']['params'], '--script='+cdir+'/nse/',
+				'-oX', '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active',
+				sched['params']['target']], stdout=PIPE, stderr=PIPE, text=True)
+			stdout, stderr = nmapprocess.communicate()
 			print(stderr+stdout)
 
 			nmapout = os.popen('sleep 5 && mv /tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active /opt/xml/webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+' && '+
