@@ -25,7 +25,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         django-admin startproject nmapdashboard
-    - uses: actions/checkout@v8
+    - uses: actions/checkout@v6
       with:
         path: nmapdashboard/nmapreport
     - name: Run Tests
