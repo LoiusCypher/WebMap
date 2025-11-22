@@ -35,7 +35,7 @@ for i in schedfiles:
 
 			print('file: '+nmapout_file)
 			print('cmd: '+nmapout_cmd)
-			print('out: '+nmapout)
+			print(nmapout)
 
 			f = open('/opt/schedule/'+i, "w")
 			f.write(json.dumps(sched, indent=4))
