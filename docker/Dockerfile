@@ -55,7 +55,7 @@ COPY docker/startup.sh /startup.sh
 RUN mkdir /opt/xml /opt/notes && \
     cd /opt/nmapdashboard && \
     python3 manage.py migrate && \
-    ln -s /opt/nmapdashboard/nmapreport/token.py /root/token && \
+    ln -s /opt/nmapdashboard/nmapreport/guitoken.py /root/token && \
     chmod +x /root/token
 
 EXPOSE 8000
