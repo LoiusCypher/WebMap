@@ -43,6 +43,8 @@ jobs:
             type=ref,event=branch
           images: |
             ${{ env.DEV_IMAGE_REPOSITORY }}
+          labels: |
+            org.opencontainers.image.version=development
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
