@@ -31,7 +31,7 @@ for i in schedfiles:
 				'-oX', '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active',
 				sched['params']['target']], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 			stdout, stderr = nmapprocess.communicate()
-			print(stderr+stdout)
+			print('[DONE] '+stderr+stdout)
 
 			nmapout = os.popen('sleep 5 && mv /tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active /opt/xml/webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+' && '+
 			'python3 '+cdir+'/cve.py webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+'').readlines()
