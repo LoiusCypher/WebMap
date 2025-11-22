@@ -11,7 +11,7 @@ on:
 env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   IS_PUSHING_IMAGES: true
-  DEV_IMAGE_REPOSITORY: ghcr.io/development
+  DEV_IMAGE_REPOSITORY: ghcr.io/LoiusCypher/WebMap
  
 jobs:
   build:
