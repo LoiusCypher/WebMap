@@ -1,6 +1,6 @@
 from django.conf import settings
 import os, re, json, time
-import subprocess
+import subprocess, shutil
 
 cdir = os.path.dirname(os.path.realpath(__file__))
 
