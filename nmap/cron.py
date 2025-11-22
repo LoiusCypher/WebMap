@@ -1,6 +1,6 @@
 from django.conf import settings
 import os, re, json, time
-import subprocess, shutil
+import subprocess, shutil, shlex
 
 cdir = os.path.dirname(os.path.realpath(__file__))
 
@@ -27,14 +27,16 @@ for i in schedfiles:
 			sched['lastrun'] = time.time()
 			nextrun = sched['lastrun'] + gethours(sched['params']['frequency'])
 
-			nmapprocess = subprocess.Popen([shutil.which('nmap'), sched['params']['params'], '--script='+cdir+'/nse/',
-				'-oX', '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active',
-				sched['params']['target']], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+			nmap_tmp_out = '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active'
+			nmapprocess = subprocess.Popen([shutil.which('nmap'), shlex.split(sched['params']['params']), '--script='+cdir+'/nse/',
+				'-oX', nmap_tmp_out, sched['params']['target']], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 			stdout, stderr = nmapprocess.communicate()
 			print('[DONE] '+stderr+stdout)
 
-			nmapout = os.popen('sleep 5 && mv /tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active /opt/xml/webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+' && '+
-			'python3 '+cdir+'/cve.py webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+'').readlines()
+			time.sleep(5)
+			nmap_out_file = 'webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']
+			shutil.move(nmap_tmp_out, '/opt/xml/'+nmap_out_file)
+			nmapout = os.popen( 'python3 '+cdir+'/cve.py webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+'').readlines()
 
 			print(nmapout)
 
