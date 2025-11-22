@@ -30,7 +30,7 @@ ENV WKHTMLTOX_VERSION=0.12.6.1-3
 
 WORKDIR /opt
 
-RUN apt-get update && apt-get install -y curl libssl3t64 vim nmap
+RUN apt-get update && apt-get install -y libssl3t64 vim nmap
 
 RUN echo "Building for ${TARGETPLATFORM} OS: ${TARGETOS} ARCH: ${TARGETARCH} VARIANT: ${TARGETVARIANT}"
 ARG WKHTML_PACK=wkhtmltox_${WKHTMLTOX_VERSION}.bookworm_${TARGETARCH}.deb
@@ -46,6 +46,7 @@ RUN pip install --upgrade pip && \
     django-admin startproject nmapdashboard
 
 COPY --exclude=.github --exclude=docker . /opt/nmapdashboard/nmapreport
+RUN wget -P nmapdashboard/nmapreport/nmap/nse https://raw.github.com/vulnerability-lookup/vulnerability-lookup/main/tools/vulnerability-lookup.nse
 
 COPY docker/settings.py docker/urls.py /opt/nmapdashboard/nmapdashboard
 COPY docker/tzdata.sh /root/tzdata.sh

@@ -54,6 +54,7 @@ def getcpe(xmlfile):
 
 				if 'script' in p:
 					if type(p['script']) is list:
+						print(p['script']['@key'])
 						for scripti in p['script']:
 							if 'elem' in scripti:
 								if type(scripti['elem']) is list:
@@ -81,13 +82,13 @@ def getcve(xmlfile):
 
 		for cpestr in cpecve['cpe'][i]:
 			print(cpestr)
-			if re.search('^cpe:[^:]+:[^:]+:[^:]+:.+$', cpestr):
-				r = requests.get('http://cve.circl.lu/api/cvefor/'+cpestr)
-				if r.json() is not None:
-					if r.json() is dict:
-						cvejson[i].append(r.json())
-					else:
-						cvejson[i].append(r.json())
+#			if re.search('^cpe:[^:]+:[^:]+:[^:]+:.+$', cpestr):
+#				r = requests.get('http://cve.circl.lu/api/cvefor/'+cpestr)
+#				if r.json() is not None:
+#					if r.json() is dict:
+#						cvejson[i].append(r.json())
+#					else:
+#						cvejson[i].append(r.json())
 
 	for i in cpecve['cve']:
 		print(i)

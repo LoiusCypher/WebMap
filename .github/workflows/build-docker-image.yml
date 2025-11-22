@@ -11,6 +11,7 @@ on:
 env:
   BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
   IS_PUSHING_IMAGES: true
+  DEV_IMAGE_REPOSITORY: ghcr.io/development
  
 jobs:
   build:
@@ -41,7 +42,7 @@ jobs:
           tags: |
             type=ref,event=branch
           images: |
-            ghcr.io/${{ github.repository }}
+            ${{ env.DEV_IMAGE_REPOSITORY }}
       -
         name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -66,6 +67,6 @@ jobs:
         uses: actions/attest-build-provenance@v3
         with:
           push-to-registry: ${{ env.IS_PUSHING_IMAGES }}
-          subject-name: ghcr.io/${{ github.repository }}
+          subject-name: ${{ env.DEV_IMAGE_REPOSITORY }}
           subject-digest: ${{ steps.push.outputs.digest }}
 
