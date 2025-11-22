@@ -28,7 +28,7 @@ for i in schedfiles:
 			nextrun = sched['lastrun'] + gethours(sched['params']['frequency'])
 
 			nmap_tmp_out = '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active'
-			nmapprocess = subprocess.Popen([shutil.which('nmap'), shlex.split(sched['params']['params']), '--script='+cdir+'/nse/',
+			nmapprocess = subprocess.Popen([shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+cdir+'/nse/',
 				'-oX', nmap_tmp_out, sched['params']['target']], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 			stdout, stderr = nmapprocess.communicate()
 			print('[DONE] '+stderr+stdout)
