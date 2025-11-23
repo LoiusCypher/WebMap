@@ -9,7 +9,7 @@ class CronTestCase(TestCase):
 			'number': 3,
 			'params': {
 				'filename': 'testfile.xml',
-				'params': join(self.params),
+				'params': ' '.join(self.params),
 				'target': '192.168.2.112/24'
 			}
 		}
