@@ -15,7 +15,7 @@ def genFinishedScanFileName(sched):
 	return 'webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']
 
 def genScanCmd(sched):
-	return [shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+nsePath+'/',
+	return [shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+nsePath()+'/',
 		'-oX', genActiveScanFilePath(sched), sched['params']['target']]
 
 def runScan(sched):
