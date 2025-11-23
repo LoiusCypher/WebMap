@@ -11,7 +11,7 @@ class CronTestCase(TestCase):
 			'params': {
 				'filename': 'testfile.xml',
 				'params': ' '.join(self.params),
-				'target': '192.168.2.112/24'
+				'target': '192.168.1.1/32'
 			}
 		}
 	def test_cron_generate_tmp_file_name(self):
@@ -19,5 +19,7 @@ class CronTestCase(TestCase):
 	def test_cron_gen_nmap_list(self):
 		self.assertEqual(cron.cron_gen_nmap_list(self.sched), [ '/usr/bin/nmap' ]+self.params+['--script='+os.path.join(os.path.dirname(os.path.realpath(__file__)),'nse',)+'/', '-oX', cron.cron_gen_tmp_file_name(self.sched), self.sched['params']['target']])
 	def test_cron_run_scan(self):
-		self.assertEqual(cron.cron_run_scan(self.sched),'/tmp/3_testfile.xml.active')
+        expected_string_start='[DONE] Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-11-23 08:46 UTC
+- Nmap done: 256 IP addresses (0 hosts up) scanned in 51.68 seconds'
+        self.assertEqual(cron.cron_run_scan(self.sched)[:len(expected_string_start)],expected_string_start)
 
