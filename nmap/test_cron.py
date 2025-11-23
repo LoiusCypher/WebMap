@@ -6,7 +6,7 @@ import os
 class CronTestCase(TestCase):
 	def setUp(self):
 		self.params = ['-sT', '-A', '-T4']
-		self.sched = 
+		self.sched = {
 			'number': 3,
 			'params': {
 				'filename': 'testfile.xml',
