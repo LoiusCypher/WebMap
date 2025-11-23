@@ -9,6 +9,7 @@ def loadScan(xmlpath):
 	return cpeFromDict(o)
 
 def cpeFromDict(o):
+	cpe,cve = {},{}
 	# if we didn't find any host, we are done
 	if 'host' not in o:
 		res = {'cpe':cpe,'cve':cve}
@@ -73,7 +74,6 @@ def cpeFromDict(o):
 	return res
 
 def getcve(xmlfile):
-	cpe,cve = {},{}
 	scanfilemd5 = hashlib.md5(str(xmlfile).encode('utf-8')).hexdigest()
 	cpecve = getcpe(xmlfile)
 	cvejson = {}
