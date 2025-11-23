@@ -18,6 +18,9 @@ class CronTestCase(TestCase):
 		self.fail_sched = copy.deepcopy(self.sched)
 		self.fail_sched['params']['params'] = '-xX'
 
+	def test_cron_nse_path(self):
+		self.assertEqual(cron.nsePath(),'/home/runner/work/WebMap/WebMap/nmapdashboard/nmapreport/nmap/nse')
+
 	def test_cron_generate_active_scan_file_path(self):
 		self.assertEqual(cron.genActiveScanFilePath(self.sched),'/tmp/3_testfile.xml.active')
 
@@ -25,7 +28,7 @@ class CronTestCase(TestCase):
 		self.assertEqual(cron.genFinishedScanFileName(self.sched),'webmapsched_763592814.9651988_testfile.xml')
 
 	def test_cron_genScanCmd(self):
-		self.assertEqual(cron.genScanCmd(self.sched), [ '/usr/bin/nmap' ]+self.scan_options+['--script='+os.path.join(os.path.dirname(os.path.realpath(__file__)),'nse',)+'/', '-oX', cron.genActiveScanFilePath(self.sched), self.sched['params']['target']])
+		self.assertEqual(cron.genScanCmd(self.sched), [ '/usr/bin/nmap' ]+self.scan_options+['--script='+cron.nsePath()+'/', '-oX', cron.genActiveScanFilePath(self.sched), self.sched['params']['target']])
 
 	def test_cron_runScan_successs(self):
 		expected_strings=[

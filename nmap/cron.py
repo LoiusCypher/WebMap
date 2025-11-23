@@ -5,6 +5,9 @@ import nmapreport.nmap.cve as cve
 
 cdir = os.path.dirname(os.path.realpath(__file__))
 
+def nsePath():
+	return os.path.join(cdir, 'nse')
+
 def genActiveScanFilePath(sched):
 	return '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active'
 
@@ -12,7 +15,7 @@ def genFinishedScanFileName(sched):
 	return 'webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']
 
 def genScanCmd(sched):
-	return [shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+cdir+'/nse/',
+	return [shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+nsePath+'/',
 		'-oX', genActiveScanFilePath(sched), sched['params']['target']]
 
 def runScan(sched):
