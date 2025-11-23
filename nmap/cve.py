@@ -116,4 +116,6 @@ def getcve(xmlfile):
 			f.write(json.dumps(cvejson[i], indent=4))
 			f.close()
 
-getcve(sys.argv[1])
+
+if __name__ == '__main__':
+	getcve(sys.argv[1])
