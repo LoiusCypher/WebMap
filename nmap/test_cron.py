@@ -35,9 +35,9 @@ class CronTestCase(TestCase):
 		self.assertEqual(retVal,0)
 		self.assertEqual(active_scan_file_path,cron.genActiveScanFilePath(self.sched))
 		self.assertEqual(stdout,'')
-        lines = stderr.splitlines()
+		lines = stderr.splitlines()
 		self.assertEqual(len(lines), len(expected_strings))
-        for lineNr in len(lines):
+		for lineNr in len(lines):
 			self.assertEqual(lines[lineNr][:len(expected_string_start[lineNr])],expected_string_start[lineNr])
 
 	def test_cron_runScan_fail(self):
