@@ -20,6 +20,10 @@ class CveTestCase(TestCase):
 		self.fail_sched = copy.deepcopy(self.sched)
 		self.fail_sched['params']['params'] = '-xX'
 
-	def test_cve_getcve(self):
+	def test_cve_getcve_std(self):
 		cpe_list, cve_list = cve.loadScan(os.path.join(cdir,'.testfiles/std_cve.xml'))
+
+	def test_cve_getcve_new(self):
+		cpe_list, cve_list = cve.loadScan(os.path.join(cdir,'.testfiles/new_cve.xml'))
+		self.assertEqual(len(cpe_list), 1)
 
