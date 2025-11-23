@@ -73,6 +73,7 @@ def cpeFromDict(o):
 	return res
 
 def getcve(xmlfile):
+	cpe,cve = {},{}
 	scanfilemd5 = hashlib.md5(str(xmlfile).encode('utf-8')).hexdigest()
 	cpecve = getcpe(xmlfile)
 	cvejson = {}
