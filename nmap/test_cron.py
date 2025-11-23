@@ -30,8 +30,7 @@ class CronTestCase(TestCase):
 	def test_cron_runScan_successs(self):
 		expected_strings=[
 			'Starting Nmap 7.94SVN ( https://nmap.org ) at ',
-			'- Nmap done: 4 IP addresses (0 hosts up) scanned in' #,
-			# 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' ]
+			'Nmap done: 4 IP addresses (0 hosts up) scanned in'
 		]
 		retVal, active_scan_file_path, stdout, stderr = cron.runScan(self.sched)
 		self.assertEqual(retVal,0)
