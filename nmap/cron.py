@@ -5,8 +5,12 @@ import subprocess, shutil, shlex
 def cron_gen_tmp_file_name(sched):
 	return '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active'
 
+def cron_gen_nmap_list(sched):
+	return = [shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+cdir+'/nse/',
+		'-oX', nmap_tmp_out, sched['params']['target']]
+
 def cron_run_scan(sched):
-	nmap_tmp_out = '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active'
+	nmap_tmp_out = cron_gen_tmp_file_name(sched)
 	nmapprocess = subprocess.Popen([shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+cdir+'/nse/',
 		'-oX', nmap_tmp_out, sched['params']['target']], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 	stdout, stderr = nmapprocess.communicate()
