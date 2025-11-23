@@ -1,5 +1,6 @@
 from django.test import TestCase
 import cron
+import json
 
 class CronTestCase(TestCase):
 	def setUp(self):
