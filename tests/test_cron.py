@@ -1,8 +1,8 @@
 from django.test import TestCase
-import nmapreprt.nmap.cron
+import nmapreport.nmap.cron
 from django.conf import settings
 import os, copy
-import nmapreprt.nmap.cve
+import nmapreport.nmap.cve
 
 class CronTestCase(TestCase):
 	def setUp(self):
