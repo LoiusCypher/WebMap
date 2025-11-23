@@ -8,6 +8,7 @@ class CronTestCase(TestCase):
 		self.params = ['-sT', '-A', '-T4']
 		self.sched = {
 			'number': 3,
+			'lastrun': 763592814.9651988,
 			'params': {
 				'filename': 'testfile.xml',
 				'params': ' '.join(self.params),
