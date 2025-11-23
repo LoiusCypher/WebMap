@@ -6,7 +6,7 @@ def cron_gen_tmp_file_name(sched):
 	return '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active'
 
 def cron_gen_nmap_list(sched):
-	return = [shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+cdir+'/nse/',
+	return [shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+cdir+'/nse/',
 		'-oX', nmap_tmp_out, sched['params']['target']]
 
 def cron_run_scan(sched):
