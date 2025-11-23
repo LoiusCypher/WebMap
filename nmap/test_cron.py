@@ -6,7 +6,7 @@ import os
 class CronTestCase(TestCase):
 	def setUp(self):
 		self.params = ['-sT', '-A', '-T4']
-		self.sched = {
+		self.sched = 
 			'number': 3,
 			'params': {
 				'filename': 'testfile.xml',
@@ -14,6 +14,8 @@ class CronTestCase(TestCase):
 				'target': '192.168.1.1/32'
 			}
 		}
+		self.fail_sched = self.sched
+		self.fail_sched['params']['params'] = '-xX'
 	def test_cron_generate_tmp_file_name(self):
 		self.assertEqual(cron.cron_gen_tmp_file_name(self.sched),'/tmp/3_testfile.xml.active')
 	def test_cron_gen_nmap_list(self):
@@ -24,4 +26,7 @@ class CronTestCase(TestCase):
 		self.assertEqual(retVal,0)
 		self.assertEqual(stdout,'')
 		self.assertEqual(stderr[:len(expected_string_start)],expected_string_start)
+	def test_cron_run_scan_fail(self):
+        retVal, stdout, stderr = cron.cron_run_scan(self.fail_sched)
+		self.assertNotEqual(retVal,0)
 
