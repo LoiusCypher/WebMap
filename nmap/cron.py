@@ -2,6 +2,8 @@ from django.conf import settings
 import os, re, json, time
 import subprocess, shutil, shlex
 
+cdir = os.path.dirname(os.path.realpath(__file__))
+
 def cron_gen_tmp_file_name(sched):
 	return '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active'
 
@@ -10,7 +12,6 @@ def cron_gen_nmap_list(sched):
 		'-oX', nmap_tmp_out, sched['params']['target']]
 
 def cron_run_scan(sched):
-	cdir = os.path.dirname(os.path.realpath(__file__))
 	nmap_tmp_out = cron_gen_tmp_file_name(sched)
 	nmapprocess = subprocess.Popen([shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+cdir+'/nse/',
 		'-oX', nmap_tmp_out, sched['params']['target']], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
