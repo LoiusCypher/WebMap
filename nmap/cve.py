@@ -90,10 +90,10 @@ def getcve(xmlfile):
 		if i not in cvejson:
 			cvejson[i] = []
 
-		#for cpestr in cpecve['cpe'][i]:
+		for cpestr in cpecve['cpe'][i]:
 			#print(cpestr)
-#			if re.search('^cpe:[^:]+:[^:]+:[^:]+:.+$', cpestr):
-#				r = requests.get('http://cve.circl.lu/api/cvefor/'+cpestr)
+			if re.search('^cpe:[^:]+:[^:]+:[^:]+:.+$', cpestr):
+				r = requests.get('http://cve.circl.lu/api/cvefor/'+cpestr)
 #				if r.json() is not None:
 #					if r.json() is dict:
 #						cvejson[i].append(r.json())
