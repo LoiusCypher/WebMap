@@ -35,5 +35,5 @@ jobs:
         path: nmapdashboard/nmapreport
     - name: Run Tests
       run: |
-        cd nmapdashboard ; python manage.py test nmapreport/nmap/
+        cd nmapdashboard ; python manage.py test nmapreport/tests/
 
