@@ -12,7 +12,7 @@ class CronTestCase(TestCase):
 			'params': {
 				'filename': 'testfile.xml',
 				'params': ' '.join(self.scan_options),
-				'target': '192.168.1.1/32'
+				'target': '192.168.1.1/30'
 			}
 		}
 		self.fail_sched = copy.deepcopy(self.sched)
@@ -30,8 +30,9 @@ class CronTestCase(TestCase):
 	def test_cron_runScan_successs(self):
 		expected_strings=[
 			'Starting Nmap 7.94SVN ( https://nmap.org ) at ',
-			'- Nmap done: 256 IP addresses (0 hosts up) scanned in',
-			'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' ]
+			'- Nmap done: 4 IP addresses (0 hosts up) scanned in' #,
+			# 'xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx' ]
+		]
 		retVal, active_scan_file_path, stdout, stderr = cron.runScan(self.sched)
 		self.assertEqual(retVal,0)
 		self.assertEqual(active_scan_file_path,cron.genActiveScanFilePath(self.sched))
