@@ -29,7 +29,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
         django-admin startproject nmapdashboard
-        apt-get install nmap
+        sudo apt-get install nmap
     - uses: actions/checkout@v6
       with:
         path: nmapdashboard/nmapreport
