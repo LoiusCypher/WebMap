@@ -22,8 +22,11 @@ class CveTestCase(TestCase):
 
 	def test_cve_getcve_std(self):
 		cpe_list, cve_list = cve.loadScan(os.path.join(cdir,'.testfiles/std_cve.xml'))
+		self.assertEqual(len(cpe_list), 1)
 
 	def test_cve_getcve_new(self):
 		cpe_list, cve_list = cve.loadScan(os.path.join(cdir,'.testfiles/new_cve.xml'))
-		self.assertEqual(len(cpe_list), 1)
+		self.assertEqual(len(cpe_list), 3)
+		self.assertEqual(str(cpe_list), ' ')
+		self.assertEqual(len(cve_list), 3)
 
