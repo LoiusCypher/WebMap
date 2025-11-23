@@ -23,7 +23,11 @@ for i in schedfiles:
 			sched['number'] = (sched['number']+1)
 			print("[RUN]   scan:"+sched['params']['filename']+" id:"+str(sched['number'])+" (nextrun:"+str(nextrun)+" / now:"+str(time.time())+")")
 
+            # First schedule next run: If something fails we do not want to repeat the actual run every some seconds
 			sched['lastrun'] = time.time()
+			f = open('/opt/schedule/'+i, "w")
+			f.write(json.dumps(sched, indent=4))
+
 			nextrun = (sched['lastrun'] + gethours(sched['params']['frequency']))
 
 			nmapout = os.popen('nmap '+sched['params']['params']+' --script='+cdir+'/nse/ -oX /tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active '+sched['params']['target']+' > /dev/null 2>&1 ; '+
@@ -31,9 +35,6 @@ for i in schedfiles:
 			'python3 '+cdir+'/cve.py webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+'').readlines()
 
 			print(nmapout)
-
-			f = open('/opt/schedule/'+i, "w")
-			f.write(json.dumps(sched, indent=4))
 
 			time.sleep(10)
 		else:
