@@ -21,5 +21,5 @@ class CveTestCase(TestCase):
 		self.fail_sched['params']['params'] = '-xX'
 
 	def test_cve_getcve(self):
-		cpe_list, cve_list = cve.loadScan(cdir+'.testfiles/std_cve.xml')
+		cpe_list, cve_list = cve.loadScan(os.path.join(cdir,'.testfiles/std_cve.xml'))
 
