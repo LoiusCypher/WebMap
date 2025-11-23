@@ -27,12 +27,12 @@ def cpeFromDict(o):
 
 		if '@addr' in i['address']:
 			address = i['address']['@addr']
-			print('address: ',i['script'])
+			print('address: ',i['@addr'])
 		elif type(i['address']) is list:
 			for ai in i['address']:
 				if ai['@addrtype'] == 'ipv4':
 					address = ai['@addr'] 
-					print('address: ',ai['script'])
+					print('address: ',ai['@addr'])
 
 		addressmd5 = hashlib.md5(str(address).encode('utf-8')).hexdigest()
 		cpe[address] = {}
