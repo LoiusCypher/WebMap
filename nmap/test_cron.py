@@ -5,7 +5,7 @@ from django.conf import settings
 import os, re, json, time
 import subprocess, shutil, shlex
 
-Class CronTestCase(TestCase):
+class CronTestCase(TestCase):
 	def setUp(self):
 		self.sched = json.loads({
 			'number': 0
