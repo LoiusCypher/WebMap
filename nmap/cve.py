@@ -27,7 +27,7 @@ def cpeFromDict(o):
 
 		if '@addr' in i['address']:
 			address = i['address']['@addr']
-			print('address: ',i['@addr'])
+			print('address: ',address)
 		elif type(i['address']) is list:
 			for ai in i['address']:
 				if ai['@addrtype'] == 'ipv4':
