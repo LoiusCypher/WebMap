@@ -1,7 +1,6 @@
 from django.conf import settings
 import os, re, json, time
 import subprocess, shutil, shlex
-import nmapreport.nmap.cve as cve
 
 cdir = os.path.dirname(os.path.realpath(__file__))
 

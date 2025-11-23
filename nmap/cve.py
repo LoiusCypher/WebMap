@@ -27,10 +27,12 @@ def cpeFromDict(o):
 
 		if '@addr' in i['address']:
 			address = i['address']['@addr']
+			print('address: ',i['script'])
 		elif type(i['address']) is list:
 			for ai in i['address']:
 				if ai['@addrtype'] == 'ipv4':
 					address = ai['@addr'] 
+					print('address: ',ai['script'])
 
 		addressmd5 = hashlib.md5(str(address).encode('utf-8')).hexdigest()
 		cpe[address] = {}
@@ -53,19 +55,22 @@ def cpeFromDict(o):
 						if type(p['service']['cpe']) is list:
 							for cpei in p['service']['cpe']:
 								cpe[address][cpei] = cpei
+								print('cpe: ',cpei)
 						else:
 							cpe[address][p['service']['cpe']] = p['service']['cpe']
+							print('cpe: ',p['service']['cpe'])
 
 				if 'script' in p:
-					print(p['script'])
+					# print('script: ',p['script'])
 					if type(p['script']) is list:
-						print(p['script'])
+						#print(p['script'])
 						for scripti in p['script']:
 							if 'elem' in scripti:
 								if type(scripti['elem']) is list:
 									for elmi in scripti['elem']:
 										if elmi['@key'] == 'cve':
 											cve[address][elmi['#text']] = elmi['#text']
+											print('cve: ',elmi['#text'])
 
 		# this fix single host report
 		if type(ik) is not dict:
@@ -80,13 +85,13 @@ def getcve(xmlfile):
 	cvejson = {}
 
 	for i in cpecve['cpe']:
-		print(i)
+		#print(i)
 
 		if i not in cvejson:
 			cvejson[i] = []
 
 		for cpestr in cpecve['cpe'][i]:
-			print(cpestr)
+			#print(cpestr)
 #			if re.search('^cpe:[^:]+:[^:]+:[^:]+:.+$', cpestr):
 #				r = requests.get('http://cve.circl.lu/api/cvefor/'+cpestr)
 #				if r.json() is not None:
@@ -102,7 +107,7 @@ def getcve(xmlfile):
 			cvejson[i] = []
 
 		for cvestr in cpecve['cve'][i]:
-			print(cvestr)
+			#print(cvestr)
 			r = requests.get('http://cve.circl.lu/api/cve/'+cvestr)
 			if r.json() is not None:
 				if r.json() is dict:
