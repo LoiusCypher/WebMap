@@ -9,7 +9,7 @@ def cron_gen_tmp_file_name(sched):
 
 def cron_gen_nmap_list(sched):
 	return [shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+cdir+'/nse/',
-		'-oX', nmap_tmp_out, sched['params']['target']]
+		'-oX', cron_gen_tmp_file_name(sched), sched['params']['target']]
 
 def cron_run_scan(sched):
 	nmap_tmp_out = cron_gen_tmp_file_name(sched)
