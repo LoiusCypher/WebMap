@@ -79,9 +79,7 @@ def cpeFromDict(o):
 	res = {'cpe':cpe,'cve':cve}
 	return res
 
-def getcve(xmlfile):
-	scanfilemd5 = hashlib.md5(str(xmlfile).encode('utf-8')).hexdigest()
-	cpecve = getcpe(xmlfile)
+def getCveOnline(cpecve):
 	cvejson = {}
 
 	for i in cpecve['cpe']:
@@ -114,7 +112,12 @@ def getcve(xmlfile):
 					cvejson[i].append(r.json())
 				else:
 					cvejson[i].append([r.json()])
+	return cvejson
 
+def getcve(xmlfile):
+	scanfilemd5 = hashlib.md5(str(xmlfile).encode('utf-8')).hexdigest()
+	cpecve = getcpe(xmlfile)
+	cvejson = getCveOnline(cpecve)
 	for i in cvejson:
 		hostmd5 = hashlib.md5(str(i).encode('utf-8')).hexdigest()
 		# for cvei in cvejson[i]:
