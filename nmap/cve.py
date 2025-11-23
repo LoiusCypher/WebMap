@@ -1,11 +1,14 @@
 import xmltodict, json, html, os, hashlib, re, requests, base64, urllib.parse, sys
 
-def getcpe(xmlfile):
-	cpe,cve = {},{}
+def getcpe(xmlfilename):
+    return loadScan( '/opt/xml/'+xmlfilename)
 
-	oo = xmltodict.parse(open('/opt/xml/'+xmlfile, 'r').read())
+def loadScan(xmlpath):
+	oo = xmltodict.parse(open(xmlpath, 'r').read())
 	o = json.loads(json.dumps(oo['nmaprun'], indent=4))
+    return cpeFromDict(o)
 
+def cpeFromDict(o):
 	# if we didn't find any host, we are done
 	if 'host' not in o:
 		res = {'cpe':cpe,'cve':cve}
