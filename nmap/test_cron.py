@@ -1,7 +1,7 @@
 from django.test import TestCase
 import cron
 from django.conf import settings
-import os
+import os, copy
 
 class CronTestCase(TestCase):
 	def setUp(self):
@@ -15,7 +15,7 @@ class CronTestCase(TestCase):
 				'target': '192.168.1.1/32'
 			}
 		}
-		self.fail_sched = self.sched.copy()
+		self.fail_sched = copy.deepcopy(self.sched)
 		self.fail_sched['params']['params'] = '-xX'
 
 	def test_cron_generate_active_scan_file_path(self):
@@ -25,7 +25,7 @@ class CronTestCase(TestCase):
 		self.assertEqual(cron.genFinishedScanFileName(self.sched),'webmapsched_763592814.9651988_testfile.xml')
 
 	def test_cron_genScanCmd(self):
-		self.assertEqual(cron.genScanCmd(self.sched), [ '/usr/bin/nmap' ]+self.sched['params']+['--script='+os.path.join(os.path.dirname(os.path.realpath(__file__)),'nse',)+'/', '-oX', cron.genActiveScanFilePath(self.sched), self.sched['params']['target']])
+		self.assertEqual(cron.genScanCmd(self.sched), [ '/usr/bin/nmap' ]+self.sched['params']['params']+['--script='+os.path.join(os.path.dirname(os.path.realpath(__file__)),'nse',)+'/', '-oX', cron.genActiveScanFilePath(self.sched), self.sched['params']['target']])
 
 	def test_cron_runScan_successs(self):
 		xpected_string_start='[DONE] Starting Nmap 7.94SVN ( https://nmap.org ) at 2025-11-23 08:46 UTC\n - Nmap done: 256 IP addresses (0 hosts up) scanned in 51.68 seconds'
