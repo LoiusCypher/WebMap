@@ -15,14 +15,14 @@ class CronTestCase(TestCase):
 				'target': '192.168.1.1/32'
 			}
 		}
-		self.fail_sched = self.sched
+        self.fail_sched = self.sched[:]
 		self.fail_sched['params']['params'] = '-xX'
 
 	def test_cron_generate_active_scan_file_path(self):
 		self.assertEqual(cron.genActiveScanFilePath(self.sched),'/tmp/3_testfile.xml.active')
 
 	def test_cron_generate_finished_scan_file_name(self):
-		self.assertEqual(cron.genFinishedScanFileName(self.sched),'/tmp/3_testfile.xml.active')
+		self.assertEqual(cron.genFinishedScanFileName(self.sched),'webmapsched_763592814.9651988_testfile.xml')
 
 	def test_cron_genScanCmd(self):
 		self.assertEqual(cron.genScanCmd(self.sched), [ '/usr/bin/nmap' ]+self.params+['--script='+os.path.join(os.path.dirname(os.path.realpath(__file__)),'nse',)+'/', '-oX', cron.genActiveScanFilePath(self.sched), self.sched['params']['target']])
