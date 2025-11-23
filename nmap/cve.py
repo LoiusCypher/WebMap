@@ -57,8 +57,9 @@ def cpeFromDict(o):
 							cpe[address][p['service']['cpe']] = p['service']['cpe']
 
 				if 'script' in p:
+					print(p['script'])
 					if type(p['script']) is list:
-						print(p['script']['@key'])
+						print(p['script'])
 						for scripti in p['script']:
 							if 'elem' in scripti:
 								if type(scripti['elem']) is list:
