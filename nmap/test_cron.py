@@ -38,8 +38,8 @@ class CronTestCase(TestCase):
 		self.assertEqual(stdout,'')
 		lines = stderr.splitlines()
 		self.assertEqual(len(lines), len(expected_strings))
-		for lineNr in len(lines):
-			self.assertEqual(lines[lineNr][:len(expected_strings[lineNr])],expected_strings[lineNr])
+		for lineNr, line in enumerate(lines):
+			self.assertEqual(line[:len(expected_strings[lineNr])],expected_strings[lineNr])
 
 	def test_cron_runScan_fail(self):
 		retVal, tmp_file_path, stdout, stderr = cron.runScan(self.fail_sched)
