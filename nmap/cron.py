@@ -17,6 +17,7 @@ def cron_run_scan(sched):
 		'-oX', nmap_tmp_out, sched['params']['target']], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 	stdout, stderr = nmapprocess.communicate()
 	print('[DONE] '+stderr+stdout)
+	return '[DONE] '+stderr+stdout
 
 def cron():
 	cdir = os.path.dirname(os.path.realpath(__file__))
