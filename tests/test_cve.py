@@ -7,19 +7,7 @@ cdir = os.path.dirname(os.path.realpath(__file__))
 
 class CveTestCase(TestCase):
 	def setUp(self):
-		self.scan_options = ['-sT', '-A', '-T4']
-		self.sched = {
-			'number': 3,
-			'lastrun': 763592814.9651988,
-			'params': {
-				'filename': 'testfile.xml',
-				'params': ' '.join(self.scan_options),
-				'target': '192.168.1.1/30'
-			}
-		}
-		self.fail_sched = copy.deepcopy(self.sched)
-
-	std_cpe = {
+		self.std_cpe = {
 		'cpe': {
 			'192.168.1.1': {
 				'cpe:/a:matt_johnston:dropbear_ssh_server:2020.80': 'cpe:/a:matt_johnston:dropbear_ssh_server:2020.80',
@@ -101,10 +89,9 @@ class CveTestCase(TestCase):
 			'192.168.2.112': {},
 			'192.168.2.225': {},
 			'192.168.2.227': {}
-		}
-	}
+		}}
 
-	tst_cpe = {
+		self.tst_cpe = {
 		'cpe': {
 			'192.168.1.1': {
 				'cpe:/a:matt_johnston:dropbear_ssh_server:2020.80': 'cpe:/a:matt_johnston:dropbear_ssh_server:2020.80',
@@ -115,21 +102,20 @@ class CveTestCase(TestCase):
 		},
 		'cve': {
 			'192.168.1.1': {},
-		}
-	}
+		}}
 
 	def test_cve_loadScan_std(self):
 		cpe_cve_list = cve.loadScan(os.path.join(cdir,'.testfiles/std_cve.xml'))
 		print(cpe_cve_list)
-		self.assertEqual(cpe_cve_list, std_cpe)
+		self.assertEqual(cpe_cve_list, self.std_cpe)
 
 	def test_cve_loadScan_new(self):
 		cpe_cve_list = cve.loadScan(os.path.join(cdir,'.testfiles/new_cve.xml'))
 		print(cpe_cve_list)
-		self.assertEqual(cpe_cve_list, std_cpe)
+		self.assertEqual(cpe_cve_list, self.std_cpe)
 
 	def test_cve_getCpeOnline(self):
-		cve_json = cve.CpeOnline(tst_cpe)
+		cve_json = cve.getCpeOnline(self.tst_cpe)
 		print(cve_json)
-		self.assertEqual(str(cve_json), std_cpe)
+		self.assertEqual(str(cve_json), self.std_cpe)
 
