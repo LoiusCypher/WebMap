@@ -15,7 +15,7 @@ class CronTestCase(TestCase):
 				'target': '192.168.1.1/32'
 			}
 		}
-		self.fail_sched = self.sched[:]
+		self.fail_sched = self.sched.copy()
 		self.fail_sched['params']['params'] = '-xX'
 
 	def test_cron_generate_active_scan_file_path(self):
