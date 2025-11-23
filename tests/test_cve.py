@@ -113,7 +113,7 @@ tst_cpe = {
 	},
 	'cve': {
 		'192.168.1.1': {},
-	}}}
+	}}
 
 	def test_cve_loadScan_std(self):
 		cpe_cve_list = cve.loadScan(os.path.join(cdir,'.testfiles/std_cve.xml'))
