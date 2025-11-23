@@ -3,6 +3,8 @@ import nmapreport.nmap.cve as cve
 from django.conf import settings
 import os, copy
 
+cdir = os.path.dirname(os.path.realpath(__file__))
+
 class CveTestCase(TestCase):
 	def setUp(self):
 		self.scan_options = ['-sT', '-A', '-T4']
@@ -19,5 +21,5 @@ class CveTestCase(TestCase):
 		self.fail_sched['params']['params'] = '-xX'
 
 	def test_cve_getcve(self):
-		cve.loadScan('.testfiles/std_cve.xml')
+		cpe, cve = cve.loadScan(cdir+'.testfiles/std_cve.xml')
 
