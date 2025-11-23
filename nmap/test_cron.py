@@ -2,6 +2,7 @@ from django.test import TestCase
 import cron
 from django.conf import settings
 import os, copy
+import cve
 
 class CronTestCase(TestCase):
 	def setUp(self):
@@ -44,4 +45,7 @@ class CronTestCase(TestCase):
 	def test_cron_runScan_fail(self):
 		retVal, tmp_file_path, stdout, stderr = cron.runScan(self.fail_sched)
 		self.assertNotEqual(retVal,0)
+
+	def test_cve_getcve(self):
+		cve.getcve('.testfiles/std_cve.xml')
 
