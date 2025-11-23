@@ -1,23 +1,23 @@
 from django.conf import settings
 import os, re, json, time
 import subprocess, shutil, shlex
+import cve
 
 cdir = os.path.dirname(os.path.realpath(__file__))
 
-def cron_gen_active_scan_file_path(sched):
+def genActiveScanFilePath(sched):
 	return '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active'
 
-def cron_gen_finished_scan_file(sched):
+def genFinishedScanFileName(sched):
 	return 'webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']
 
-def cron_gen_nmap_list(sched):
+def genScanCmd(sched):
 	return [shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+cdir+'/nse/',
-		'-oX', cron_gen_tmp_file_name(sched), sched['params']['target']]
+		'-oX', genActiveScanFilePath(sched), sched['params']['target']]
 
-def cron_run_scan(sched):
-	nmap_active_scan_out = cron_gen_active_scan_file_path(sched)
-	nmapprocess = subprocess.Popen([shutil.which('nmap')]+shlex.split(sched['params']['params'])+['--script='+cdir+'/nse/',
-		'-oX', nmap_tmp_out, sched['params']['target']], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+def runScan(sched):
+	nmap_active_scan_out = genActiveScanFilePath(sched)
+	nmapprocess = subprocess.Popen(genScanCmd(sched), stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
 	stdout, stderr = nmapprocess.communicate()
 	print('[DONE] '+stderr+stdout)
 	return nmapprocess.returncode, nmap_active_scan_out, stderr, stdout
@@ -50,13 +50,13 @@ def cron():
 				f.write(json.dumps(sched, indent=4))
 				nextrun = sched['lastrun'] + gethours(sched['params']['frequency'])
 
-				errorCode, nmap_active_scan_out, stdout, stderr = cron_run_scan(sched)
+				errorCode, nmap_active_scan_out, stdout, stderr = runScan(sched)
 				print('[DONE] '+stderr+stdout)
 				if errorCode != 0:
 					os.remove(nmap_active_scan_out)
 				else:
 					time.sleep(5)
-					nmap_out_file = cron_gen_finished_scan_file(sched)
+					nmap_out_file = genFinishedScanFileName(sched)
 					shutil.move(nmap_active_scan_out, '/opt/xml/'+nmap_out_file)
 					nmapout = os.popen( 'python3 '+cdir+'/cve.py webmapsched_'+str(sched['lastrun'])+'_'+sched['params']['filename']+'').readlines()
 					print(nmapout)
