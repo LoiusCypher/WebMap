@@ -55,10 +55,10 @@ def cpeFromDict(o):
 						if type(p['service']['cpe']) is list:
 							for cpei in p['service']['cpe']:
 								cpe[address][cpei] = cpei
-								print('cpe: ',cpei)
+								print('cpe: ',address,cpei)
 						else:
 							cpe[address][p['service']['cpe']] = p['service']['cpe']
-							print('cpe: ',p['service']['cpe'])
+							print('cpe: ',address,p['service']['cpe'])
 
 				if 'script' in p:
 					# print('script: ',p['script'])
@@ -70,7 +70,7 @@ def cpeFromDict(o):
 									for elmi in scripti['elem']:
 										if elmi['@key'] == 'cve':
 											cve[address][elmi['#text']] = elmi['#text']
-											print('cve: ',elmi['#text'])
+											print('cve: ',address,elmi['#text'])
 
 		# this fix single host report
 		if type(ik) is not dict:
