@@ -61,11 +61,11 @@ def cpeFromDict(o):
 							print('cpe: ',address,p['service']['cpe'])
 
 				if 'script' in p:
-					print('script: ',p['script'])
+					#print('script: ',p['script'])
 					if type(p['script']) is list:
-						print("1 ",p['script'])
+						#print("1 ",p['script'])
 						for scripti in p['script']:
-							print("2 ",scripti)
+							#print("2 ",scripti)
 							if 'elem' in scripti:
 								if type(scripti['elem']) is list:
 									for elmi in scripti['elem']:
@@ -74,22 +74,21 @@ def cpeFromDict(o):
 											print('cve: ',address,elmi['#text'])
 					else:
 						if 'table' in p['script']:
-							print("4 ",p['script']['table'])
+							#print("4 ",p['script']['table'])
 							if type(p['script']['table']) is list:
 								for tabi in p['script']['table']:
-									print('tabi: ',tabi)
+									#print('tabi: ',tabi)
 									if 'table' in tabi:
 										if type(tabi['table']) is list:
 											for tabii in tabi['table']:
-												print('tabii: ',tabii)
+												#print('tabii: ',tabii)
 												if 'elem' in tabii:
 													if type(tabii['elem']) is list:
-															print('elm: ',tabii['elem'],type(tabii['elem']))
-															for elmi in tabii['elem']:
-																print('elmi:: ',elmi)
-																if elmi['@key'] == 'id':
-																	cve[address][elmi['#text']] = elmi['#text']
-																	print('cve: ',address,elmi['#text'])
+														for elmi in tabii['elem']:
+															print('elmi:: ',elmi)
+															if elmi['@key'] == 'id':
+																cve[address][elmi['#text']] = elmi['#text']
+																print('cve: ',address,elmi['#text'])
 
 		# this fix single host report
 		if type(ik) is not dict:
