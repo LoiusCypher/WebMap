@@ -92,7 +92,7 @@ def getCveOnline(cpecve):
 			#print(cpestr)
 			if re.search('^cpe:[^:]+:[^:]+:[^:]+:.+$', cpestr):
 				r = requests.get('http://cve.circl.lu/api/cvefor/'+cpestr)
-				print( r.text, r.status_code)
+				print( r.status_code)
 				if r.json() is not None:
 					if r.json() is dict:
 						cvejson[i].append(r.json())
