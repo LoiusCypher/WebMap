@@ -286,7 +286,7 @@ def details(request, address):
 					#cveout += 'dict<hr>'
 				#continue
 
-                print('listcve:', addressmd5, listcve)
+				print('listcve:', addressmd5, listcve)
 				for cveobj in listcve:
 					cverefout = ''
 					for cveref in cveobj['references']:
