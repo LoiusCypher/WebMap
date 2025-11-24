@@ -76,15 +76,17 @@ def cpeFromDict(o):
 						if 'table' in p['script']:
 							print("4 ",p['script']['table'])
 							if type(p['script']['table']) is list:
-									for tabi in p['script']['table']:
-										print('tabi: ',tabi)
-										if 'table' in tabi:
-											if type(tabi['table']) is list:
-												for tabii in tabi['table']:
-													print('tabii: ',tabii)
-													if 'elem' in tabii:
+								for tabi in p['script']['table']:
+									print('tabi: ',tabi)
+									if 'table' in tabi:
+										if type(tabi['table']) is list:
+											for tabii in tabi['table']:
+												print('tabii: ',tabii)
+												if 'elem' in tabii:
+                                                    print('elm:: ',tabii['elem'])
 														if type(tabii['elem']) is list:
 															for elmi in tabii['elem']:
+																print('elmi:: ',elemi)
 																if elmi['@key'] == 'id':
 																	cve[address][elmi['#text']] = elmi['#text']
 																	print('cve: ',address,elmi['#text'])
