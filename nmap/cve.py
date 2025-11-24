@@ -84,7 +84,7 @@ def cpeFromDict(o):
 												print('tabii: ',tabii)
 												if 'elem' in tabii:
 													if type(tabii['elem']) is list:
-															 print('elm: ',tabii['elem'],type(tabii['elem']))
+															print('elm: ',tabii['elem'],type(tabii['elem']))
 															for elmi in tabii['elem']:
 																print('elmi:: ',elemi)
 																if elmi['@key'] == 'id':
