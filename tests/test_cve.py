@@ -91,7 +91,7 @@ class CveTestCase(TestCase):
 			'192.168.2.227': {}
 		}}
 
-		self.new_cpe = {
+		self.new_cpei_leg = {
 			'cpe': {
 				'192.168.2.1': {},
 				'192.168.2.100': {},
@@ -263,7 +263,7 @@ class CveTestCase(TestCase):
 
 	def test_cve_loadScan_new(self):
 		cpe_cve_list = cve.loadScan(os.path.join(cdir,'.testfiles/new_cve.xml'))
-		print('cpe_cve_list:',cpe_cve_list)
+		#print('cpe_cve_list:',cpe_cve_list)
 		self.assertEqual(cpe_cve_list, self.new_cpe)
 
 	def test_cve_getCveOnline(self):
