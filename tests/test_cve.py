@@ -128,19 +128,6 @@ class CveTestCase(TestCase):
 			}
 		}
 
-		self.tst_cpe = {
-		'cpe': {
-			'192.168.1.1': {
-				'cpe:/a:matt_johnston:dropbear_ssh_server:2020.80': 'cpe:/a:matt_johnston:dropbear_ssh_server:2020.80',
-				'cpe:/o:linux:linux_kernel': 'cpe:/o:linux:linux_kernel',
-				'cpe:/a:busybox:busybox': 'cpe:/a:busybox:busybox',
-				'cpe:/a:thekelleys:dnsmasq:2.82': 'cpe:/a:thekelleys:dnsmasq:2.82'
-			},
-		},
-		'cve': {
-			'192.168.1.1': {},
-		}}
-
 		self.new_cpe = {
 			'cpe': {
 				'192.168.2.1': {},
@@ -256,6 +243,25 @@ class CveTestCase(TestCase):
 					'CVE-2023-3772': 'CVE-2023-3772', 'CVE-2025-4598': 'CVE-2025-4598', 'CVE-2023-4732': 'CVE-2023-4732',
 					'CVE-2024-0340': 'CVE-2024-0340', 'CVE-2021-33624': 'CVE-2021-33624', 'CVE-2016-4117': 'CVE-2016-4117'}}}
 
+		self.tst_cpe_req = {
+		'cpe': {
+			'192.168.1.1': {
+				'cpe:/a:golang:go': 'cpe:/a:golang:go',
+				'cpe:/a:busybox:busybox': 'cpe:/a:busybox:busybox',
+				'cpe:/a:igor_sysoev:nginx': 'cpe:/a:igor_sysoev:nginx',
+				'cpe:/o:linux:linux_kernel': 'cpe:/o:linux:linux_kernel',
+				'cpe:/a:openbsd:openssh:10.0p2': 'cpe:/a:openbsd:openssh:10.0p2',
+				'cpe:/a:thekelleys:dnsmasq:2.82': 'cpe:/a:thekelleys:dnsmasq:2.82',
+				'cpe:/a:apache:http_server:2.4.65': 'cpe:/a:apache:http_server:2.4.65',
+				'cpe:/a:matt_johnston:dropbear_ssh_server:2020.80': 'cpe:/a:matt_johnston:dropbear_ssh_server:2020.80',
+			},
+		},
+		'cve': {
+			'192.168.1.1': {},
+		}}
+
+		self.tst_cve_json = {'192.168.1.1': []}
+
 	def test_cve_loadScan_std(self):
 		cpe_cve_list = cve.loadScan(os.path.join(cdir,'.testfiles/std_cve.xml'))
 		#print(cpe_cve_list)
@@ -267,7 +273,7 @@ class CveTestCase(TestCase):
 		self.assertEqual(cpe_cve_list, self.new_cpe)
 
 	def test_cve_getCveOnline(self):
-		cve_json = cve.getCveOnline(self.tst_cpe)
+		cve_json = cve.getCveOnline(self.tst_cpe_req)
 		print('cve_json:',cve_json)
-		self.assertEqual(str(cve_json), self.std_cpe)
+		self.assertEqual(str(cve_json), self.tst_cve_json)
 
