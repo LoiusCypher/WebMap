@@ -243,7 +243,7 @@ class CveTestCase(TestCase):
 					'CVE-2023-3772': 'CVE-2023-3772', 'CVE-2025-4598': 'CVE-2025-4598', 'CVE-2023-4732': 'CVE-2023-4732',
 					'CVE-2024-0340': 'CVE-2024-0340', 'CVE-2021-33624': 'CVE-2021-33624', 'CVE-2016-4117': 'CVE-2016-4117'}}}
 
-		self.tst_cpe_req = {
+		self.tst_cpe_req_cpe = {
 		'cpe': {
 			'192.168.1.1': {
 				'cpe:/a:golang:go': 'cpe:/a:golang:go',
@@ -259,7 +259,19 @@ class CveTestCase(TestCase):
 		},
 		'cve': {
 			'192.168.1.1': {
-				'CVE-2024-6387': 'CVE-2024-6387', 'CVE-2025-26465': 'CVE-2025-26465', 'CVE-2025-26466': 'CVE-2025-26466',
+			},
+		}}
+
+		self.tst_cpe_req_cve = {
+		'cpe': {
+			'192.168.1.1': {
+				'cpe:/a:golang:go': 'cpe:/a:golang:go',
+				'cpe:/a:busybox:busybox': 'cpe:/a:busybox:busybox',
+			},
+		},
+		'cve': {
+			'192.168.1.1': {
+				'CVE-2024-6387': 'CVE-2024-6387',
 			},
 		}}
 
@@ -275,8 +287,14 @@ class CveTestCase(TestCase):
 		#print('cpe_cve_list:',cpe_cve_list)
 		self.assertEqual(cpe_cve_list, self.new_cpe)
 
-	def test_cve_getCveOnline(self):
-		cve_json = cve.getCveOnline(self.tst_cpe_req)
-		print('cve_json:',cve_json)
+	def test_cve_getCveOnline_empty_cve(self):
+		cve_json = cve.getCveOnline(self.tst_cpe_req_cpe)
+		#print('cve_json:',cve_json)
 		self.assertEqual(cve_json, self.tst_cve_json)
+
+	def test_cve_getCveOnline(self):
+		cve_json = cve.getCveOnline(self.tst_cpe_req_cve)
+		print('keys:',self.tst_cpe_req_cve.keys())
+		print('cve_json:',cve_json)
+		self.assertEqual(cve_json[self.tst_cpe_req_cve.keys()[0]], self.tst_cve_json)
 

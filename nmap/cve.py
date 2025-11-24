@@ -113,7 +113,7 @@ def getCveOnline(cpecve):
 					if r.json() is dict:
 						cvejson[i].append(r.json())
 					else:
-						cvejson[i].append(r.json())
+						cvejson[i].append([r.json()])
 
 	for i in cpecve['cve']:
 		#print(i)
@@ -126,7 +126,7 @@ def getCveOnline(cpecve):
 			r = requests.get('http://cve.circl.lu/api/cve/'+cvestr)
 			print('http: ', r.status_code)
 			if r.status_code == 200 and r.json() is not None:
-				print('r: ', r.text)
+				#print('r: ', r.text)
 				if r.json() is dict:
 					cvejson[i].append(r.json())
 				else:
