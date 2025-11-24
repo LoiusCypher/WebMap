@@ -7,6 +7,14 @@ cdir = os.path.dirname(os.path.realpath(__file__))
 def nsePath():
 	return os.path.join(cdir, 'nse')
 
+def gethours(f):
+	return {
+		'1h': 3600,
+		'1d': 86400,
+		'1w': 604800,
+		'1m': 2592000
+	}[f]
+
 def genActiveScanFilePath(sched):
 	return '/tmp/'+str(sched['number'])+'_'+sched['params']['filename']+'.active'
 
@@ -27,14 +35,6 @@ def runScan(sched):
 def cron():
 
 	schedfiles = os.listdir('/opt/schedule/')
-
-	def gethours(f):
-		return {
-			'1h': 3600,
-			'1d': 86400,
-			'1w': 604800,
-			'1m': 2592000
-		}[f]
 
 	nextsched=time.time()+gethours('1m')
 	for i in schedfiles:

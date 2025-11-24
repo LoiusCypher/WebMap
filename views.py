@@ -289,13 +289,12 @@ def details(request, address):
 				for cveobj in listcve:
 					cverefout = ''
 					#print('cveobj:', addressmd5, cveobj)
-					cvereflist =  []
-					if 'containers' in cveobj and 'cna' in cveobj['containers'] and 'references' in cveobj['containers']['cna'] and type(cveobj['containers']['cna']['references']) is list:
-						for cveref in cveobj['containers']['cna']['references']:
-							cverefout += '<a href="'+cveref['url']+'">'+cveref['name']+'</a><br>'
 					if 'references' in cveobj and type(cveobj['references']) is list:
 						for cveref in cveobj['references']:
 							cverefout += '<a href="'+cveref+'">'+cveref+'</a><br>'
+					if 'containers' in cveobj and 'cna' in cveobj['containers'] and 'references' in cveobj['containers']['cna'] and type(cveobj['containers']['cna']['references']) is list:
+						for cveref in cveobj['containers']['cna']['references']:
+							cverefout += '<a href="'+cveref['url']+'">'+cveref['name']+'</a><br>'
 
 					cveexdbout = ''
 					if 'exploit-db' in cveobj:
