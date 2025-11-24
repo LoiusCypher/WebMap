@@ -104,10 +104,10 @@ def getCveOnline(cpecve):
 			cvejson[i] = []
 
 		for cpestr in cpecve['cpe'][i]:
-			#print(cpestr)
+			print('cpe: ',cpestr)
 			if re.search('^cpe:[^:]+:[^:]+:[^:]+:.+$', cpestr):
 				r = requests.get('http://cve.circl.lu/api/cvefor/'+cpestr)
-				print( r.status_code)
+				print('http: ', r.status_code)
 				if r.json() is not None:
 					if r.json() is dict:
 						cvejson[i].append(r.json())
@@ -121,8 +121,9 @@ def getCveOnline(cpecve):
 			cvejson[i] = []
 
 		for cvestr in cpecve['cve'][i]:
-			#print(cvestr)
+			print('cve: ',cvestr)
 			r = requests.get('http://cve.circl.lu/api/cve/'+cvestr)
+			print('http: ', r.status_code)
 			if r.json() is not None:
 				if r.json() is dict:
 					cvejson[i].append(r.json())
