@@ -71,7 +71,7 @@ def cpeFromDict(o):
 									for elmi in scripti['elem']:
 										if elmi['@key'] == 'cve':
 											cve[address][elmi['#text']] = elmi['#text']
-											print('cve: ',address,elmi['#text'])
+											print('cve1: ',address,elmi['#text'])
 					else:
 						if 'table' in p['script']:
 							#print("4 ",p['script']['table'])
@@ -85,10 +85,10 @@ def cpeFromDict(o):
 												if 'elem' in tabii:
 													if type(tabii['elem']) is list:
 														for elmi in tabii['elem']:
-															print('elmi:: ',elmi)
+                                                            #print('elmi:: ',elmi)
 															if elmi['@key'] == 'id':
 																cve[address][elmi['#text']] = elmi['#text']
-																print('cve: ',address,elmi['#text'])
+																print('cve2: ',address,elmi['#text'])
 
 		# this fix single host report
 		if type(ik) is not dict:
