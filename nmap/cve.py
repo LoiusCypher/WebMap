@@ -72,8 +72,10 @@ def cpeFromDict(o):
 										if elmi['@key'] == 'cve':
 											cve[address][elmi['#text']] = elmi['#text']
 											print('cve: ',address,elmi['#text'])
-							if 'table' in scripti:
-								if type(scripti['table']) is list:
+					 else:
+						if 'table' in scripti:
+							print("4 ",scripti)
+							if type(scripti['table']) is list:
 									for tabi in scripti['table']:
 										print('tabi: ',tabi)
 										if 'table' in tabi:
