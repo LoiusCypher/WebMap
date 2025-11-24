@@ -73,22 +73,19 @@ def cpeFromDict(o):
 											cve[address][elmi['#text']] = elmi['#text']
 											print('cve1: ',address,elmi['#text'])
 					else:
-						if 'table' in p['script']:
+						if 'table' in p['script'] and type(p['script']['table']) is list:
 							#print("4 ",p['script']['table'])
-							if type(p['script']['table']) is list:
-								for tabi in p['script']['table']:
-									#print('tabi: ',tabi)
-									if 'table' in tabi:
-										if type(tabi['table']) is list:
-											for tabii in tabi['table']:
-												#print('tabii: ',tabii)
-												if 'elem' in tabii:
-													if type(tabii['elem']) is list:
-														for elmi in tabii['elem']:
-                                                            #print('elmi:: ',elmi)
-															if elmi['@key'] == 'id':
-																cve[address][elmi['#text']] = elmi['#text']
-																print('cve2: ',address,elmi['#text'])
+							for tabi in p['script']['table']:
+								#print('tabi: ',tabi)
+								if 'table' in tabi and type(tabi['table']) is list:
+									for tabii in tabi['table']:
+										#print('tabii: ',tabii)
+										if 'elem' in tabii and type(tabii['elem']) is list:
+											for elmi in tabii['elem']:
+                                                #print('elmi:: ',elmi)
+												if elmi['@key'] == 'id':
+													cve[address][elmi['#text']] = elmi['#text']
+													print('cve2: ',address,elmi['#text'])
 
 		# this fix single host report
 		if type(ik) is not dict:
