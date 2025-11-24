@@ -82,7 +82,7 @@ def cpeFromDict(o):
 										#print('tabii: ',tabii)
 										if 'elem' in tabii and type(tabii['elem']) is list:
 											for elmi in tabii['elem']:
-                                                #print('elmi:: ',elmi)
+												#print('elmi:: ',elmi)
 												if elmi['@key'] == 'id':
 													cve[address][elmi['#text']] = elmi['#text']
 													#print('cve2: ',address,elmi['#text'])
@@ -111,8 +111,8 @@ def getCveOnline(cpecve):
 				if r.status_code != 404 and r.json() is not None:
 					if r.json() is dict:
 						cvejson[i].append(r.json())
-                    else:
-                        cvejson[i].append(r.json())
+					else:
+						cvejson[i].append(r.json())
 
 	for i in cpecve['cve']:
 		#print(i)
