@@ -83,7 +83,7 @@ def cpeFromDict(o):
 											for tabii in tabi['table']:
 												print('tabii: ',tabii)
 												if 'elem' in tabii:
-                                                    print('elm:: ',tabii['elem'])
+														print('elm: ',tabii['elem'])
 														if type(tabii['elem']) is list:
 															for elmi in tabii['elem']:
 																print('elmi:: ',elemi)
