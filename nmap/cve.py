@@ -73,10 +73,10 @@ def cpeFromDict(o):
 											cve[address][elmi['#text']] = elmi['#text']
 											print('cve: ',address,elmi['#text'])
 					else:
-						if 'table' in scripti:
-							print("4 ",scripti)
-							if type(scripti['table']) is list:
-									for tabi in scripti['table']:
+						if 'table' in p['script']:
+							print("4 ",p['script'])
+							if type(p['script']) is list:
+									for tabi in p['script']:
 										print('tabi: ',tabi)
 										if 'table' in tabi:
 											if type(tabi['table']) is list:
