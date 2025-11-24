@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v6
       with:
-        parse-checkout: requirements.txt
+        sparse-checkout: requirements.txt
         sparse-checkout-cone-mode: false
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v3
