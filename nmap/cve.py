@@ -27,12 +27,12 @@ def cpeFromDict(o):
 
 		if '@addr' in i['address']:
 			address = i['address']['@addr']
-			print('address: ',address)
+			#print('address: ',address)
 		elif type(i['address']) is list:
 			for ai in i['address']:
 				if ai['@addrtype'] == 'ipv4':
 					address = ai['@addr'] 
-					print('address: ',ai['@addr'])
+					#print('address: ',ai['@addr'])
 
 		addressmd5 = hashlib.md5(str(address).encode('utf-8')).hexdigest()
 		cpe[address] = {}
@@ -55,10 +55,10 @@ def cpeFromDict(o):
 						if type(p['service']['cpe']) is list:
 							for cpei in p['service']['cpe']:
 								cpe[address][cpei] = cpei
-								print('cpe: ',address,cpei)
+								#print('cpe: ',address,cpei)
 						else:
 							cpe[address][p['service']['cpe']] = p['service']['cpe']
-							print('cpe: ',address,p['service']['cpe'])
+							#print('cpe: ',address,p['service']['cpe'])
 
 				if 'script' in p:
 					#print('script: ',p['script'])
@@ -71,7 +71,7 @@ def cpeFromDict(o):
 									for elmi in scripti['elem']:
 										if elmi['@key'] == 'cve':
 											cve[address][elmi['#text']] = elmi['#text']
-											print('cve1: ',address,elmi['#text'])
+											#print('cve1: ',address,elmi['#text'])
 					else:
 						if 'table' in p['script'] and type(p['script']['table']) is list:
 							#print("4 ",p['script']['table'])
@@ -85,7 +85,7 @@ def cpeFromDict(o):
                                                 #print('elmi:: ',elmi)
 												if elmi['@key'] == 'id':
 													cve[address][elmi['#text']] = elmi['#text']
-													print('cve2: ',address,elmi['#text'])
+													#print('cve2: ',address,elmi['#text'])
 
 		# this fix single host report
 		if type(ik) is not dict:
