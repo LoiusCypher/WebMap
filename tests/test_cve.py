@@ -294,8 +294,8 @@ class CveTestCase(TestCase):
 
 	def test_cve_getCveOnline_cve(self):
 		cve_json = cve.getCveOnline(self.tst_cpe_req_cve)
-		print('keys:',self.tst_cpe_req_cve.['cve'].keys())
-		print('key:',self.tst_cpe_req_cve.['cve'].dataType)
+		print('keys:',self.tst_cpe_req_cve['cve'].keys())
+		print('key:',self.tst_cpe_req_cve['cve'].dataType)
 		print('cve_json:',cve_json)
 		self.assertEqual(cve_json[list(self.tst_cpe_req_cve['cve'].keys())[0]][0][0]['cveMetadata']['assignerOrgId'], '53f830b8-0a3f-465b-8143-3b8a9948e749')
 
