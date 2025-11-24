@@ -275,7 +275,8 @@ class CveTestCase(TestCase):
 			},
 		}}
 
-		self.tst_cve_json = {'192.168.1.1': []}
+		self.tst_cve_empty_json = {'192.168.1.1': []}
+		self.tst_cve_json_OrigId = '53f830b8-0a3f-465b-8143-3b8a9948e749'
 
 	def test_cve_loadScan_std(self):
 		cpe_cve_list = cve.loadScan(os.path.join(cdir,'.testfiles/std_cve.xml'))
@@ -290,12 +291,11 @@ class CveTestCase(TestCase):
 	def test_cve_getCveOnline_empty_cve(self):
 		cve_json = cve.getCveOnline(self.tst_cpe_req_cpe)
 		#print('cve_json:',cve_json)
-		self.assertEqual(cve_json, self.tst_cve_json)
+		self.assertEqual(cve_json, self.tst_cve_empty_json)
 
 	def test_cve_getCveOnline_cve(self):
 		cve_json = cve.getCveOnline(self.tst_cpe_req_cve)
-		print('keys:',self.tst_cpe_req_cve['cve'].keys())
-		print('key:',cve_json[list(self.tst_cpe_req_cve['cve'].keys())[0]][0])
-		print('cve_json:',cve_json)
-		self.assertEqual(cve_json[list(self.tst_cpe_req_cve['cve'].keys())[0]][0][0]['cveMetadata']['assignerOrgId'], '53f830b8-0a3f-465b-8143-3b8a9948e749')
+		#print('cve_json:',cve_json)
+		#print('first cve record:',cve_json[list(self.tst_cpe_req_cve['cve'].keys())[0]][0])
+		self.assertEqual(cve_json[list(self.tst_cpe_req_cve['cve'].keys())[0]][0][0]['cveMetadata']['assignerOrgId'], self.tst_cve_json_OrigId)
 
