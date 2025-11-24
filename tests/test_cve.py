@@ -268,6 +268,6 @@ class CveTestCase(TestCase):
 
 	def test_cve_getCveOnline(self):
 		cve_json = cve.getCveOnline(self.tst_cpe)
-        #print('cve_json:',cve_json)
+        print('cve_json:',cve_json)
 		self.assertEqual(str(cve_json), self.std_cpe)
 
