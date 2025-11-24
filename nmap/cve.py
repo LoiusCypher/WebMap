@@ -61,16 +61,31 @@ def cpeFromDict(o):
 							print('cpe: ',address,p['service']['cpe'])
 
 				if 'script' in p:
-					# print('script: ',p['script'])
+					print('script: ',p['script'])
 					if type(p['script']) is list:
-						#print(p['script'])
+						print("1 ",p['script'])
 						for scripti in p['script']:
+							print("2 ",scripti)
 							if 'elem' in scripti:
 								if type(scripti['elem']) is list:
 									for elmi in scripti['elem']:
 										if elmi['@key'] == 'cve':
 											cve[address][elmi['#text']] = elmi['#text']
 											print('cve: ',address,elmi['#text'])
+							if 'table' in scripti:
+								if type(scripti['table']) is list:
+									for tabi in scripti['table']:
+										print('tabi: ',tabi)
+										if 'table' in tabi:
+											if type(tabi['table']) is list:
+												for tabii in tabi['table']:
+													print('tabii: ',tabii)
+													if 'elem' in tabii:
+														if type(tabii['elem']) is list:
+															for elmi in tabii['elem']:
+																if elmi['@key'] == 'id':
+																	cve[address][elmi['#text']] = elmi['#text']
+																	print('cve: ',address,elmi['#text'])
 
 		# this fix single host report
 		if type(ik) is not dict:
