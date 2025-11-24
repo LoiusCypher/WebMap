@@ -250,6 +250,7 @@ class CveTestCase(TestCase):
 				'cpe:/a:busybox:busybox': 'cpe:/a:busybox:busybox',
 				'cpe:/a:igor_sysoev:nginx': 'cpe:/a:igor_sysoev:nginx',
 				'cpe:/o:linux:linux_kernel': 'cpe:/o:linux:linux_kernel',
+				'cpe:/a:python:wsgiref:0.2': 'cpe:/a:python:wsgiref:0.2',
 				'cpe:/a:openbsd:openssh:10.0p2': 'cpe:/a:openbsd:openssh:10.0p2',
 				'cpe:/a:thekelleys:dnsmasq:2.82': 'cpe:/a:thekelleys:dnsmasq:2.82',
 				'cpe:/a:apache:http_server:2.4.65': 'cpe:/a:apache:http_server:2.4.65',
@@ -257,7 +258,9 @@ class CveTestCase(TestCase):
 			},
 		},
 		'cve': {
-			'192.168.1.1': {},
+			'192.168.1.1': {
+				'CVE-2024-6387': 'CVE-2024-6387', 'CVE-2025-26465': 'CVE-2025-26465', 'CVE-2025-26466': 'CVE-2025-26466',
+			},
 		}}
 
 		self.tst_cve_json = {'192.168.1.1': []}

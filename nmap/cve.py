@@ -108,7 +108,7 @@ def getCveOnline(cpecve):
 			if re.search('^cpe:[^:]+:[^:]+:[^:]+:.+$', cpestr):
 				r = requests.get('http://cve.circl.lu/api/cvefor/'+cpestr)
 				print('http: ', r.status_code)
-				if r.status_code != 404 and r.json() is not None:
+				if r.status_code == 200 and r.json() is not None:
 					print('r: ', r.text)
 					if r.json() is dict:
 						cvejson[i].append(r.json())
@@ -125,7 +125,7 @@ def getCveOnline(cpecve):
 			print('cve: ',cvestr)
 			r = requests.get('http://cve.circl.lu/api/cve/'+cvestr)
 			print('http: ', r.status_code)
-			if r.status_code != 404 and r.json() is not None:
+			if r.status_code == 200 and r.json() is not None:
 				print('r: ', r.text)
 				if r.json() is dict:
 					cvejson[i].append(r.json())
