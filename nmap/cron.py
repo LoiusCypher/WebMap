@@ -39,7 +39,14 @@ def cron():
 	nextsched=time.time()+gethours('1m')
 	for i in schedfiles:
 		if re.search(r'^[a-f0-9]{32,32}\.json$', i.strip()) is not None:
-			sched = json.loads(open('/opt/schedule/'+i, "r").read())
+			try:
+				sched = json.loads(open('/opt/schedule/'+i, "r").read())
+			except: ValueError as e:
+				print("Error in json content of ", i, ': ',e)
+				continue
+			except: IOError as e:
+				print("Error while rading  ", i, ': ',e)
+				continue
 
 			nextrun = (sched['lastrun'] + gethours(sched['params']['frequency']))
 			if nextrun <= time.time():
