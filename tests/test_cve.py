@@ -44,7 +44,8 @@ class CveTestCase(TestCase):
 				'192.168.1.141': {},
 				'192.168.1.64': {
 					'cpe:/a:openbsd:openssh:9.2p1': 'cpe:/a:openbsd:openssh:9.2p1',
-					'cpe:/o:linux:linux_kernel': 'cpe:/o:linux:linux_kernel'}, '192.168.2.1': {}
+					'cpe:/o:linux:linux_kernel': 'cpe:/o:linux:linux_kernel'},
+				'192.168.2.1': {},
 				'192.168.2.100': {
 					'cpe:/a:matt_johnston:dropbear_ssh_server:2020.80': 'cpe:/a:matt_johnston:dropbear_ssh_server:2020.80',
 					'cpe:/o:linux:linux_kernel': 'cpe:/o:linux:linux_kernel',
