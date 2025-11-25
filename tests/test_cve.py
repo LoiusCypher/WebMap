@@ -281,12 +281,12 @@ class CveTestCase(TestCase):
 		self.tst_cve_json_OrigId = '53f830b8-0a3f-465b-8143-3b8a9948e749'
 
 	def test_cve_loadScan_std(self):
-		cpe_cve_list = cve.loadScan(os.path.join(cdir,'.testfiles/std_cve.xml'))
+		cpe_cve_list = cve.loadScan(os.path.join(cdir, '.testfiles/std_cve.xml'))
 		# print(cpe_cve_list)
 		self.assertEqual(cpe_cve_list, self.std_cpe)
 
 	def test_cve_loadScan_new(self):
-		cpe_cve_list = cve.loadScan(os.path.join(cdir,'.testfiles/new_cve.xml'))
+		cpe_cve_list = cve.loadScan(os.path.join(cdir, '.testfiles/new_cve.xml'))
 		# print('cpe_cve_list:',cpe_cve_list)
 		self.assertEqual(cpe_cve_list, self.new_cpe)
 

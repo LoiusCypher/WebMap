@@ -29,11 +29,11 @@ def setscanfile(request, scanfile):
 		if 'scanfile' in request.session:
 			del(request.session['scanfile'])
 
-	return render(request, 'nmapreport/nmap_hostdetails.html', { 'js': '<script> location.href="/"; </script>' })
+	return render(request, 'nmapreport/nmap_hostdetails.html', {'js': '<script> location.href="/"; </script>'})
 
 
 def port(request, port):
-	return render(request, 'nmapreport/index.html', { 'out': '', 'table': '', 'scaninfo': '', 'scandetails': '', 'trhost': '' })
+	return render(request, 'nmapreport/index.html', {'out': '', 'table': '', 'scaninfo': '', 'scandetails': '', 'trhost': ''})
 
 
 def getCveOut(cvejson):
