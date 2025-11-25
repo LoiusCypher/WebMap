@@ -95,7 +95,7 @@ def getCveOut(cvejson):
 					cveout += '	<div class="small" style="line-height:20px;"><b>References:</b><br>' + cverefout + '</div>' + \
 						cveexdbout + \
 						'</div>'
-					cveids[cveobj['containers']['cveId']] = cveobj['containers']['cveId']
+					cveids[cveobj['cveMetadata']['cveId']] = cveobj['cveMetadata']['cveId']
 	return cveids, cveout
 
 
