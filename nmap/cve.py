@@ -20,7 +20,7 @@ def cpeFromDict(o):
 	cpe, cve = {}, {}
 	# if we didn't find any host, we are done
 	if 'host' not in o:
-		res = {'cpe':cpe, 'cve':cve}
+		res = {'cpe': cpe, 'cve': cve}
 		return res
 
 	for ik in o['host']:
@@ -97,7 +97,7 @@ def cpeFromDict(o):
 
 		# this fix single host report
 		if type(ik) is not dict:
-			break;
+			break
 
 	res = {'cpe': cpe, 'cve': cve}
 	return res
