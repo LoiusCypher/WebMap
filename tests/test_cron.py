@@ -28,17 +28,17 @@ class CronTestCase(TestCase):
 		self.assertEqual(cron.genFinishedScanFileName(self.sched), 'webmapsched_763592814.9651988_testfile.xml')
 
 	def test_cron_genScanCmd(self):
-		self.assertEqual(cron.genScanCmd(self.sched), ['/usr/bin/nmap'] + self.scan_options + ['--script='+cron.nsePath()+'/',
+		self.assertEqual(cron.genScanCmd(self.sched), ['/usr/bin/nmap'] + self.scan_options + ['--script=' + cron.nsePath() + '/',
 			'-oX', cron.genActiveScanFilePath(self.sched), self.sched['params']['target']])
 
 	def test_cron_runScan_successs(self):
-		expected_strings=[
+		expected_strings = [
 			'Starting Nmap 7.94SVN ( https://nmap.org ) at ',
 			'Nmap done: 4 IP addresses (0 hosts up) scanned in'
 		]
 		retVal, active_scan_file_path, stdout, stderr = cron.runScan(self.sched)
 		self.assertEqual(retVal, 0)
-		self.assertEqual(active_scan_file_path,cron.genActiveScanFilePath(self.sched))
+		self.assertEqual(active_scan_file_path, cron.genActiveScanFilePath(self.sched))
 		self.assertEqual(stdout, '')
 		lines = stderr.splitlines()
 		self.assertEqual(len(lines), len(expected_strings))

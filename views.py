@@ -92,11 +92,12 @@ def getCveOut(cvejson):
 								if 'lang' in cvedesc and 'en' == cvedesc['lang'] or cvetext == '':
 									cvetext = cvedesc['value']
 						cveout += html.escape(cvetext) + '<br><br>'
-					cveout += '	<div class="small" style="line-height:20px;"><b>References:</b><br>' + cverefout+'</div>' + \
+					cveout += '	<div class="small" style="line-height:20px;"><b>References:</b><br>' + cverefout + '</div>' + \
 						cveexdbout + \
 						'</div>'
 					cveids[cveobj['containers']['cveId']] = cveobj['containers']['cveId']
 	return cveids, cveout
+
 
 def details(request, address):
 	r = {}
