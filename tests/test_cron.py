@@ -30,7 +30,7 @@ class CronTestCase(TestCase):
 	def test_cron_genScanCmd(self):
 		self.assertEqual(cron.genScanCmd(self.sched), ['/usr/bin/nmap'] + self.scan_options + \
 			    '--script=' + cron.nsePath() + '/',
-				'-oX', cron.genActiveScanFilePath(self.sched), self.sched['params']['target']])
+				'-oX', cron.genActiveScanFilePath(self.sched), self.sched['params']['target'])
 
 	def test_cron_runScan_successs(self):
 		expected_strings = [
