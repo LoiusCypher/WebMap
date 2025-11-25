@@ -94,7 +94,7 @@ def getCveOut(cvejson):
 							cveexdbout+\
 							'</div>'
 						cveids[cveobj['containers']['cveId']] = cveobj['containers']['cveId']
-		return cveids, cveout	
+		return cveids, cveout
 
 def details(request, address):
 	r = {}
