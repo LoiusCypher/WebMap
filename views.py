@@ -253,7 +253,7 @@ def details(request, address):
 						servicename = p['service']['@name']
 					else:
 						servicename = ''
-							
+
 					r['tr'][p['@portid']] = {
 						'service': servicename,
 						'protocol': p['@protocol'],
@@ -554,7 +554,6 @@ def index(request, filterservice="", filterportid=""):
 								cpe[address][cpei] = cpei
 						else:
 							cpe[address][p['service']['cpe']] = p['service']['cpe']
-		
 
 					if '@ostype' in p['service']:
 						if p['service']['@ostype'] in allostypelist:
@@ -573,7 +572,7 @@ def index(request, filterservice="", filterportid=""):
 					picount[p['@portid']] = (picount[p['@portid']] + 1)
 				else:
 					picount[p['@portid']] = 1
-					
+
 				if p['state']['@state'] == 'closed':
 					ports['closed'] = (ports['closed'] + 1)
 					pc = (pc + 1)
