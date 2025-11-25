@@ -46,4 +46,3 @@ class CronTestCase(TestCase):
 	def test_cron_runScan_fail(self):
 		retVal, tmp_file_path, stdout, stderr = cron.runScan(self.fail_sched)
 		self.assertNotEqual(retVal,0)
-

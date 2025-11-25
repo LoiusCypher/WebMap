@@ -297,4 +297,3 @@ class CveTestCase(TestCase):
 		#print('cve_json:',cve_json)
 		#print('first cve record:',cve_json[list(self.tst_cpe_req_cve['cve'].keys())[0]][0])
 		self.assertEqual(cve_json[list(self.tst_cpe_req_cve['cve'].keys())[0]][0][0]['cveMetadata']['assignerOrgId'], self.tst_cve_json_OrigId)
-
