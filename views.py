@@ -86,7 +86,7 @@ def getCveOut(cvejson):
 						if 'containers' in cveobj and 'cna' in cveobj['containers'] and 'descriptions' in cveobj['containers']['cna'] and type(cveobj['containers']['cna']['descriptions']) is list:
 							cvetext = ''
 							for cvedesc in cveobj['containers']['cna']['descriptions']:
-								if 'value' in cvedesc 
+                                if 'value' in cvedesc :
 									if 'lang' in cvedesc and 'en' == cvedesc['lang'] or cvetext == '':
 										cvetext = cvedesc['value']
 							cveout += +html.escape(cvetext)'<br><br>'
