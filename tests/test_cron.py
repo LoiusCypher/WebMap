@@ -28,8 +28,8 @@ class CronTestCase(TestCase):
 		self.assertEqual(cron.genFinishedScanFileName(self.sched), 'webmapsched_763592814.9651988_testfile.xml')
 
 	def test_cron_genScanCmd(self):
-		self.assertEqual(cron.genScanCmd(self.sched), [ '/usr/bin/nmap' ]+self.scan_options+['--script='+cron.nsePath()+'/',\
-				'-oX', cron.genActiveScanFilePath(self.sched), self.sched['params']['target']])
+		self.assertEqual(cron.genScanCmd(self.sched), ['/usr/bin/nmap'] + self.scan_options + ['--script='+cron.nsePath()+'/',
+			'-oX', cron.genActiveScanFilePath(self.sched), self.sched['params']['target']])
 
 	def test_cron_runScan_successs(self):
 		expected_strings=[
@@ -37,14 +37,14 @@ class CronTestCase(TestCase):
 			'Nmap done: 4 IP addresses (0 hosts up) scanned in'
 		]
 		retVal, active_scan_file_path, stdout, stderr = cron.runScan(self.sched)
-		self.assertEqual(retVal,0)
+		self.assertEqual(retVal, 0)
 		self.assertEqual(active_scan_file_path,cron.genActiveScanFilePath(self.sched))
-		self.assertEqual(stdout,'')
+		self.assertEqual(stdout, '')
 		lines = stderr.splitlines()
 		self.assertEqual(len(lines), len(expected_strings))
 		for lineNr, line in enumerate(lines):
-			self.assertEqual(line[:len(expected_strings[lineNr])],expected_strings[lineNr])
+			self.assertEqual(line[:len(expected_strings[lineNr])], expected_strings[lineNr])
 
 	def test_cron_runScan_fail(self):
 		retVal, tmp_file_path, stdout, stderr = cron.runScan(self.fail_sched)
-		self.assertNotEqual(retVal,0)
+		self.assertNotEqual(retVal, 0)

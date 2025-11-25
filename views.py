@@ -4,6 +4,7 @@ import xmltodict, json, html, os, hashlib, re, urllib.parse, base64
 from collections import OrderedDict
 from nmapreport.functions import *
 
+
 def login(request):
 	r = {}
 
@@ -35,66 +36,66 @@ def port(request, port):
 	return render(request, 'nmapreport/index.html', { 'out': '', 'table': '', 'scaninfo': '', 'scandetails': '', 'trhost': '' })
 
 def getCveOut(cvejson):
-		cveout = ''
-		cveids = {}
+	cveout = ''
+	cveids = {}
 
-		#print('cvejson:', json.dumps(cvejson, indent=4))
-		if type(cvejson) is list:
-			for i in cvejson:
-				if type(i) is list:
-					listcve = i
-					#cveout += 'list<hr>'
-				elif type(i) is dict:
-					listcve = [i]
-					#cveout += 'dict<hr>'
-				#continue
+	#print('cvejson:', json.dumps(cvejson, indent=4))
+	if type(cvejson) is list:
+		for i in cvejson:
+			if type(i) is list:
+				listcve = i
+				#cveout += 'list<hr>'
+			elif type(i) is dict:
+				listcve = [i]
+				#cveout += 'dict<hr>'
+			#continue
 
-				for cveobj in listcve:
-					cverefout = ''
-					#print('cveobj:', cveobj)
-					if 'references' in cveobj and type(cveobj['references']) is list:
-						for cveref in cveobj['references']:
-							cverefout += '<a href="'+cveref+'">'+cveref+'</a><br>'
-					if 'containers' in cveobj and 'cna' in cveobj['containers'] and 'references' in cveobj['containers']['cna'] and type(cveobj['containers']['cna']['references']) is list:
-						for cveref in cveobj['containers']['cna']['references']:
-							if 'url' in cveref:
-								if 'name' in cveref:
-									cverefout += '<a href="'+cveref['url']+'">'+cveref['name']+'</a><br>'
-								else:
-									cverefout += '<a href="'+cveref['url']+'">'+cveref['url']+'</a><br>'
+			for cveobj in listcve:
+				cverefout = ''
+				#print('cveobj:', cveobj)
+				if 'references' in cveobj and type(cveobj['references']) is list:
+					for cveref in cveobj['references']:
+						cverefout += '<a href="' + cveref + '">' + cveref + '</a><br>'
+				if 'containers' in cveobj and 'cna' in cveobj['containers'] and 'references' in cveobj['containers']['cna'] and type(cveobj['containers']['cna']['references']) is list:
+					for cveref in cveobj['containers']['cna']['references']:
+						if 'url' in cveref:
+							if 'name' in cveref:
+								cverefout += '<a href="' + cveref['url'] + '">' + cveref['name'] + '</a><br>'
+							else:
+								cverefout += '<a href="' + cveref['url'] + '">'+cveref['url'] + '</a><br>'
 
-					cveexdbout = ''
-					if 'exploit-db' in cveobj:
-						cveexdbout = '<br><div class="small" style="line-height:20px;"><b>Exploit DB:</b><br>'
-						for cveexdb in cveobj['exploit-db']:
-							if 'title' in cveexdb:
-								cveexdbout += '<a href="'+cveexdb['source']+'">'+html.escape(cveexdb['title'])+'</a><br>'
-						cveexdbout += '</div>'
+				cveexdbout = ''
+				if 'exploit-db' in cveobj:
+					cveexdbout = '<br><div class="small" style="line-height:20px;"><b>Exploit DB:</b><br>'
+					for cveexdb in cveobj['exploit-db']:
+						if 'title' in cveexdb:
+							cveexdbout += '<a href="' + cveexdb['source'] + '">' + html.escape(cveexdb['title']) + '</a><br>'
+					cveexdbout += '</div>'
 
-					#print('cveobj ',json.dumps(cveobj, indent=4))
-					if 'id' in cveobj and 'summary' in cveobj:
-						cveout += '<div id="'+html.escape(cveobj['id'])+'" style="line-height:28px;padding:10px;border-bottom:solid #666 1px;margin-top:10px;">'+\
-						'	<span class="label red">'+html.escape(cveobj['id'])+'</span> '+html.escape(cveobj['summary'])+'<br><br>'+\
-						'	<div class="small" style="line-height:20px;"><b>References:</b><br>'+cverefout+'</div>'+\
-						cveexdbout+\
+				#print('cveobj ', json.dumps(cveobj, indent=4))
+				if 'id' in cveobj and 'summary' in cveobj:
+					cveout += '<div id="' + html.escape(cveobj['id']) + '" style="line-height:28px;padding:10px;border-bottom:solid #666 1px;margin-top:10px;">' + \
+					'	<span class="label red">' + html.escape(cveobj['id']) + '</span> ' + html.escape(cveobj['summary']) + '<br><br>' + \
+					'	<div class="small" style="line-height:20px;"><b>References:</b><br>' + cverefout + '</div>' + \
+					cveexdbout + \
+					'</div>'
+					cveids[cveobj['id']] = cveobj['id']
+				if 'cveMetadata' in cveobj and 'cveId' in cveobj['cveMetadata']:
+					cveout += '<div id="' + html.escape(cveobj['cveMetadata']['cveId']) + \
+							'" style="line-height:28px;padding:10px;border-bottom:solid #666 1px;margin-top:10px;">' + \
+						'	<span class="label red">' + html.escape(cveobj['cveMetadata']['cveId']) + '</span> '
+					if 'containers' in cveobj and 'cna' in cveobj['containers'] and 'descriptions' in cveobj['containers']['cna'] and type(cveobj['containers']['cna']['descriptions']) is list:
+						cvetext = ''
+						for cvedesc in cveobj['containers']['cna']['descriptions']:
+							if 'value' in cvedesc:
+								if 'lang' in cvedesc and 'en' == cvedesc['lang'] or cvetext == '':
+									cvetext = cvedesc['value']
+						cveout += html.escape(cvetext) + '<br><br>'
+					cveout += '	<div class="small" style="line-height:20px;"><b>References:</b><br>' + cverefout+'</div>' + \
+						cveexdbout + \
 						'</div>'
-						cveids[cveobj['id']] = cveobj['id']
-					if 'cveMetadata' in cveobj and 'cveId' in cveobj['cveMetadata']:
-						cveout += '<div id="'+html.escape(cveobj['cveMetadata']['cveId'])+\
-								'" style="line-height:28px;padding:10px;border-bottom:solid #666 1px;margin-top:10px;">'+\
-							'	<span class="label red">'+html.escape(cveobj['cveMetadata']['cveId'])+'</span> '
-						if 'containers' in cveobj and 'cna' in cveobj['containers'] and 'descriptions' in cveobj['containers']['cna'] and type(cveobj['containers']['cna']['descriptions']) is list:
-							cvetext = ''
-							for cvedesc in cveobj['containers']['cna']['descriptions']:
-								if 'value' in cvedesc:
-									if 'lang' in cvedesc and 'en' == cvedesc['lang'] or cvetext == '':
-										cvetext = cvedesc['value']
-							cveout += html.escape(cvetext)+'<br><br>'
-						cveout += '	<div class="small" style="line-height:20px;"><b>References:</b><br>'+cverefout+'</div>'+\
-							cveexdbout+\
-							'</div>'
-						cveids[cveobj['containers']['cveId']] = cveobj['containers']['cveId']
-		return cveids, cveout
+					cveids[cveobj['containers']['cveId']] = cveobj['containers']['cveId']
+	return cveids, cveout
 
 def details(request, address):
 	r = {}
