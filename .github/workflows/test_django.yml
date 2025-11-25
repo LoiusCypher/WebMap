@@ -52,8 +52,8 @@ jobs:
           python-version: "3.14"
       - name: flake8 Lint
         uses: py-actions/flake8@v2
-        with:
-          args: --ignore=W191,W291,W293,W391,F401,F403,F405,F841,E101,E117,E122,E126,E127,E128,E131,E201,E202,E221,E225,E226,E231,E261,E265,E275,E291,E293,E302,E303,E305,E401,E501,E703,E722
+#        with:
+#          args: --ignore=W191,W291,W293,W391,F401,F403,F405,F841,E101,E117,E122,E126,E127,E128,E131,E201,E202,E221,E225,E226,E231,E261,E265,E275,E291,E293,E302,E303,E305,E401,E501,E703,E722
 
   build:
     env:
