@@ -38,7 +38,7 @@ def getCveOut(cvejson):
 		cveout = ''
 		cveids = {}
 
-		print('cvejson:', cvejson)
+		#print('cvejson:', json.dumps(cvejson, indent=4))
 		if type(cvejson) is list:
 			for i in cvejson:
 				if type(i) is list:
@@ -71,7 +71,8 @@ def getCveOut(cvejson):
 								cveexdbout += '<a href="'+cveexdb['source']+'">'+html.escape(cveexdb['title'])+'</a><br>'
 						cveexdbout += '</div>'
 
-					print('cveobj ',json.dumps(cveobj, indent=4))
+					#print('cveobj ',json.dumps(cveobj, indent=4))
+					id=1
 					if 'id' in cveobj and 'summary' in cveobj:
 						cveout += '<div id="'+html.escape(cveobj['id'])+'" style="line-height:28px;padding:10px;border-bottom:solid #666 1px;margin-top:10px;">'+\
 						'	<span class="label red">'+html.escape(cveobj['id'])+'</span> '+html.escape(cveobj['summary'])+'<br><br>'+\
@@ -79,8 +80,14 @@ def getCveOut(cvejson):
 						cveexdbout+\
 						'</div>'
 						cveids[cveobj['id']] = cveobj['id']
-#					if 'containers' in cveobj and 'cna' in cveobj['containers'] and 'descriptions' in cveobj['containers']['cna'] and type(cveobj['containers']['cna']['descriptions']) is list:
-#						for cvedesc in cveobj['containers']['cna']['descriptions']:
+					if 'containers' in cveobj and 'cna' in cveobj['containers'] and 'descriptions' in cveobj['containers']['cna'] and type(cveobj['containers']['cna']['descriptions']) is list:
+						for cvedesc in cveobj['containers']['cna']['descriptions']:
+							cveout += '<div id="'+html.escape(id)+'" style="line-height:28px;padding:10px;border-bottom:solid #666 1px;margin-top:10px;">'+\
+							'	<span class="label red">'+html.escape(id)+'</span> '+html.escape(id)+'<br><br>'+\
+							'	<div class="small" style="line-height:20px;"><b>References:</b><br>'+cverefout+'</div>'+\
+							cveexdbout+\
+							'</div>'
+							cveids[cveobj['id']] = id++
 		return cveids, cveout	
 
 def details(request, address):
