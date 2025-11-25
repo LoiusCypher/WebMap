@@ -308,6 +308,7 @@ def details(request, address):
 								cveexdbout += '<a href="'+cveexdb['source']+'">'+html.escape(cveexdb['title'])+'</a><br>'
 						cveexdbout += '</div>'
 
+					print('cveobj ',cvejob)
 					cveout += '<div id="'+html.escape(cveobj['id'])+'" style="line-height:28px;padding:10px;border-bottom:solid #666 1px;margin-top:10px;">'+\
 					'	<span class="label red">'+html.escape(cveobj['id'])+'</span> '+html.escape(cveobj['summary'])+'<br><br>'+\
 					'	<div class="small" style="line-height:20px;"><b>References:</b><br>'+cverefout+'</div>'+\
