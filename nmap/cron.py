@@ -2,7 +2,9 @@ import os
 import re
 import json
 import time
-import subprocess, shutil, shlex
+import shlex
+import shutil
+import subprocess
 
 
 cdir = os.path.dirname(os.path.realpath(__file__))
@@ -22,7 +24,7 @@ def gethours(f):
 
 
 def genActiveScanFilePath(sched):
-	return '/tmp/' + str(sched['number']) + '_'+sched['params']['filename'] + '.active'
+	return '/tmp/' + str(sched['number']) + '_' + sched['params']['filename'] + '.active'
 
 
 def genFinishedScanFileName(sched):
@@ -46,16 +48,16 @@ def cron():
 
 	schedfiles = os.listdir('/opt/schedule/')
 
-	nextsched=time.time() + gethours('1m')
+	nextsched = time.time() + gethours('1m')
 	for i in schedfiles:
 		if re.search(r'^[a-f0-9]{32,32}\.json$', i.strip()) is not None:
 			try:
 				sched = json.loads(open('/opt/schedule/' + i, "r").read())
 			except ValueError as e:
-				print("Error in json content of ", i, ': ',e)
+				print("Error in json content of ", i, ': ', e)
 				continue
 			except IOError as e:
-				print("Error while rading  ", i, ': ',e)
+				print("Error while rading  ", i, ': ', e)
 				continue
 
 			nextrun = (sched['lastrun'] + gethours(sched['params']['frequency']))
@@ -77,12 +79,12 @@ def cron():
 					time.sleep(5)
 					nmap_out_file = genFinishedScanFileName(sched)
 					shutil.move(nmap_active_scan_out, '/opt/xml/' + nmap_out_file)
-					nmapout = os.popen( 'python3 ' + cdir + '/cve.py webmapsched_' + str(sched['lastrun']) + '_' + sched['params']['filename'] + '').readlines()
+					nmapout = os.popen('python3 ' + cdir + '/cve.py webmapsched_' + str(sched['lastrun']) + '_' + sched['params']['filename'] + '').readlines()
 					print(nmapout)
 				time.sleep(10)
 			else:
 				print("[SKIP]  scan:" + sched['params']['filename'] + " id:" + str(sched['number']) + " (nextrun:" + str(nextrun) + " / now:" + str(time.time()) + ")")
-			nextsched=min(nextsched,nextrun)
+			nextsched = min(nextsched, nextrun)
 		print("[DEBUG] nextsched:" + str(nextsched - time.time()))
 
 
