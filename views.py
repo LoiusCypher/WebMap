@@ -87,7 +87,7 @@ def getCveOut(cvejson):
 							'	<div class="small" style="line-height:20px;"><b>References:</b><br>'+cverefout+'</div>'+\
 							cveexdbout+\
 							'</div>'
-							cveids[cveobj['id']] = id
+							cveids[str('id')] = id
 							id += 1
 		return cveids, cveout	
 
