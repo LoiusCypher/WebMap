@@ -7,20 +7,20 @@ import requests
 
 
 def getcpe(xmlfilename):
-	return loadScan( '/opt/xml/'+xmlfilename)
+	return loadScan('/opt/xml/' + xmlfilename)
 
 
 def loadScan(xmlpath):
 	oo = xmltodict.parse(open(xmlpath, 'r').read())
 	o = json.loads(json.dumps(oo['nmaprun'], indent=4))
 	return cpeFromDict(o)
-   
+
 
 def cpeFromDict(o):
-	cpe,cve = {},{}
+	cpe, cve = {}, {}
 	# if we didn't find any host, we are done
 	if 'host' not in o:
-		res = {'cpe':cpe,'cve':cve}
+		res = {'cpe':cpe, 'cve':cve}
 		return res
 
 	for ik in o['host']:
@@ -99,8 +99,9 @@ def cpeFromDict(o):
 		if type(ik) is not dict:
 			break;
 
-	res = {'cpe':cpe, 'cve':cve}
+	res = {'cpe': cpe, 'cve': cve}
 	return res
+
 
 def getCveOnline(cpecve):
 	cvejson = {}
@@ -131,7 +132,7 @@ def getCveOnline(cpecve):
 
 		for cvestr in cpecve['cve'][i]:
 			# print('cve: ',cvestr)
-			r = requests.get('http://cve.circl.lu/api/cve/'+cvestr)
+			r = requests.get('http://cve.circl.lu/api/cve/' + cvestr)
 			# print('http: ', r.status_code)
 			if r.status_code == 200 and r.json() is not None:
 				# print('r: ', r.text)
@@ -153,7 +154,7 @@ def getcve(xmlfile):
 		# continue
 
 		if type(cvejson[i]) is list and len(cvejson[i]) > 0:
-			f = open('/opt/notes/'+scanfilemd5+'_' + hostmd5 + '.cve', 'w')
+			f = open('/opt/notes/' + scanfilemd5 + '_' + hostmd5 + '.cve', 'w')
 			f.write(json.dumps(cvejson[i], indent=4))
 			f.close()
 
