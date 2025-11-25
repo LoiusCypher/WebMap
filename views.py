@@ -34,6 +34,52 @@ def setscanfile(request, scanfile):
 def port(request, port):
 	return render(request, 'nmapreport/index.html', { 'out': '', 'table': '', 'scaninfo': '', 'scandetails': '', 'trhost': '' })
 
+def getCveOut(cvejson):
+		cveout = ''
+		cveids = {}
+
+		print('cvejson:', cvejson)
+		if type(cvejson) is list:
+			for i in cvejson:
+				if type(i) is list:
+					listcve = i
+					#cveout += 'list<hr>'
+				elif type(i) is dict:
+					listcve = [i]
+					#cveout += 'dict<hr>'
+				#continue
+
+				for cveobj in listcve:
+					cverefout = ''
+					#print('cveobj:', cveobj)
+					if 'references' in cveobj and type(cveobj['references']) is list:
+						for cveref in cveobj['references']:
+							cverefout += '<a href="'+cveref+'">'+cveref+'</a><br>'
+					if 'containers' in cveobj and 'cna' in cveobj['containers'] and 'references' in cveobj['containers']['cna'] and type(cveobj['containers']['cna']['references']) is list:
+						for cveref in cveobj['containers']['cna']['references']:
+							if 'url' in cveref:
+								if 'name' in cveref:
+									cverefout += '<a href="'+cveref['url']+'">'+cveref['name']+'</a><br>'
+								else:
+									cverefout += '<a href="'+cveref['url']+'">'+cveref['url']+'</a><br>'
+
+					cveexdbout = ''
+					if 'exploit-db' in cveobj:
+						cveexdbout = '<br><div class="small" style="line-height:20px;"><b>Exploit DB:</b><br>'
+						for cveexdb in cveobj['exploit-db']:
+							if 'title' in cveexdb:
+								cveexdbout += '<a href="'+cveexdb['source']+'">'+html.escape(cveexdb['title'])+'</a><br>'
+						cveexdbout += '</div>'
+
+					print('cveobj ',cveobj)
+					cveout += '<div id="'+html.escape(cveobj['id'])+'" style="line-height:28px;padding:10px;border-bottom:solid #666 1px;margin-top:10px;">'+\
+					'	<span class="label red">'+html.escape(cveobj['id'])+'</span> '+html.escape(cveobj['summary'])+'<br><br>'+\
+					'	<div class="small" style="line-height:20px;"><b>References:</b><br>'+cverefout+'</div>'+\
+					cveexdbout+\
+					'</div>'
+					cveids[cveobj['id']] = cveobj['id']
+		return cveids, cveout	
+
 def details(request, address):
 	r = {}
 
@@ -275,47 +321,7 @@ def details(request, address):
 	if scanmd5 in cvehost:
 		if addressmd5 in cvehost[scanmd5]:
 			cvejson = json.loads(cvehost[scanmd5][addressmd5])
-			cveids = {}
-
-			for i in cvejson:
-				if type(i) is list:
-					listcve = i
-					#cveout += 'list<hr>'
-				elif type(i) is dict:
-					listcve = [i]
-					#cveout += 'dict<hr>'
-				#continue
-
-				for cveobj in listcve:
-					cverefout = ''
-					#print('cveobj:', addressmd5, cveobj)
-					if 'references' in cveobj and type(cveobj['references']) is list:
-						for cveref in cveobj['references']:
-							cverefout += '<a href="'+cveref+'">'+cveref+'</a><br>'
-					if 'containers' in cveobj and 'cna' in cveobj['containers'] and 'references' in cveobj['containers']['cna'] and type(cveobj['containers']['cna']['references']) is list:
-						for cveref in cveobj['containers']['cna']['references']:
-							if 'url' in cveref:
-								if 'name' in cveref:
-									cverefout += '<a href="'+cveref['url']+'">'+cveref['name']+'</a><br>'
-								else:
-									cverefout += '<a href="'+cveref['url']+'">'+cveref['url']+'</a><br>'
-
-					cveexdbout = ''
-					if 'exploit-db' in cveobj:
-						cveexdbout = '<br><div class="small" style="line-height:20px;"><b>Exploit DB:</b><br>'
-						for cveexdb in cveobj['exploit-db']:
-							if 'title' in cveexdb:
-								cveexdbout += '<a href="'+cveexdb['source']+'">'+html.escape(cveexdb['title'])+'</a><br>'
-						cveexdbout += '</div>'
-
-					print('cveobj ',cvejob)
-					cveout += '<div id="'+html.escape(cveobj['id'])+'" style="line-height:28px;padding:10px;border-bottom:solid #666 1px;margin-top:10px;">'+\
-					'	<span class="label red">'+html.escape(cveobj['id'])+'</span> '+html.escape(cveobj['summary'])+'<br><br>'+\
-					'	<div class="small" style="line-height:20px;"><b>References:</b><br>'+cverefout+'</div>'+\
-					cveexdbout+\
-					'</div>'
-					cveids[cveobj['id']] = cveobj['id']
-				
+			cveids, cveout = getCveOut(cvejson)
 			r['cveids'] = cveids
 			r['cvelist'] = cveout
 
