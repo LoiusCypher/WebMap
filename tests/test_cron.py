@@ -1,7 +1,6 @@
 from django.test import TestCase
 import nmapreport.nmap.cron as cron
-from django.conf import settings
-import os, copy
+import copy
 
 class CronTestCase(TestCase):
 	def setUp(self):

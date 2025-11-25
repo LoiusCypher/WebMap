@@ -1,7 +1,6 @@
 from django.test import TestCase
 import nmapreport.nmap.cve as cve
-from django.conf import settings
-import os, copy
+import os
 
 cdir = os.path.dirname(os.path.realpath(__file__))
 
