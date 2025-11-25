@@ -862,7 +862,3 @@ def about(request):
 		r['auth'] = True
 
 	return render(request, 'nmapreport/nmap_about.html', r)
-
-
-if __name__ == '__main__':
-	return
