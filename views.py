@@ -80,8 +80,7 @@ def getCveOut(cvejson):
 						'</div>'
 						cveids[cveobj['id']] = cveobj['id']
 					if 'cveMetadata' in cveobj and 'cveId' in cveobj['cveMetadata']:
-						cveout += '<div id="'+html.escape(cveobj['cveMetadata']['cveId'])+'"'+\
-							' style="line-height:28px;padding:10px;border-bottom:solid #666 1px;margin-top:10px;">'+\
+						cveout += '<div id="'+html.escape(cveobj['cveMetadata']['cveId'])+'" style="line-height:28px;padding:10px;border-bottom:solid #666 1px;margin-top:10px;">'+\
 							'	<span class="label red">'+html.escape(cveobj['cveMetadata']['cveId'])'</span> '
 						if 'containers' in cveobj and 'cna' in cveobj['containers'] and 'descriptions' in cveobj['containers']['cna'] and type(cveobj['containers']['cna']['descriptions']) is list:
 							cvetext = ''
