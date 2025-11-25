@@ -41,10 +41,10 @@ def cron():
 		if re.search(r'^[a-f0-9]{32,32}\.json$', i.strip()) is not None:
 			try:
 				sched = json.loads(open('/opt/schedule/'+i, "r").read())
-			except: ValueError as e:
+			except ValueError as e:
 				print("Error in json content of ", i, ': ',e)
 				continue
-			except: IOError as e:
+			except IOError as e:
 				print("Error while rading  ", i, ': ',e)
 				continue
 
