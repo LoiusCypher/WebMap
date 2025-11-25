@@ -35,24 +35,25 @@ def setscanfile(request, scanfile):
 def port(request, port):
 	return render(request, 'nmapreport/index.html', { 'out': '', 'table': '', 'scaninfo': '', 'scandetails': '', 'trhost': '' })
 
+
 def getCveOut(cvejson):
 	cveout = ''
 	cveids = {}
 
-	#print('cvejson:', json.dumps(cvejson, indent=4))
+	# print('cvejson:', json.dumps(cvejson, indent=4))
 	if type(cvejson) is list:
 		for i in cvejson:
 			if type(i) is list:
 				listcve = i
-				#cveout += 'list<hr>'
+				# cveout += 'list<hr>'
 			elif type(i) is dict:
 				listcve = [i]
-				#cveout += 'dict<hr>'
-			#continue
+				# cveout += 'dict<hr>'
+			# continue
 
 			for cveobj in listcve:
 				cverefout = ''
-				#print('cveobj:', cveobj)
+				# print('cveobj:', cveobj)
 				if 'references' in cveobj and type(cveobj['references']) is list:
 					for cveref in cveobj['references']:
 						cverefout += '<a href="' + cveref + '">' + cveref + '</a><br>'
@@ -62,7 +63,7 @@ def getCveOut(cvejson):
 							if 'name' in cveref:
 								cverefout += '<a href="' + cveref['url'] + '">' + cveref['name'] + '</a><br>'
 							else:
-								cverefout += '<a href="' + cveref['url'] + '">'+cveref['url'] + '</a><br>'
+								cverefout += '<a href="' + cveref['url'] + '">' + cveref['url'] + '</a><br>'
 
 				cveexdbout = ''
 				if 'exploit-db' in cveobj:
@@ -72,17 +73,17 @@ def getCveOut(cvejson):
 							cveexdbout += '<a href="' + cveexdb['source'] + '">' + html.escape(cveexdb['title']) + '</a><br>'
 					cveexdbout += '</div>'
 
-				#print('cveobj ', json.dumps(cveobj, indent=4))
+				# print('cveobj ', json.dumps(cveobj, indent=4))
 				if 'id' in cveobj and 'summary' in cveobj:
 					cveout += '<div id="' + html.escape(cveobj['id']) + '" style="line-height:28px;padding:10px;border-bottom:solid #666 1px;margin-top:10px;">' + \
-					'	<span class="label red">' + html.escape(cveobj['id']) + '</span> ' + html.escape(cveobj['summary']) + '<br><br>' + \
-					'	<div class="small" style="line-height:20px;"><b>References:</b><br>' + cverefout + '</div>' + \
-					cveexdbout + \
-					'</div>'
+						'	<span class="label red">' + html.escape(cveobj['id']) + '</span> ' + html.escape(cveobj['summary']) + '<br><br>' + \
+						'	<div class="small" style="line-height:20px;"><b>References:</b><br>' + cverefout + '</div>' + \
+						cveexdbout + \
+						'</div>'
 					cveids[cveobj['id']] = cveobj['id']
 				if 'cveMetadata' in cveobj and 'cveId' in cveobj['cveMetadata']:
 					cveout += '<div id="' + html.escape(cveobj['cveMetadata']['cveId']) + \
-							'" style="line-height:28px;padding:10px;border-bottom:solid #666 1px;margin-top:10px;">' + \
+						'" style="line-height:28px;padding:10px;border-bottom:solid #666 1px;margin-top:10px;">' + \
 						'	<span class="label red">' + html.escape(cveobj['cveMetadata']['cveId']) + '</span> '
 					if 'containers' in cveobj and 'cna' in cveobj['containers'] and 'descriptions' in cveobj['containers']['cna'] and type(cveobj['containers']['cna']['descriptions']) is list:
 						cvetext = ''
