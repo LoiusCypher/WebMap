@@ -24,5 +24,6 @@ urlpatterns = [
 	path('view/login/', views.login, name='login'),
 	path('view/pdf/', pdf.reportPDFView, name='reportPDFView'),
 	path('view/network/', network.visjs, name='network_view'),
-	path('view/ndiff/<f1>/<f2>', views.scan_diff, name='ndiffview')
+	path('view/ndiff/<f1>/<f2>', views.scan_diff, name='ndiffview'),
+	path('upload', views.handle_xml_upload, name='upload')
 ]
