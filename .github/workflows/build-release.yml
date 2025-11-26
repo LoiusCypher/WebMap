@@ -62,17 +62,6 @@ jobs:
           labels: ${{ steps.meta.outputs.labels }}
           file: docker/Dockerfile
       -
-        name: Generate artifact attestation
-        id: attest
-        if: ${{ env.IS_PUSHING_IMAGES }}
-        uses: actions/attest-build-provenance@v3
-        with:
-          push-to-registry: ${{ env.IS_PUSHING_IMAGES }}
-          subject-name: docker.io/loiusc/webmap
-          subject-digest: ${{ steps.push.outputs.digest }}
-          predicate-type: 'https://in-toto.io/attestation/release/v0.1'
-          predicate: '{"purl":"pkg:oci/..."}'
-      -
         name: push README to Dockerhub
         uses: christian-korneck/update-container-description-action@v1
         env:
