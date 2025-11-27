@@ -93,6 +93,6 @@ def cronMe():
 
 class Command(BaseCommand):
 
-    def andle(self, *args, **options):
+    def handle(self, *args, **options):
         self.stdout.write( self.style.SUCCESS('Successfully closed poll '))
         # cron.cron()
