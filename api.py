@@ -24,9 +24,7 @@ def rmNotes(request, hashstr):
         scanfilemd5 = hashlib.md5(str(request.session['scanfile']).encode('utf-8')).hexdigest()
         notes = Note.objects.filter(scanfilemd5=scanfilemd5, hashstr=hashstr)
         if len(notes) > 0:
-            for note in notes:
-                filepath = note.file_name()
-                    note.delete()
+            notes.delete()
             res = {'ok': 'notes removed'}
         else:
             res = {'error': 'notes not found'}

@@ -25,6 +25,26 @@ class Scan(models.Model):
 
 
 class Host(models.Model):
+    scanfilemd5 = models.CharField(
+        max_length=32,
+        # required=True,
+        validators=[
+            RegexValidator(
+                regex='^[a-f0-9]$',
+                message='Invalid MD5 tag',
+            ),
+        ]
+    )
+    hashstr  = models.CharField(
+        max_length=32,
+        # required=True,
+        validators=[
+            RegexValidator(
+                regex='^[a-f0-9]$',
+                message='Invalid MD5 tag',
+            ),
+        ]
+    )
     # id = models.PrimaryKey()
     hostname = models.CharField()
     hostname_type = models.CharField()
@@ -73,7 +93,6 @@ class Network(models.Model):
 
 
 class Note(models.Model):
-    # id = models.PrimaryKey
     scanfilemd5 = models.CharField(
         max_length=32,
         # required=True,
