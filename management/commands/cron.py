@@ -47,7 +47,7 @@ def runScan(sched):
 	return nmapprocess.returncode, nmap_active_scan_out, stderr, stdout
 
 
-def cronMe():
+def cronMe(self):
 
     schedfiles = os.listdir('/opt/schedule/')
 
@@ -99,4 +99,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write(self.style.SUCCESS('Successfully closed poll '))
-        cronMe()
+        cronMe(self)
