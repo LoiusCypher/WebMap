@@ -68,7 +68,7 @@ class Network(models.Model):
     notes = models.TextField()
 
 
-def md5_validator = CharField(
+md5_validator = CharField(
         max_length=32,
         required=True,
         validators=[
