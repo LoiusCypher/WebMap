@@ -88,7 +88,7 @@ class Note(models.Model):
 
     def file_name():
         clean()
-		return '/opt/notes/' + scanfilemd5 + '_' + hashstr + '.notes'
+        return '/opt/notes/' + scanfilemd5 + '_' + hashstr + '.notes'
 
 class ScanPolicy(models.Model):
     id = models.PrimaryKey
