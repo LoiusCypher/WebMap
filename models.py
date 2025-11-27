@@ -4,7 +4,7 @@ from django.db import models
 # Create your models here.
 
 class Scan(models.Model):
-    id = models.PrimaryKey()
+    # id = models.PrimaryKey()
     scan_start = models.DateTimeField()
     scan_end = models.DateTimeField()
     duration = models.CharField()
@@ -21,7 +21,7 @@ class Scan(models.Model):
 
 
 class Host(models.Model):
-    id = models.PrimaryKey()
+    # id = models.PrimaryKey()
     hostname = models.CharField()
     hostname_type = models.CharField()
     ip_address = models.IP()
@@ -42,7 +42,7 @@ class Host(models.Model):
 
 
 class Service(models.Model):
-    id = models.PrimaryKey
+    # id = models.PrimaryKey
     port_number = models.IntegerField()
     port_proto = models.CharField()
     service_name = models.CharField()
@@ -60,7 +60,7 @@ class Service(models.Model):
 
 
 class Network(models.Model):
-    id = models.PrimaryKey
+    # id = models.PrimaryKey
     # network_cidr = models.
     date_created = models.DateTimeField()
     date_updated = models.DateTimeField(auto_now=True)
@@ -69,7 +69,7 @@ class Network(models.Model):
 
 
 class Note(models.Model):
-    id = models.PrimaryKey
+    # id = models.PrimaryKey
     scanfilemd5 = models.CharField(
         max_length=32,
         required=True,
@@ -94,17 +94,17 @@ class Note(models.Model):
 
     def file_name(self):
         self.clean()
-        return '/opt/notes/' + self.scanfilemd5 + '_' + self.hashstr + '.notes'
+        return os.path.join(os.path.join(settings.BASE_DIR, 'notes'), self.scanfilemd5 + '_' + self.hashstr + '.notes')
 
 class ScanPolicy(models.Model):
-    id = models.PrimaryKey
+    # id = models.PrimaryKey
     name = models.CharField(max_length=75)
     arguments = models.TextField()
     notes = models.TextField()
 
 
 class ScanJob(models.Model):
-    id = models.PrimaryKey
+    # id = models.PrimaryKey
     name = models.CharField(max_length=75)
     assigned_scan_id = models.ForeignKey('Scan', help_text='The original scan this job was created from to setup continuous scanning')
     assigned_policy = models.ForeignKey('ScanPolicy', help_text='The scan policy to use, if different from the original scan settings')
