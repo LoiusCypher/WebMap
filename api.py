@@ -1,6 +1,9 @@
+from django.conf import Settings
+from django.db import Models
 from django.shortcuts import render
 from django.http import HttpResponse
-import xmltodict, json, html, os, hashlib, re, requests, base64, urllib.parse
+import xmltodict, json, html, os, hashlib
+import re, requests, base64, urllib.parse
 from collections import OrderedDict
 from nmapreport.functions import *
 
@@ -31,20 +34,20 @@ def saveNotes(request):
                             content_type="application/json",
                             status=401)
 
-	if request.method == "POST":
-		scanfilemd5 = hashlib.md5(str(request.session['scanfile']).encode('utf-8')).hexdigest()
+    if request.method == "POST":
+        scanfilemd5 = hashlib.md5(str(request.session['scanfile']).encode('utf-8')).hexdigest()
         note = Note(scanfilemd5 = scanfilemd5, hashstr = request.POST['hashstr'], text = request.POST['notes'])
         try:
-			with f as open(note.file_name(, 'w')
-			    f.write(note.text)
+            with f as open(note.file_name(, 'w')
+                f.write(note.text)
             note.Save()
-			res = {'ok':'notes saved'}
+            res = {'ok':'notes saved'}
         except:
-		    res = {'error': request.method }
-	else:
-		res = {'error': request.method }
+            res = {'error': request.method }
+    else:
+        res = {'error': request.method }
 
-	return HttpResponse(json.dumps(res), content_type="application/json")
+    return HttpResponse(json.dumps(res), content_type="application/json")
 
 
 def rmlabel(request, objtype, hashstr):
