@@ -64,7 +64,7 @@ class Service(models.Model):
     category = models.CharField()
     attack_value = models.IntegerField()
     assessment_status = models.CharField()
-    notes = models.TextField()
+    # notes = models.TextField()
 
 
 class Network(models.Model):
@@ -73,7 +73,7 @@ class Network(models.Model):
     date_created = models.DateTimeField()
     date_updated = models.DateTimeField(auto_now=True)
     sitecode = models.CharField(max_length=5)
-    notes = models.TextField()
+    # notes = models.TextField()
 
 
 class Note(models.Model):
@@ -108,7 +108,7 @@ class ScanPolicy(models.Model):
     # id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=75)
     arguments = models.TextField()
-    notes = models.TextField()
+    # notes = models.TextField()
 
 
 class Scan(models.Model):
@@ -122,7 +122,7 @@ class Scan(models.Model):
     options = models.CharField(max_length=80)
     target = models.CharField(max_length=80)
     execution_counter = models.IntegerField(default=0)
-    #count_live_hosts = models.IntegerField()
+    # count_live_hosts = models.IntegerField()
     # scan_xml = models.
     # scan_file = models.FileField()
     # scan_hash = models.CharField(help_text='MD5 hash of the XML file used for this scan record')
