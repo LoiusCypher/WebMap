@@ -68,7 +68,8 @@ class Network(models.Model):
     notes = models.TextField()
 
 
-md5_validator = CharField(
+class Note(models.Model):
+    md5_validator = CharField(
         max_length=32,
         required=True,
         validators=[
@@ -78,9 +79,6 @@ md5_validator = CharField(
             ),
         ]
     )
-
-
-class Note(models.Model):
     id = models.PrimaryKey
     scanfilemd5 = models.CharField(validators=[md5_validator])
     hashstr = models.CharField(validators=[md5_validator])
