@@ -54,12 +54,12 @@ class Command(BaseCommand):
 
         schedfiles = os.listdir('/opt/schedule/')
 
-        self.stdout.write(ScanJob.objects.all().count())
+        self.stdout.write(str(ScanJob.objects.all().count()))
         for sched in ScanJob.objects.all():
             sched.date_last_execution += datetime.now() + gethours(sched.execution_interval_numer)
-            self.stdout.write(sched.date_last_execution)
+            self.stdout.write(str(sched.date_last_execution))
             sched.execution_counter += 1
-            self.stdout.write(sched.execution_counter)
+            self.stdout.write(str(sched.execution_counter))
             sched.Save()
         nextsched = time.time() + gethours('1m')
         for i in schedfiles:
