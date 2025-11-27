@@ -1,4 +1,4 @@
-from django.conf import Settings
+from django.conf import settings
 from django.db import models
 import os
 import hashlib
