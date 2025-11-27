@@ -1,12 +1,19 @@
 from django.db import models
 from django.shortcuts import render
 from django.http import HttpResponse
+import base64
 import json
+import hashlib
+import html
+import os
+import re
+import requests
+import urllib.parse
 import xmltodict
-import html, os, hashlib
-import re, requests, base64, urllib.parse
 from collections import OrderedDict
 from nmapreport.functions import *
+import nmapreport.models
+
 
 def rmNotes(request, hashstr):
         if 'auth' not in request.session:
@@ -19,14 +26,10 @@ def rmNotes(request, hashstr):
         if len(notes) > 0:
             for note in notes:
                 filepath = note.file_name()
-                if os.path.exists(filepath):
-                    os.remove(filepath)
                     note.delete()
-                    res = {'ok': 'notes removed'}
-                else:
-                    res = {'error': 'notes not found'}
+            res = {'ok': 'notes removed'}
         else:
-            res = {'error': 'invalid format'}
+            res = {'error': 'notes not found'}
 
         return HttpResponse(json.dumps(res), content_type="application/json")
 
@@ -41,8 +44,6 @@ def saveNotes(request):
         scanfilemd5 = hashlib.md5(str(request.session['scanfile']).encode('utf-8')).hexdigest()
         note = Note(scanfilemd5=scanfilemd5, hashstr=request.POST['hashstr'], text=request.POST['notes'])
         try:
-            with open(note.file_name(), 'w') as f:
-                f.write(note.text)
             note.Save()
             res = {'ok':'notes saved'}
         except:
