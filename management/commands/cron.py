@@ -8,6 +8,7 @@ import time
 import shlex
 import shutil
 import subprocess
+import datetime from datetime
 
 
 cdir = os.path.dirname(os.path.realpath(__file__))
@@ -56,7 +57,7 @@ class Command(BaseCommand):
         self.stdout.write(ScanJob.objects.count())
         for sched in ScanJob.objects.all():
             sched.date_last_execution += datetime.now() + gethours(sched.execution_interval_numer)
-            self.stdout.write(nextrun)
+            self.stdout.write(sched.date_last_execution)
             sched.execution_counter += 1
             self.stdout.write(sched.execution_counter)
             sched.Save()
