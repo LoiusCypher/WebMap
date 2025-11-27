@@ -12,24 +12,24 @@ import urllib.parse
 import xmltodict
 from collections import OrderedDict
 from nmapreport.functions import *
-import nmapreport.models
+from nmapreport.models import Note
 
 
 def rmNotes(request, hashstr):
-        if 'auth' not in request.session:
-                return HttpResponse(json.dumps({'error': 'unauthorized'}),
-                                    content_type="application/json",
-                                    status=401)
+    if 'auth' not in request.session:
+        return HttpResponse(json.dumps({'error': 'unauthorized'}),
+                            content_type="application/json",
+                            status=401)
 
-        scanfilemd5 = hashlib.md5(str(request.session['scanfile']).encode('utf-8')).hexdigest()
-        notes = Note.objects.filter(scanfilemd5=scanfilemd5, hashstr=hashstr)
-        if len(notes) > 0:
-            notes.delete()
-            res = {'ok': 'notes removed'}
-        else:
-            res = {'error': 'notes not found'}
+    scanfilemd5 = hashlib.md5(str(request.session['scanfile']).encode('utf-8')).hexdigest()
+    notes = Note.objects.filter(scanfilemd5=scanfilemd5, hashstr=hashstr)
+    if len(notes) > 0:
+        notes.delete()
+        res = {'ok': 'notes removed'}
+    else:
+        res = {'error': 'notes not found'}
 
-        return HttpResponse(json.dumps(res), content_type="application/json")
+    return HttpResponse(json.dumps(res), content_type="application/json")
 
 
 def saveNotes(request):
@@ -77,6 +77,7 @@ def rmlabel(request, objtype, hashstr):
 
         return HttpResponse(json.dumps(res), content_type="application/json")
 
+
 def label(request, objtype, label, hashstr):
 	labels = {
 		'Vulnerable':True,
@@ -99,6 +100,7 @@ def label(request, objtype, label, hashstr):
 			f.close()
 			res = {'ok':'label set', 'label':str(label)}
 			return HttpResponse(json.dumps(res), content_type="application/json")
+
 
 def port_details(request, address, portid):
 	r = {}
@@ -198,6 +200,7 @@ def getCVE(request):
 			f.close()
 
 		return HttpResponse(json.dumps(res), content_type="application/json")
+
 
 def apiv1_hostdetails(request, scanfile, faddress=""):
 	if token_check(request.GET['token']) is not True:
