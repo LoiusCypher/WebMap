@@ -52,9 +52,9 @@ COPY docker/settings.py docker/urls.py /opt/nmapdashboard/nmapdashboard
 COPY docker/tzdata.sh /root/tzdata.sh
 COPY docker/startup.sh /startup.sh
 
-RUN mkdir /opt/xml /opt/notes && \
+RUN mkdir /xml/db /opt/xml /opt/notes && \
     cd /opt/nmapdashboard && \
-    python3 manage.py migrate && \
+    python3 manage.py migrate --run-syncdb && \
     ln -s /opt/nmapdashboard/nmapreport/guitoken.py /root/token && \
     chmod +x /root/token
 
