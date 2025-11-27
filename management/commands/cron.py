@@ -47,7 +47,7 @@ def runScan(sched):
 	return nmapprocess.returncode, nmap_active_scan_out, stderr, stdout
 
 
-def cron():
+def cronMe():
 
 	schedfiles = os.listdir('/opt/schedule/')
 
