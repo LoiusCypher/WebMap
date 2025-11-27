@@ -30,8 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'nmapreport',
-    'nmapreport.models',
-    'nmapreport.apps.nmapreportconfig',
+    'nmapreport.mangement',
 ]
 
 MIDDLEWARE = [
