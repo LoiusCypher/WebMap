@@ -1,5 +1,5 @@
 from django.test import TestCase
-import nmapreport.nmap.cve as cve
+import nmapreport.cve as cve
 import os
 
 

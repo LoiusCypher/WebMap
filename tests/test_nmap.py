@@ -1,5 +1,5 @@
 from django.test import TestCase
-from nmapreport import nmap
+import nmapreport.nmap as nmap
 import copy
 
 
