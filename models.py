@@ -92,9 +92,9 @@ class Note(models.Model):
     )
     text = models.TextField()
 
-    def file_name():
-        clean()
-        return '/opt/notes/' + scanfilemd5 + '_' + hashstr + '.notes'
+    def file_name(self):
+        self.clean()
+        return '/opt/notes/' + self.scanfilemd5 + '_' + self.hashstr + '.notes'
 
 class ScanPolicy(models.Model):
     id = models.PrimaryKey
