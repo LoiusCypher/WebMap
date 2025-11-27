@@ -30,6 +30,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'nmapreport',
+    'nmapreport.mangement',
 ]
 
 MIDDLEWARE = [
@@ -69,7 +70,7 @@ WSGI_APPLICATION = 'nmapdashboard.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': '/opt/nmapdashboard/db.sqlite3',
+        'NAME': '/opt/db/db.sqlite3',
     }
 }
 
