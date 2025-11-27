@@ -862,3 +862,8 @@ def about(request):
 		r['auth'] = True
 
 	return render(request, 'nmapreport/nmap_about.html', r)
+
+
+def handle_xml_upload(request):
+    xmlfile = request.FILES['xmlfile']
+    tree = ET.parse(xmlfile)
