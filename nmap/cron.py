@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-# from nmapreport.models import Scan, ScanJob
+from nmapreport import models
 from datetime import datetime
 import os
 import re
