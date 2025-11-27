@@ -19,7 +19,7 @@ class CronTestCase(TestCase):
 		self.fail_sched['params']['params'] = '-xX'
 
 	def test_cron_nse_path(self):
-		self.assertEqual(nmap.nsePath(), '/home/runner/work/WebMap/WebMap/nmapdashboard/nmapreport/nmap/nse')
+		self.assertEqual(nmap.nsePath(), '/home/runner/work/WebMap/WebMap/nmapdashboard/nmapreport/nse')
 
 	def test_cron_generate_active_scan_file_path(self):
 		self.assertEqual(nmap.genActiveScanFilePath(self.sched), '/tmp/3_testfile.xml.active')
