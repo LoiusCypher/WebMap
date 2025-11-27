@@ -2,6 +2,8 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.conf import settings
 import os, re, json, hashlib, time
+from nmapreport import Note
+
 
 def nmap_scaninfo(request):
 	tmpfiles = os.listdir('/tmp/')

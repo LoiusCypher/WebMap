@@ -12,7 +12,7 @@ import urllib.parse
 import xmltodict
 from collections import OrderedDict
 from nmapreport.functions import token_check, get_cve, nmap_ports_stats
-from nmapreports import Note
+from nmapreport import Note
 
 
 def rmNotes(request, hashstr):
