@@ -46,11 +46,11 @@ def nmap_newscan(request):
 			'sleep 10 && mv /tmp/'+request.POST['filename']+'.active /opt/xml/'+request.POST['filename']+' &')
 
 			if request.POST['schedule'] == "true":
-				schedobj = {'params':request.POST, 'lastrun':time.time(), 'number':0}
-				filenamemd5 = hashlib.md5(str(request.POST['filename']).encode('utf-8')).hexdigest()
-				writefile = '/opt/schedule/'+filenamemd5+'.json'
-				file = open(writefile, "w")
-				file.write(json.dumps(schedobj, indent=4))
+				# schedobj = {'params':request.POST, 'lastrun':time.time(), 'number':0}
+				# filenamemd5 = hashlib.md5(str(request.POST['filename']).encode('utf-8')).hexdigest()
+				# writefile = '/opt/schedule/'+filenamemd5+'.json'
+				# file = open(writefile, "w")
+				# file.write(json.dumps(schedobj, indent=4))
 				ScanJob(name=request.POST['filename'], execution_interval_period=request.POST['schedule'], options=request.POST['params'], target=request.POST['target']).Save()
 
 			return HttpResponse(json.dumps(res, indent=4), content_type="application/json")

@@ -1,5 +1,3 @@
-from django.core.management.base import BaseCommand, CommandError
-# from nmapreport.models import Question as Poll
 import os
 import re
 import json
@@ -90,7 +88,5 @@ def cron():
 		print("[DEBUG] nextsched:" + str(nextsched - time.time()))
 
 
-class Command(BaseCommand):
-
-    def andle(self, *args, **options):
-        self.stdout.write( self.style.SUCCESS('Successfully closed poll ')
+if __name__ == '__main__':
+	cron()
