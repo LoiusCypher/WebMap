@@ -76,7 +76,7 @@ class Note(models.Model):
     # id = models.PrimaryKey
     scanfilemd5 = models.CharField(
         max_length=32,
-        required=True,
+        # required=True,
         validators=[
             RegexValidator(
                 regex='^[a-f0-9]$',
@@ -86,7 +86,7 @@ class Note(models.Model):
     )
     hashstr  = models.CharField(
         max_length=32,
-        required=True,
+        # required=True,
         validators=[
             models.RegexValidator(
                 regex='^[a-f0-9]$',

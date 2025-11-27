@@ -221,17 +221,16 @@ def apiv1_hostdetails(request, scanfile, faddress=""):
 
 	# collect all notes in noteshost dict
 	noteshost = {}
-	notesfiles = os.listdir('/opt/notes')
+	# notesfiles = os.listdir('/opt/notes')
 	notes = Note(scanfilemd5=scanmd5)
 	for note in notes:
-		noteshost[scanmd5] = {}
-		noteshost[scanmd5][note.hasstr] = note.text
-	for nf in notesfiles:
-		m = re.match('^('+scanmd5+r')_([a-z0-9]{32,32})\.notes$', nf)
-		if m is not None:
-			if m.group(1) not in noteshost:
-				noteshost[m.group(1)] = {}
-			noteshost[m.group(1)][m.group(2)] = open('/opt/notes/'+nf, 'r').read()
+		noteshost[note.hashstr] = note.text
+	# for nf in notesfiles:
+		# m = re.match('^('+scanmd5+r')_([a-z0-9]{32,32})\.notes$', nf)
+		# if m is not None:
+			# if m.group(1) not in noteshost:
+				# noteshost[m.group(1)] = {}
+			# noteshost[m.group(1)][m.group(2)] = open('/opt/notes/'+nf, 'r').read()
 
 	# collect all cve in cvehost dict
 	cvehost = get_cve(scanmd5)
@@ -279,9 +278,8 @@ def apiv1_hostdetails(request, scanfile, faddress=""):
 					labelout = labelhost[scanmd5][addressmd5]
 
 			notesout,notesb64,removenotes = '','',''
-			if scanmd5 in noteshost:
-				if addressmd5 in noteshost[scanmd5]:
-					notesb64 = noteshost[scanmd5][addressmd5]
+			if addressmd5 in noteshost[scanmd5]:
+				notesb64 = noteshost[scanmd5][addressmd5]
 			#		notesout = '<br><a id="noteshost'+str(hostindex)+'" href="#!" onclick="javascript:openNotes(\''+hashlib.md5(str(address).encode('utf-8')).hexdigest()+'\', \''+notesb64+'\');" class="small"><i class="fas fa-comment"></i> contains notes</a>'
 			#		removenotes = '<li><a href="#!" onclick="javascript:removeNotes(\''+addressmd5+'\', \''+str(hostindex)+'\');">Remove notes</a></li>'
 
