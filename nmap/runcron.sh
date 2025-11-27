@@ -1,8 +1,7 @@
 #!/bin/bash
-
+sleep 20
 while true; do
-	python3 /opt/nmapdashboard/manage.py cron
-	#python3 /opt/nmapdashboard/nmapreport/nmap/cron.py &&
 	echo "[SLEEP] for a while..."
 	sleep 10
+	python3 /opt/nmapdashboard/manage.py cron
 done
