@@ -69,19 +69,27 @@ class Network(models.Model):
 
 
 class Note(models.Model):
-    md5_validator = models.CharField(
+    id = models.PrimaryKey
+    scanfilemd5 = models.CharField(
         max_length=32,
         required=True,
         validators=[
-            RegexValidator(
+            models.RegexValidator(
                 regex='^[a-f0-9]$',
                 message='Invalid MD5 tag',
             ),
         ]
     )
-    id = models.PrimaryKey
-    scanfilemd5 = models.CharField(validators=[md5_validator])
-    hashstr = models.CharField(validators=[md5_validator])
+    hashstr  = models.CharField(
+        max_length=32,
+        required=True,
+        validators=[
+            models.RegexValidator(
+                regex='^[a-f0-9]$',
+                message='Invalid MD5 tag',
+            ),
+        ]
+    )
     text = models.TextField()
 
     def file_name():
