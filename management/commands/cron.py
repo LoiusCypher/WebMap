@@ -8,7 +8,7 @@ import time
 import shlex
 import shutil
 import subprocess
-import datetime from datetime
+from datetime import datetime
 
 
 cdir = os.path.dirname(os.path.realpath(__file__))
