@@ -1,8 +1,9 @@
 from django.conf import settings
 from django.db import models
 from django.core.validators import RegexValidator
-import os
+from datetime import datetim
 import hashlib
+import os
 
 
 # Create your models here.
