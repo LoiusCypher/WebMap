@@ -51,7 +51,7 @@ def nmap_newscan(request):
 				writefile = '/opt/schedule/'+filenamemd5+'.json'
 				file = open(writefile, "w")
 				file.write(json.dumps(schedobj, indent=4))
-                ScanJob(options=request.POST['params'], target=request.POST['target']).Save()
+				ScanJob(filename=request.POST['filename'], execution_interval_numer=request.POST['schedule'], options=request.POST['params'], target=request.POST['target']).Save()
 
 			return HttpResponse(json.dumps(res, indent=4), content_type="application/json")
 		else:
