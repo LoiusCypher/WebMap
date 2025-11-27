@@ -27,7 +27,7 @@ class Host(models.Model):
     # id = models.PrimaryKey()
     hostname = models.CharField()
     hostname_type = models.CharField()
-    ip_address = models.IP()
+    # ip_address = models.IP()
     mac_address = models.CharField(max_length=30)
     scan_id = models.ForeignKey()
     assessment_status = models.CharField()
