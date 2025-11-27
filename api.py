@@ -394,7 +394,7 @@ def nmap_newscan(request):
             if request.POST['schedule'] == "true":
                 ScanJob(name=request.POST['filename'], execution_interval_period=request.POST['schedule'], options=request.POST['params'], target=request.POST['target']).save()
             else:
-                Scan(name=request.POST['filename'], options=request.POST['params'], target=request.POST['target'].save()
+                Scan(name=request.POST['filename'], options=request.POST['params'], target=request.POST['target']).save()
         else:
             res = {'error':'invalid syntax'}
     else:
