@@ -69,7 +69,7 @@ class Network(models.Model):
 
 
 class Note(models.Model):
-    md5_validator = CharField(
+    md5_validator = models.CharField(
         max_length=32,
         required=True,
         validators=[
