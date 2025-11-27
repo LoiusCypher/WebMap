@@ -1,5 +1,11 @@
 from django.urls import path
-from . import views, api, pdf, network, functions_nmap, ndiff
+from . import api
+from . import functions_nmap
+from . import network
+from . import ndiff
+from . import pdf
+from . import views
+
 
 urlpatterns = [
 	path('', views.index, name='index'),
