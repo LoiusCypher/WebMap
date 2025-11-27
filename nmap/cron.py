@@ -88,9 +88,3 @@ def cron():
 				print("[SKIP]  scan:" + sched['params']['filename'] + " id:" + str(sched['number']) + " (nextrun:" + str(nextrun) + " / now:" + str(time.time()) + ")")
 			nextsched = min(nextsched, nextrun)
 		print("[DEBUG] nextsched:" + str(nextsched - time.time()))
-
-
-class Command(BaseCommand):
-
-    def andle(self, *args, **options):
-        self.stdout.write( self.style.SUCCESS('Successfully closed poll '))
