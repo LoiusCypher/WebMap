@@ -11,7 +11,7 @@ import requests
 import urllib.parse
 import xmltodict
 from collections import OrderedDict
-from nmapreport.functions import nmap_newscan, nmap_scaninfo
+from nmapreport.functions import nmap_newscan, nmap_scaninfo, token_check, get_cve, nmap_ports_stats
 from nmapreports import Note
 
 
