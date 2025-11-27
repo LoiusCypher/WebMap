@@ -11,8 +11,8 @@ import requests
 import urllib.parse
 import xmltodict
 from collections import OrderedDict
-from nmapreport.functions import *
-from nmapreport.models import Note
+from nmapreport.functions import nmap_newscan, nmap_scaninfo
+from nmapreports import Note
 
 
 def rmNotes(request, hashstr):
