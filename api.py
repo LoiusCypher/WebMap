@@ -222,7 +222,10 @@ def apiv1_hostdetails(request, scanfile, faddress=""):
 	# collect all notes in noteshost dict
 	noteshost = {}
 	notesfiles = os.listdir('/opt/notes')
-	notes = Note(scanfilemd5=scanmd5, hashstr=noteshost)
+	notes = Note(scanfilemd5=scanmd5)
+	for note in notes:
+		noteshost[scanmd5] = {}
+		noteshost[scanmd5][note.hasstr] = note.text
 	for nf in notesfiles:
 		m = re.match('^('+scanmd5+r')_([a-z0-9]{32,32})\.notes$', nf)
 		if m is not None:
