@@ -94,6 +94,7 @@ class Network(models.Model):
 
 
 class Note(models.Model):
+    id = models.AutoField(primary_key=True)
     scanfilemd5 = models.CharField(
         max_length=32,
         # required=True,
@@ -128,7 +129,7 @@ class ScanPolicy(models.Model):
 
 
 class ScanJob(models.Model):
-    # id = models.PrimaryKey
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=75)
     options = models.CharField(max_length=75)
     target = models.CharField(max_length=75)
