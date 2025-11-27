@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.conf import settings
 import os, re, json, hashlib, time
-from nmapreport import Note
+from nmapreport import ScanJob
 
 
 def nmap_scaninfo(request):
@@ -51,6 +51,7 @@ def nmap_newscan(request):
 				writefile = '/opt/schedule/'+filenamemd5+'.json'
 				file = open(writefile, "w")
 				file.write(json.dumps(schedobj, indent=4))
+                ScanJob(options=request.POST['params'], target=request.POST['target']).Save()
 
 			return HttpResponse(json.dumps(res, indent=4), content_type="application/json")
 		else:
