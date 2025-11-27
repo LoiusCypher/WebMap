@@ -1,4 +1,6 @@
 from django.db import models
+import os
+import hashlib
 
 
 # Create your models here.

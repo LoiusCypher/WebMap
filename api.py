@@ -2,7 +2,9 @@ from django.conf import Settings
 from django.db import Models
 from django.shortcuts import render
 from django.http import HttpResponse
-import xmltodict, json, html, os, hashlib
+import json
+import xmltodict
+import html, os, hashlib
 import re, requests, base64, urllib.parse
 from collections import OrderedDict
 from nmapreport.functions import *
