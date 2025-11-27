@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-# from nmapreport.models import Question as Poll
+from nmapreport.models import ScanJob
 # import nmapreport.nse.cron as cron
 import os
 import re
