@@ -78,7 +78,7 @@ class Note(models.Model):
         max_length=32,
         required=True,
         validators=[
-            models.RegexValidator(
+            RegexValidator(
                 regex='^[a-f0-9]$',
                 message='Invalid MD5 tag',
             ),
