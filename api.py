@@ -38,7 +38,7 @@ def saveNotes(request):
         scanfilemd5 = hashlib.md5(str(request.session['scanfile']).encode('utf-8')).hexdigest()
         note = Note(scanfilemd5 = scanfilemd5, hashstr = request.POST['hashstr'], text = request.POST['notes'])
         try:
-            with f as open(note.file_name(), 'w'):
+            with open(note.file_name(), 'w') as f:
                 f.write(note.text)
             note.Save()
             res = {'ok':'notes saved'}
