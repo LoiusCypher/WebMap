@@ -103,4 +103,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write(self.style.SUCCESS('Successfully closed poll '))
-        self.cronMe(self)
+        self.cronMe()
