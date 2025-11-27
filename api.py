@@ -24,22 +24,28 @@ def rmNotes(request, hashstr):
 
         return HttpResponse(json.dumps(res), content_type="application/json")
 
+
 def saveNotes(request):
-	if 'auth' not in request.session:
-		return False
+    if 'auth' not in request.session:
+        return HttpResponse(json.dumps({'error': 'unauthorized'}),
+                            content_type="application/json",
+                            status=401)
 
 	if request.method == "POST":
 		scanfilemd5 = hashlib.md5(str(request.session['scanfile']).encode('utf-8')).hexdigest()
-
-		if re.match('^[a-f0-9]{32,32}$', request.POST['hashstr']) is not None:
-			f = open('/opt/notes/'+scanfilemd5+'_'+request.POST['hashstr']+'.notes', 'w')
-			f.write(request.POST['notes'])
-			f.close()
+        note = Note(scanfilemd5 = scanfilemd5, hashstr = request.POST['hashstr'], text = request.POST['notes'])
+        try:
+			with f as open(note.file_name(, 'w')
+			    f.write(note.text)
+            note.Save()
 			res = {'ok':'notes saved'}
+        except:
+		    res = {'error': request.method }
 	else:
 		res = {'error': request.method }
 
 	return HttpResponse(json.dumps(res), content_type="application/json")
+
 
 def rmlabel(request, objtype, hashstr):
         if 'auth' not in request.session:
