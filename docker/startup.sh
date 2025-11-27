@@ -1,5 +1,6 @@
 #!/bin/bash
 ls -al '/opt/nmapdashboard/db.sqlite3'
+python3 /opt/nmapdashboard/manage.py migrate --run-syncdb
 sqlite3 '/opt/nmapdashboard/db.sqlite3' ".tables '%'"
 bash /opt/nmapdashboard/nmapreport/nmap/runcron.sh & # > /dev/null 2>&1 &
 python3 /opt/nmapdashboard/manage.py runserver 0:8000
