@@ -93,4 +93,4 @@ def cron():
 class Command(BaseCommand):
 
     def andle(self, *args, **options):
-        self.stdout.write( self.style.SUCCESS('Successfully closed poll ')
+        self.stdout.write( self.style.SUCCESS('Successfully closed poll '))

@@ -136,7 +136,7 @@ class ScanJob(models.Model):
     execution_interval_numer = models.SmallIntegerField(help_text='Interval number for days/hours/etc.')
     execution_interval_period = models.CharField(help_text='Choose day, week, month')
     execution_counter = models.Integer(default=9)
-    date_last_execution = models.DateTimeField(default=datetime.now, blank=True))
+    date_last_execution = models.DateTimeField(default=datetime.now, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     # status = models.CharField(help_text='Is the job running, errored, enabled, or disabled')
     # notes = models.TextField()

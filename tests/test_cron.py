@@ -1,5 +1,6 @@
 from django.test import TestCase
-import nmapreport.nmap.cron as cron
+# import nmapreport.nmap.cron as cron
+import nmapreport.management.commands.cron as cron
 import copy
 
 
