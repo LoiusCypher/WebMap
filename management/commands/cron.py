@@ -54,13 +54,13 @@ class Command(BaseCommand):
         schedfiles = os.listdir('/opt/schedule/')
 
         self.stdout.write(ScanJob.objects.count())
-        nextsched = time.time() + gethours('1m')
         for sched in ScanJob.objects.all():
-            nextrun = sched.date_last_executio + gethours(sched.execution_interval_nume)
+            sched.date_last_execution += datetime.now() + gethours(sched.execution_interval_numer)
             self.stdout.write(nextrun)
             sched.execution_counter += 1
             self.stdout.write(sched.execution_counter)
             sched.Save()
+        nextsched = time.time() + gethours('1m')
         for i in schedfiles:
             if re.search(r'^[a-f0-9]{32,32}\.json$', i.strip()) is not None:
                 try:
@@ -102,4 +102,4 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
         self.stdout.write(self.style.SUCCESS('Successfully closed poll '))
-        cronMe(self)
+        self.cronMe(self)
