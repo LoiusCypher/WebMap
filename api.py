@@ -1,4 +1,3 @@
-from django.conf import Settings
 from django.db import Models
 from django.shortcuts import render
 from django.http import HttpResponse
