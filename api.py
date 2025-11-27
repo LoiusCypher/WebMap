@@ -15,16 +15,18 @@ def rmNotes(request, hashstr):
                                     status=401)
 
         scanfilemd5 = hashlib.md5(str(request.session['scanfile']).encode('utf-8')).hexdigest()
-
-        if re.match('^[a-f0-9]{32}$', hashstr):
-                filepath = '/opt/notes/' + scanfilemd5 + '_' + hashstr + '.notes'
+        notes = Note.objects.filter(scanfilemd5=scanfilemd5, hashstr=hashstr)
+        if len(notes) > 0:
+            for note in notes:
+                filepath = note.file_name()
                 if os.path.exists(filepath):
-                        os.remove(filepath)
-                        res = {'ok': 'notes removed'}
+                    os.remove(filepath)
+                    note.delete()
+                    res = {'ok': 'notes removed'}
                 else:
-                        res = {'error': 'notes not found'}
+                    res = {'error': 'notes not found'}
         else:
-                res = {'error': 'invalid format'}
+            res = {'error': 'invalid format'}
 
         return HttpResponse(json.dumps(res), content_type="application/json")
 
