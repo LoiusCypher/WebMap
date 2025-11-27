@@ -51,7 +51,7 @@ def cronMe(self):
 
     schedfiles = os.listdir('/opt/schedule/')
 
-    self.stdout.write(len(ScanJob.objects.all()))
+    self.stdout.write(ScanJob.objects.count())
     nextsched = time.time() + gethours('1m')
     for sched in ScanJob.objects.all():
         nextrun = sched.date_last_executio + gethours(sched.execution_interval_nume)
