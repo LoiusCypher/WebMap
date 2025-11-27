@@ -50,7 +50,7 @@ import os
 
 
 class Service(models.Model):
-    id = models.AutoField(primary_key=True)
+#    id = models.AutoField(primary_key=True)
     port_number = models.IntegerField()
     port_proto = models.CharField()
     service_name = models.CharField()
@@ -68,7 +68,7 @@ class Service(models.Model):
 
 
 class Network(models.Model):
-    id = models.AutoField(primary_key=True)
+#    id = models.AutoField(primary_key=True)
     # network_cidr = models.
     date_created = models.DateTimeField()
     date_updated = models.DateTimeField(auto_now=True)
@@ -77,7 +77,7 @@ class Network(models.Model):
 
 
 class Note(models.Model):
-    id = models.AutoField(primary_key=True)
+#    id = models.AutoField(primary_key=True)
     scanfilemd5 = models.CharField(
         max_length=32,
         # required=True,
@@ -105,7 +105,7 @@ class Note(models.Model):
         return os.path.join(os.path.join(settings.BASE_DIR, 'notes'), self.scanfilemd5 + '_' + self.hashstr + '.notes')
 
 class ScanPolicy(models.Model):
-    id = models.AutoField(primary_key=True)
+#    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=75)
     arguments = models.TextField()
     notes = models.TextField()
