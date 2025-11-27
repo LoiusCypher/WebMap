@@ -14,7 +14,7 @@ class Scan(models.Model):
     count_live_hosts = models.IntegerField()
     # scan_xml = models.
     scan_file = models.FileField()
-    scan_hash = models.CharField(help_text='MD5 hash of the XML file used for this scan record')
+    # scan_hash = models.CharField(help_text='MD5 hash of the XML file used for this scan record')
     notes = models.TextField()
     # date_created =
     # date_modified =
@@ -61,7 +61,7 @@ class Service(models.Model):
 
 class Network(models.Model):
     id = models.PrimaryKey
-    network_cidr = models.
+    # network_cidr = models.
     date_created = models.DateTimeField()
     date_updated = models.DateTimeField(auto_now=True)
     sitecode = models.CharField(max_length=5)
