@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand, CommandError
 from nmapreport.models import Scan, ScanJob
-import nmapreport.nmap
+import nmapreport.nmap as nmap
 # import nmapreport.nse.cron as cron
 import os
 import re
@@ -21,10 +21,10 @@ class Command(BaseCommand):
         for sched in ScanJob.objects.all():
             self.stdout.write(str(sched.date_last_execution))
             self.stdout.write(str(sched.execution_interval_numer))
-            nextrun = sched.date_last_execution + gethours(sched.execution_interval_numer)
+            nextrun = sched.date_last_execution + nmap.gethours(sched.execution_interval_numer)
             print("[RUN]   scan:" + sched.name + " id:" + str(sched.id) + " (nextrun:" + str(nextrun) + " / now:" + str(datetime.now()) + ")")
             if nextrun <= datetime.now():
-                sched.date_last_execution += datetime.now() + gethours(sched.execution_interval_numer)
+                sched.date_last_execution += datetime.now() + nmap.gethours(sched.execution_interval_numer)
                 sched.execution_counter += 1
                 self.stdout.write(str(sched.execution_counter))
                 sched.save()

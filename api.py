@@ -12,7 +12,7 @@ import urllib.parse
 import xmltodict
 from collections import OrderedDict
 from nmapreport.functions import token_check, get_cve, nmap_ports_stats
-from nmapreport.models import Note
+from nmapreport.models import Note, Scan
 
 
 def rmNotes(request, hashstr):
@@ -384,21 +384,19 @@ def apiv1_scan(request):
 
 
 def nmap_newscan(request):
-	if request.method == "POST":
-		if(re.search(r'^[a-zA-Z0-9\_\-\.]+$', request.POST['filename']) and re.search(r'^[a-zA-Z0-9\-\.\:\=\s,]+$', request.POST['params']) and re.search(r'^[a-zA-Z0-9\-\.\:\/\s]+$', request.POST['target'])):
-			res = {'p':request.POST}
-			os.popen('nmap '+request.POST['params']+' --script='+settings.BASE_DIR+'/nmapreport/nmap/nse/ -oX /tmp/'+request.POST['filename']+'.active '+request.POST['target']+' > /dev/null 2>&1 && '+
-			'sleep 10 && mv /tmp/'+request.POST['filename']+'.active /opt/xml/'+request.POST['filename']+' &')
+    if token_check(request.GET['token']) is not True:
+        return HttpResponse(json.dumps({'error':'invalid token'}, indent=4), content_type="application/json")
 
-			if request.POST['schedule'] == "true":
-				# schedobj = {'params':request.POST, 'lastrun':time.time(), 'number':0}
-				# filenamemd5 = hashlib.md5(str(request.POST['filename']).encode('utf-8')).hexdigest()
-				# writefile = '/opt/schedule/'+filenamemd5+'.json'
-				# file = open(writefile, "w")
-				# file.write(json.dumps(schedobj, indent=4))
-				ScanJob(name=request.POST['filename'], execution_interval_period=request.POST['schedule'], options=request.POST['params'], target=request.POST['target']).Save()
+    if request.method == "POST":
+        if(re.search(r'^[a-zA-Z0-9\_\-\.]+$', request.POST['filename']) and re.search(r'^[a-zA-Z0-9\-\.\:\=\s,]+$', request.POST['params']) and re.search(r'^[a-zA-Z0-9\-\.\:\/\s]+$', request.POST['target'])):
+            res = {'p':request.POST}
 
-			return HttpResponse(json.dumps(res, indent=4), content_type="application/json")
-		else:
-			res = {'error':'invalid syntax'}
-			return HttpResponse(json.dumps(res, indent=4), content_type="application/json")
+            if request.POST['schedule'] == "true":
+                ScanJob(name=request.POST['filename'], execution_interval_period=request.POST['schedule'], options=request.POST['params'], target=request.POST['target']).save()
+            else;
+                Scan(name=request.POST['filename'], options=request.POST['params'], target=request.POST['target'].save()
+        else:
+            res = {'error':'invalid syntax'}
+    else:
+        res = {'error': request.method }
+    return HttpResponse(json.dumps(res, indent=4), content_type="application/json")

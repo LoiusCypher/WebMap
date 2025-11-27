@@ -114,7 +114,7 @@ class ScanPolicy(models.Model):
 class Scan(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField()
-    scan_start = models.DateTimeField(default=datetime.now, blank=True))
+    scan_start = models.DateTimeField(default=datetime.now, blank=True)
     scan_end = models.DateTimeField()
     # duration = models.CharField()
     # nmap_version = models.CharField(max_length=20)
