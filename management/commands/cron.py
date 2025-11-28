@@ -22,7 +22,7 @@ class Command(BaseCommand):
             self.stdout.write(str(sched.execution_interval_numer))
             nextrun = sched.date_last_execution + nmap.gethours(sched.execution_interval_numer)
             print("[RUN]   scan:" + sched.name + " id:" + str(sched.id) + " (nextrun:" + str(nextrun) + " / now:" + str(datetime.now()) + ")")
-            timeToWait =  nextrun - datetime.now():
+            timeToWait =  nextrun - datetime.now()
             if nextrun <= datetime.now():
                 sched.date_last_execution = datetime.now()
                 nextrun = sched.date_last_execution + nmap.gethours(sched.execution_interval_numer)
