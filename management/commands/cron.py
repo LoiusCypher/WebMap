@@ -14,23 +14,30 @@ from datetime import datetime
 class Command(BaseCommand):
 
     def cronTick(self):
+        print(str(ScanJob.objects.all().count()))
+        timeToWait = nmap.gethours('m')
         self.stdout.write(str(ScanJob.objects.all().count()))
         for sched in ScanJob.objects.all():
             self.stdout.write(str(sched.date_last_execution))
             self.stdout.write(str(sched.execution_interval_numer))
             nextrun = sched.date_last_execution + nmap.gethours(sched.execution_interval_numer)
             print("[RUN]   scan:" + sched.name + " id:" + str(sched.id) + " (nextrun:" + str(nextrun) + " / now:" + str(datetime.now()) + ")")
+            timeToWait =  nextrun - datetime.now():
             if nextrun <= datetime.now():
-                sched.date_last_execution += datetime.now() + nmap.gethours(sched.execution_interval_numer)
+                sched.date_last_execution = datetime.now()
+                nextrun = sched.date_last_execution + nmap.gethours(sched.execution_interval_numer)
                 sched.execution_counter += 1
                 self.stdout.write(str(sched.execution_counter))
                 sched.save()
                 scan = Scan(sched.name, options=sched.options, target=sched.target, execution_counter=sched.execution_counter)
             else:
                 scan = Scan(sched.name, options=sched.options, target=sched.target)
+            if timeToWait > nextrun - datetime.now():
+                timeToWait = nextrun - datetime.now()
             scan.save()
             nmap.runScan(scan)
-
+        print(timeToWait)
+        return timeToWait
             #        # errorCode, nmap_active_scan_out, stdout, stderr = runScan(sched)
             #        # print('[DONE] ' + stderr + stdout)
             #        # if errorCode != 0:
@@ -49,4 +56,4 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        self.cronTickMe()
+        self.cronTick()
