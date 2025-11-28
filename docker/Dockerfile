@@ -49,7 +49,8 @@ RUN pip install --upgrade pip && \
 COPY --exclude=.github --exclude=docker . /opt/nmapdashboard/nmapreport
 RUN wget -P nmapdashboard/nmapreport/nmap/nse https://raw.githubusercontent.com/vulnerability-lookup/vulnerability-lookup/refs/heads/main/tools/vulnerability-lookup.nse
 
-COPY docker/settings.py docker/urls.py /opt/nmapdashboard/nmapdashboard
+COPY docker/settings.py /opt/nmapdashboard/nmapdashboard/settings.py
+COPY docker/urls.py /opt/nmapdashboard/nmapdashboard/urls.py
 COPY docker/tzdata.sh /root/tzdata.sh
 COPY docker/startup.sh /startup.sh
 
