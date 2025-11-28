@@ -115,7 +115,7 @@ class Scan(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField()
     scan_start = models.DateTimeField(default=datetime.now, blank=True)
-    scan_end = models.DateTimeField()
+    scan_end = models.DateTimeField(null=True)
     # duration = models.CharField()
     # nmap_version = models.CharField(max_length=20)
     # xml_version = models.CharField(max_length=20)

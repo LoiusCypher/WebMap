@@ -12,7 +12,7 @@ import urllib.parse
 import xmltodict
 from collections import OrderedDict
 from nmapreport.functions import token_check, get_cve, nmap_ports_stats
-from nmapreport.models import Note, Scan, ScanJob
+from nmapreport import nmap
 
 
 def rmNotes(request, hashstr):
@@ -392,7 +392,9 @@ def nmap_newscan(request):
             res = {'p':request.POST}
 
             if request.POST['schedule'] == "true":
-                ScanJob(name=request.POST['filename'], execution_interval_period=request.POST['schedule'], options=request.POST['params'], target=request.POST['target']).save()
+                ScanJob(name=request.POST['filename'], execution_interval_period=request.POST['schedule'],
+                        execution_interval_numer=nmap.gethours(request.POST['schedule']),
+                        options=request.POST['params'], target=request.POST['target']).save()
             else:
                 Scan(name=request.POST['filename'], options=request.POST['params'], target=request.POST['target']).save()
         else:
