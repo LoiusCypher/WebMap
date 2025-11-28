@@ -38,6 +38,7 @@ class Command(BaseCommand):
             nmap.runScan(scan)
         print(timeToWait)
         return timeToWait
+
             #        # errorCode, nmap_active_scan_out, stdout, stderr = runScan(sched)
             #        # print('[DONE] ' + stderr + stdout)
             #        # if errorCode != 0:
