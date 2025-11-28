@@ -43,7 +43,8 @@ COPY requirements.txt requirements.txt
 
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt && \
-    django-admin startproject nmapdashboard
+    django-admin startproject nmapdashboard && \
+    cp /opt/nmapdashboard/nmapdashboard/settings.py /opt/nmapdashboard/nmapdashboard/old-settings.py
 
 COPY --exclude=.github --exclude=docker . /opt/nmapdashboard/nmapreport
 RUN wget -P nmapdashboard/nmapreport/nmap/nse https://raw.githubusercontent.com/vulnerability-lookup/vulnerability-lookup/refs/heads/main/tools/vulnerability-lookup.nse
