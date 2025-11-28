@@ -384,8 +384,8 @@ def apiv1_scan(request):
 
 
 def nmap_newscan(request):
-    if token_check(request.GET['token']) is not True:
-        return HttpResponse(json.dumps({'error':'invalid token'}, indent=4), content_type="application/json")
+    # if token_check(request.GET['token']) is not True:
+    #    return HttpResponse(json.dumps({'error':'invalid token'}, indent=4), content_type="application/json")
 
     if request.method == "POST":
         if(re.search(r'^[a-zA-Z0-9\_\-\.]+$', request.POST['filename']) and re.search(r'^[a-zA-Z0-9\-\.\:\=\s,]+$', request.POST['params']) and re.search(r'^[a-zA-Z0-9\-\.\:\/\s]+$', request.POST['target'])):

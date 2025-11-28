@@ -13,10 +13,7 @@ from datetime import datetime
 
 class Command(BaseCommand):
 
-    def cronMe(self):
-
-        schedfiles = os.listdir('/opt/schedule/')
-
+    def cronTick(self):
         self.stdout.write(str(ScanJob.objects.all().count()))
         for sched in ScanJob.objects.all():
             self.stdout.write(str(sched.date_last_execution))
@@ -52,5 +49,4 @@ class Command(BaseCommand):
 
 
     def handle(self, *args, **options):
-        self.stdout.write(self.style.SUCCESS('Successfully closed poll '))
-        self.cronMe()
+        self.cronTickMe()
