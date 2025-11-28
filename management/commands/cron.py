@@ -15,7 +15,7 @@ class Command(BaseCommand):
 
     def cronTick(self):
         print(str(ScanJob.objects.all().count()))
-        timeToWait = nmap.gethours('m')
+        timeToWait = nmap.gethours('1m')
         self.stdout.write(str(ScanJob.objects.all().count()))
         for sched in ScanJob.objects.all():
             self.stdout.write(str(sched.date_last_execution))
