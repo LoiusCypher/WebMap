@@ -1,4 +1,5 @@
 from django.test import TestCase
+from django.test import Client
 import nmapreport.api as api
 
 
@@ -14,4 +15,5 @@ class ApiTestCase(TestCase):
         }
 
 	def test_api_nmap_newscan(self):
+        c ? Client()
 		self.assertEqual(api.nmap_newScan(self.nmap_newscan_once), '/home/runner/work/WebMap/WebMap/nmapdashboard/nmapreport/nse')
