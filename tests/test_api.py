@@ -3,10 +3,10 @@ from django.test import Client
 import nmapreport.api as api
 
 
-class ApiTestCase(TestCase):
+class reqShim(object):
+    pass
 
-    class reqShim(object):
-        pass
+class ApiTestCase(TestCase):
 
     def setUp(self):
         self.nmap_newscan_once = reqShim()
