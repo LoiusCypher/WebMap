@@ -13,6 +13,7 @@ import xmltodict
 from collections import OrderedDict
 from nmapreport.functions import token_check, get_cve, nmap_ports_stats
 from nmapreport import nmap
+from nmapreport.models import Note, Scan, ScanJob
 
 
 def rmNotes(request, hashstr):
