@@ -22,7 +22,7 @@ class NmapTestCase(TestCase):
 		self.assertEqual(nmap.nsePath(), '/home/runner/work/WebMap/WebMap/nmapdashboard/nmapreport/nse')
 
 	def test_nmap_generate_active_scan_file_path(self):
-		self.assertEqual(nmap.genActiveScanFilePath(self.sched.params.filename, self.sched.params.params, self.sched.params.target), '/tmp/3_testfile.xml.active')
+		self.assertEqual(nmap.genActiveScanFilePath(name=self.sched['params']['filename'], number=self.sched['number']), '/tmp/3_testfile.xml.active')
 
 	def test_nmap_generate_finished_scan_file_name(self):
 		self.assertEqual(nmap.genFinishedScanFileName(self.sched), 'webmapsched_763592814.9651988_testfile.xml')
