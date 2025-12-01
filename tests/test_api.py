@@ -22,8 +22,9 @@ class ApiTestCase(TestCase):
 
 
     def test_api_nmap_newscan_call(self):
-        self.assertEqual(type(api.nmap_newscan(self.nmap_newscan_once)), <class 'django.http.response.HttpResponse')
-        self.assertEqual(api.nmap_newscan(self.nmap_newscan_once), '/home/runner/work/WebMap/WebMap/nmapdashboard/nmapreport/nse')
+        response = api.nmap_newscan(self.nmap_newscan_once)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(json.loads(json.dumps(response, indent=4)), '/home/runner/work/WebMap/WebMap/nmapdashboard/nmapreport/nse')
 
 
 #    def test_api_nmap_newscan_post(self):
