@@ -38,7 +38,7 @@ jobs:
           path: nmapdashboard/nmapreport
       - name: Run Tests
         run: |
-          cd nmapdashboard ; cp nmapreport/docker/settings.py nmapdashboard/settings.py ; python manage.py test nmapreport
+          cd nmapdashboard ; cp nmapreport/docker/settings.py nmapdashboard/settings.py ; python manage.py test nmapreport/tests
 
   run-flake8-lint:
     runs-on: ubuntu-latest
