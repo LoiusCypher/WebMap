@@ -15,5 +15,5 @@ class ApiTestCase(TestCase):
         }
 
     def test_api_nmap_newscan(self):
-        c ? Client()
+        c = Client()
         self.assertEqual(api.nmap_newScan(self.nmap_newscan_once), '/home/runner/work/WebMap/WebMap/nmapdashboard/nmapreport/nse')
