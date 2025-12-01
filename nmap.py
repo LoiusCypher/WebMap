@@ -37,7 +37,7 @@ def genActiveScanFilePath(name, number):
 
 def genScanCmd(name, params, target, number):
     return [shutil.which('nmap')] \
-            + shlex.split('params') \
+            + shlex.split(params) \
             + ['--script=' + nsePath() + '/', '-oX', genActiveScanFilePath(name, number), target]
 
 
