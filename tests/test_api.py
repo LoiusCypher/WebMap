@@ -12,6 +12,7 @@ class ApiTestCase(TestCase):
         self.nmap_newscan_once = reqShim()
         self.nmap_newscan_once.request = reqShim()
         self.nmap_newscan_once.request.method = 'POST'
+        self.nmap_newscan_once.method = 'POST'
         self.nmap_newscan_once.POST = {
                 'filename': 'testscan',
                 'params': '-sT A -T4',
