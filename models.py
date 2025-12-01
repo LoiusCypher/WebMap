@@ -1,7 +1,8 @@
 from django.conf import settings
 from django.db import models
 from django.core.validators import RegexValidator
-from datetime import datetime
+from django.utils import timezone
+import pytz
 import hashlib
 import os
 
@@ -114,7 +115,7 @@ class ScanPolicy(models.Model):
 class Scan(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField()
-    scan_start = models.DateTimeField(default=datetime.now, blank=True)
+    scan_start = models.DateTimeField(default=timezone.now, blank=True)
     scan_end = models.DateTimeField(null=True)
     # duration = models.CharField()
     # nmap_version = models.CharField(max_length=20)
@@ -141,7 +142,7 @@ class ScanJob(models.Model):
     execution_interval_numer = models.SmallIntegerField(help_text='Interval number for days/hours/etc.')
     execution_interval_period = models.CharField(help_text='Choose day, week, month')
     execution_counter = models.IntegerField(default=9)
-    date_last_execution = models.DateTimeField(default=datetime.now, blank=True)
+    date_last_execution = models.DateTimeField(default=timezone.now, blank=True)
     date_created = models.DateTimeField(auto_now_add=True)
     # status = models.CharField(help_text='Is the job running, errored, enabled, or disabled')
     # notes = models.TextField()
