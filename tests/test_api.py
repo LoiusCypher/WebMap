@@ -1,6 +1,7 @@
 from django.test import TestCase
 from django.test import Client
 import nmapreport.api as api
+import json
 
 
 class reqShim(object):
