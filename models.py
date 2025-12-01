@@ -2,7 +2,6 @@ from django.conf import settings
 from django.db import models
 from django.core.validators import RegexValidator
 from django.utils import timezone
-import pytz
 import hashlib
 import os
 
