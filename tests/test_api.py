@@ -4,8 +4,10 @@ import nmapreport.api as api
 
 
 class ApiTestCase(TestCase):
+
     class reqShim(object):
         pass
+
     def setUp(self):
         self.nmap_newscan_once = reqShim()
         self.nmap_newscan_once.request=method = 'POST'
