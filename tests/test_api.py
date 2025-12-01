@@ -7,9 +7,9 @@ class ApiTestCase(TestCase):
 		self.nmap_newscan_once = {
 			'request.method': 'POST',
             'POST': {
-                'filename' : 'testscan',
-                'params' : '-sT A -T4',
-                'target' : '192.168.1.1',
+                'filename': 'testscan',
+                'params': '-sT A -T4',
+                'target': '192.168.1.1',
                 },
             }
 
