@@ -5,7 +5,7 @@ import nmapreport.api as api
 
 class ApiTestCase(TestCase):
     def setUp(self):
-        self.nmap_newscan_once := object
+        self.nmap_newscan_once = object
         self.nmap_newscan_once.request.method = 'POST'
         self.nmap_newscan_once.POST = {
                 'filename': 'testscan',

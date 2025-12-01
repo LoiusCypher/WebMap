@@ -30,7 +30,7 @@ class NmapTestCase(TestCase):
 	def test_nmap_genScanCmd(self):
 		self.assertEqual(nmap.genScanCmd(name=self.sched['params']['filename'], params=self.sched['params']['params'], target=self.sched['params']['target'], number=self.sched['number']),
 					['/usr/bin/nmap'] + self.scan_options +
-					['--script=' + nmap.nsePath() + '/', '-oX', nmap.genActiveScanFilePath(self.sched), self.sched['params']['target']])
+					['--script=' + nmap.nsePath() + '/', '-oX', nmap.genActiveScanFilePath(name=self.sched['params']['filename'], number=self.sched['number']), self.sched['params']['target']])
 
 	def test_nmap_runScan_successs(self):
 		expected_strings = [
