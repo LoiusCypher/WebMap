@@ -43,7 +43,7 @@ def genScanCmd(name, params, target, number):
 
 def runScan(scan):
     nmap_active_scan_out = genActiveScanFilePath(scan.name, scan.execution_counter)
-    nmapprocess = subprocess.Popen(genScanCmd(scan.name, scan.params, scan.target, scan.execution_counter),
+    nmapprocess = subprocess.Popen(genScanCmd(scan.name, scan.options, scan.target, scan.execution_counter),
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     scan.scan_end = datetime.now()
     scan.save()
