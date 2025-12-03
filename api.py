@@ -206,7 +206,7 @@ def getCVE(request):
 
 
 def apiv1_hostdetails(request, scanfile, faddress=""):
-	if request.GET['token'] == False or token_check(request.GET['token']) is not True:
+	if not request.GET['token'] or token_check(request.GET['token']) is not True:
 		return HttpResponse(json.dumps({'error':'invalid token'}, indent=4), content_type="application/json")
 
 	oo = xmltodict.parse(open('/opt/xml/'+scanfile, 'r').read())
