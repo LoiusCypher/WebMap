@@ -48,7 +48,7 @@ def runScan(scan):
     nmapprocess = subprocess.Popen(genScanCmd(scan.name, scan.options, scan.target, scan.execution_counter),
                                    stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
     stdout, stderr = nmapprocess.communicate()
-    scan.ended = datetime.now()
+    scan.ended = timezone.now()
     scan.save()
     print('[DONE] ' + stderr + stdout)
     return nmapprocess.returncode, nmap_active_scan_out, stderr, stdout
