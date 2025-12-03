@@ -41,7 +41,7 @@ class Command(BaseCommand):
 
     def executeNextWaitingScan(self):
         try:
-            waitingScan = Scan.objects.filter(started=None).order_by(created)[0]
+            waitingScan = Scan.objects.filter(started=None).order_by('created')[0]
             print("[CRON]  No scans waiting")
             nmap.runScan(waitingScan)
         except IndexError:
