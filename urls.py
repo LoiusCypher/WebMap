@@ -1,6 +1,5 @@
 from django.urls import path
 from . import api
-from . import functions_nmap
 from . import network
 from . import ndiff
 from . import pdf
