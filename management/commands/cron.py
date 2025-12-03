@@ -43,17 +43,17 @@ class Command(BaseCommand):
     def executeNextWaitingScan(self):
         try:
             waitingScan = Scan.objects.filter(started=None).order_by('created')[0]
-            print("[CRON]  Starting scan")
+            print('[CRON]  Starting scan')
             returncode, nmap_active_scan_out = nmap.runScan(waitingScan)
-            print("[CRON]  scan completed")
-            finishedFile = nmap.genFinishedScanFileName(waitingScan.name, waitingScan.started.time().seconds)
-            print("[CRON]  finishedFile", finishedFile)
+            print('[CRON]  scan completed')
+            finishedFile = nmap.genFinishedScanFileName(waitingScan.name, waitingScan.started.time().second)
+            print('[CRON]  finishedFile', finishedFile)
             shutil.move(nmap_active_scan_out, '/opt/xml/' + finishedFile)
             print('[CVE] start')
             nmapout = cve.getcve(finishedFile)
             print('[CRON]  CVE done' + str(nmapout))
         except IndexError:
-            print("[CRON]  No scans waiting")
+            print('[CRON]  No scans waiting')
 
     def handle(self, *args, **options):
         self.cronTick()

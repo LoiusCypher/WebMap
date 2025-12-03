@@ -144,7 +144,6 @@ def getCveOnline(cpecve):
 
 
 def getcve(xmlfile):
-	scanfilemd5 = hashlib.md5(str(xmlfile).encode('utf-8')).hexdigest()
 	cpecve = getcpe(xmlfile)
 	cvejson = getCveOnline(cpecve)
 	for i in cvejson:
@@ -154,10 +153,7 @@ def getcve(xmlfile):
 		# continue
 
 		if type(cvejson[i]) is list and len(cvejson[i]) > 0:
+	        scanfilemd5 = hashlib.md5(str(xmlfile).encode('utf-8')).hexdigest()
 			f = open('/opt/notes/' + scanfilemd5 + '_' + hostmd5 + '.cve', 'w')
 			f.write(json.dumps(cvejson[i], indent=4))
 			f.close()
-
-
-if __name__ == '__main__':
-	getcve(sys.argv[1])
