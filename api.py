@@ -420,6 +420,8 @@ def nmap_scanactive(request):
             ff = nmap.genActiveScanFilePath(scan.name, scan.execution_counter)
             f = ff[0:-7]
             res['scans'][f] = {'status':'active'}
+            # res['scans'][f]['filename'] = ff
+            # res['scans'][f]['startstr'] = scan.started
             # with open('/tmp/'+ff) as n:
             with open(ff) as n:
                 lines = n.readlines()

@@ -32,7 +32,12 @@ class NmapTestCase(TestCase):
 		self.assertEqual(nmap.genFinishedScanFileName(self.sched), 'webmapsched_763592814.9651988_testfile.xml')
 
 	def test_nmap_genScanCmd(self):
-		self.assertEqual(nmap.genScanCmd(name=self.sched['filename'], params=self.sched['options'], target=self.sched['target'], number=self.sched['number']),
+		self.assertEqual(nmap.genScanCmd(name=self.sched['filename'],
+                                         params=self.sched['options'],
+                                         target=self.sched['target'],
+                                         number=self.sched['number'],
+                                         filepath=nmap.genActiveScanFilePath(name=self.sched['filename'],
+                                                                             number=self.sched['number'])),
 					['/usr/bin/nmap'] + self.scan_options +
 					['--script=' + nmap.nsePath() + '/', '-oX', nmap.genActiveScanFilePath(name=self.sched['params']['filename'], number=self.sched['number']), self.sched['params']['target']])
 
