@@ -114,20 +114,20 @@ class ScanPolicy(models.Model):
 class Scan(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField()
-    scan_start = models.DateTimeField(default=timezone.now, blank=True)
-    scan_end = models.DateTimeField(null=True)
-    # duration = models.CharField()
-    # nmap_version = models.CharField(max_length=20)
-    # xml_version = models.CharField(max_length=20)
+    created = models.DateTimeField(default=timezone.now, blank=True)
+    started = models.DateTimeField(bull=True)
+    ended = models.DateTimeField(null=True)
     options = models.CharField(max_length=80)
     target = models.CharField(max_length=80)
     execution_counter = models.IntegerField(default=0)
+    # duration = models.CharField()
+    # nmap_version = models.CharField(max_length=20)
+    # xml_version = models.CharField(max_length=20)
     # count_live_hosts = models.IntegerField()
     # scan_xml = models.
     # scan_file = models.FileField()
     # scan_hash = models.CharField(help_text='MD5 hash of the XML file used for this scan record')
     # notes = models.TextField()
-    # date_created =
     # date_modified =
 
 

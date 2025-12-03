@@ -389,8 +389,9 @@ def nmap_newscan(request):
     #    return HttpResponse(json.dumps({'error':'invalid token'}, indent=4), content_type="application/json")
 
     if request.method == "POST":
+        # check filename, params and target patterns
         if(re.search(r'^[a-zA-Z0-9\_\-\.]+$', request.POST['filename']) and re.search(r'^[a-zA-Z0-9\-\.\:\=\s,]+$', request.POST['params']) and re.search(r'^[a-zA-Z0-9\-\.\:\/\s]+$', request.POST['target'])):
-            res = {'p':request.POST}
+            res = {'p': request.POST}
 
             if request.POST['schedule'] == "true":
                 ScanJob(name=request.POST['filename'], execution_interval_period=request.POST['schedule'],

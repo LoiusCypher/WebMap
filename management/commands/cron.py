@@ -21,7 +21,7 @@ class Command(BaseCommand):
             self.stdout.write(str(sched.date_last_execution))
             self.stdout.write(str(sched.execution_interval_numer))
             nextrun = sched.date_last_execution + nmap.gethours(sched.execution_interval_numer)
-            print("[RUN]   scan:" + sched.name + " id:" + str(sched.id) + " (nextrun:" + str(nextrun) + " / now:" + str(datetime.now()) + ")")
+            print("[RUN]  Y scan:" + sched.name + " id:" + str(sched.id) + " (nextrun:" + str(nextrun) + " / now:" + str(datetime.now()) + ")")
             timeToWait = nextrun - datetime.now()
             if nextrun <= datetime.now():
                 sched.date_last_execution = datetime.now()
@@ -35,10 +35,17 @@ class Command(BaseCommand):
             if timeToWait > nextrun - datetime.now():
                 timeToWait = nextrun - datetime.now()
             scan.save()
-            nmap.runScan(scan)
+        self.executeNextWaitingScan()
         print(timeToWait)
         return timeToWait
 
+    def executeNextWaitingScan(self):
+        try:
+            waitingScan = Scan.objects.filter(started=None).order_by(created)[0]
+            print("[CRON]  No scans waiting")
+            nmap.runScan(waitingScan)
+        except IndexError:
+            print("[CRON]  No scans waiting")
         #        # errorCode, nmap_active_scan_out, stdout, stderr = runScan(sched)
         #        # print('[DONE] ' + stderr + stdout)
         #        # if errorCode != 0:
