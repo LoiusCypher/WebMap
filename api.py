@@ -443,4 +443,4 @@ def nmap_scanactive(request):
                         res['scans'][f]['status'] = 'finished'
                         res['scans'][f]['summary'] = rx.group(1)
 
-	return HttpResponse(json.dumps(res, indent=4), content_type="application/json")
+    return HttpResponse(json.dumps(res, indent=4), content_type="application/json")
