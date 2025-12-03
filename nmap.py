@@ -1,14 +1,13 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.utils import timezone
 from nmapreport.models import Scan
-from datetime import datetime
+import json
 import os
 import re
-import json
-import time
 import shlex
 import shutil
 import subprocess
+import nmapreport.cve
 
 
 cdir = os.path.dirname(os.path.realpath(__file__))
@@ -50,8 +49,11 @@ def runScan(scan):
     stdout, stderr = nmapprocess.communicate()
     scan.ended = timezone.now()
     scan.save()
-    finishedFile = genFinishedScanFileName(sched))
-    shutil.move(nmap_active_scan_out, '/opt/xml/' + finishedFile
-    nmapout = os.popen('python3 ' + cdir + '/cve.py ' + finishedFile + '').readlines()
     print('[DONE] ' + stderr + stdout)
+    finishedFile = genFinishedScanFileName(sched)
+    shutil.move(nmap_active_scan_out, '/opt/xml/' + finishedFile)
+    nmapout = os.popen('python3 ' + cdir + '/cve.py ' + finishedFile + '').readlines()
+    print('[CVE] old ' + nmapout)
+    nmapout = getcve(finishedFile)
+    print('[CVE] ' + nmapout)
     return nmapprocess.returncode, nmap_active_scan_out, stderr, stdout
