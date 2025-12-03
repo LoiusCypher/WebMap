@@ -45,6 +45,14 @@ class Command(BaseCommand):
             print("[CRON]  Starting scan")
             nmap.runScan(waitingScan)
             print("[CRON]  scan completed")
+            finishedFile = genFinishedScanFileName(scan.name, scan.started.time())
+            print("[CRON]  finishedFile", finishedFile)
+            shutil.move(nmap_active_scan_out, '/opt/xml/' + finishedFile)
+            print('[CVE] start' + str(nmapout))
+            nmapout = os.popen('python3 ' + cdir + '/cve.py ' + finishedFile + '').readlines()
+            print('[CVE] old ' + str(nmapout))
+            nmapout = cve.getcve(finishedFile)
+            print('[CRON]  CVE done' + str(nmapout))
         except IndexError:
             print("[CRON]  No scans waiting")
 

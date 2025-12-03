@@ -52,10 +52,4 @@ def runScan(scan):
     scan.ended = timezone.now()
     scan.save()
     print('[DONE] ' + stderr + stdout)
-    finishedFile = genFinishedScanFileName(scan.started.time(), scan.name)
-    shutil.move(nmap_active_scan_out, '/opt/xml/' + finishedFile)
-    nmapout = os.popen('python3 ' + cdir + '/cve.py ' + finishedFile + '').readlines()
-    print('[CVE] old ' + nmapout)
-    nmapout = cve.getcve(finishedFile)
-    print('[CVE] ' + nmapout)
     return nmapprocess.returncode, nmap_active_scan_out, stderr, stdout
