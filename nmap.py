@@ -1,13 +1,14 @@
 from django.core.management.base import BaseCommand, CommandError
 from django.utils import timezone
 from nmapreport.models import Scan
+import hashlib
 import json
 import os
 import re
 import shlex
 import shutil
 import subprocess
-import nmapreport.cve
+from nmapreport import cve
 
 
 cdir = os.path.dirname(os.path.realpath(__file__))
