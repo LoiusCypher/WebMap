@@ -2,6 +2,7 @@ from django.test import TestCase
 import nmapreport.nmap as nmap
 from nmapreport.models import Scan
 import copy
+import hashlib
 
 
 class NmapTestCase(TestCase):
@@ -36,7 +37,6 @@ class NmapTestCase(TestCase):
         self.assertEqual(nmap.genScanCmd(name=self.sched['filename'],
                                          params=self.sched['options'],
                                          target=self.sched['target'],
-                                         number=self.sched['number'],
                                          filepath=nmap.genActiveScanFilePath(name=self.sched['filename'],
                                                                              number=self.sched['number'])),
                     ['/usr/bin/nmap'] + self.scan_options +
