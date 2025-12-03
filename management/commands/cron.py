@@ -10,6 +10,7 @@ import shlex
 import shutil
 import subprocess
 from datetime import datetime
+from nmapreport import cve
 
 class Command(BaseCommand):
 
@@ -45,12 +46,10 @@ class Command(BaseCommand):
             print("[CRON]  Starting scan")
             nmap.runScan(waitingScan)
             print("[CRON]  scan completed")
-            finishedFile = genFinishedScanFileName(scan.name, scan.started.time())
+            finishedFile = nmap.genFinishedScanFileName(waitingScan.name, waitingScan.started.time())
             print("[CRON]  finishedFile", finishedFile)
             shutil.move(nmap_active_scan_out, '/opt/xml/' + finishedFile)
-            print('[CVE] start' + str(nmapout))
-            nmapout = os.popen('python3 ' + cdir + '/cve.py ' + finishedFile + '').readlines()
-            print('[CVE] old ' + str(nmapout))
+            print('[CVE] start')
             nmapout = cve.getcve(finishedFile)
             print('[CRON]  CVE done' + str(nmapout))
         except IndexError:
