@@ -46,7 +46,7 @@ class Command(BaseCommand):
             print("[CRON]  Starting scan")
             returncode, nmap_active_scan_out = nmap.runScan(waitingScan)
             print("[CRON]  scan completed")
-            finishedFile = nmap.genFinishedScanFileName(waitingScan.name, waitingScan.started.time()seconds)
+            finishedFile = nmap.genFinishedScanFileName(waitingScan.name, waitingScan.started.time().seconds)
             print("[CRON]  finishedFile", finishedFile)
             shutil.move(nmap_active_scan_out, '/opt/xml/' + finishedFile)
             print('[CVE] start')
