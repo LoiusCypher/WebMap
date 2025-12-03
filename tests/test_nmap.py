@@ -57,5 +57,5 @@ class NmapTestCase(TestCase):
             self.assertEqual(line[:len(expected_strings[lineNr])], expected_strings[lineNr])
 
     def test_nmap_runScan_fail(self):
-        retVal, tmp_file_path, stdout, stderr = nmap.runScan(Scan(name=self.fail_sched['params']['filename'], options=self.fail_sched['params']['params'], target=self.fail_sched['params']['target'], execution_counter=self.fail_sched['number']))
+        retVal, tmp_file_path = nmap.runScan(Scan(name=self.fail_sched['params']['filename'], options=self.fail_sched['params']['params'], target=self.fail_sched['params']['target'], execution_counter=self.fail_sched['number']))
         self.assertNotEqual(retVal, 0)

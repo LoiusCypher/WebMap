@@ -52,4 +52,4 @@ def runScan(scan):
     scan.ended = timezone.now()
     scan.save()
     print('[DONE] ' + stderr + stdout)
-    return nmapprocess.returncode, nmap_active_scan_out, stderr, stdout
+    return nmapprocess.returncode, nmap_active_scan_out

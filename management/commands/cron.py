@@ -44,7 +44,7 @@ class Command(BaseCommand):
         try:
             waitingScan = Scan.objects.filter(started=None).order_by('created')[0]
             print("[CRON]  Starting scan")
-            nmap.runScan(waitingScan)
+            returncode, nmap_active_scan_out = nmap.runScan(waitingScan)
             print("[CRON]  scan completed")
             finishedFile = nmap.genFinishedScanFileName(waitingScan.name, waitingScan.started.time())
             print("[CRON]  finishedFile", finishedFile)
