@@ -47,7 +47,7 @@ class NmapTestCase(TestCase):
             'Starting Nmap 7.94SVN ( https://nmap.org ) at ',
             'Nmap done: 4 IP addresses (0 hosts up) scanned in'
         ]
-        retVal, active_scan_file_path, stdout, stderr = nmap.runScan(Scan(name=self.sched['params']['filename'], options=self.sched['params']['params'], target=self.sched['params']['target'], execution_counter=self.sched['number']))
+        retVal, active_scan_file_path = nmap.runScan(Scan(name=self.sched['params']['filename'], options=self.sched['params']['params'], target=self.sched['params']['target'], execution_counter=self.sched['number']))
         self.assertEqual(retVal, 0)
         self.assertEqual(active_scan_file_path, nmap.genActiveScanFilePath(name=self.sched['params']['filename'], number=self.sched['number']))
         self.assertEqual(stdout, '')
