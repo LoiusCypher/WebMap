@@ -115,7 +115,7 @@ class Scan(models.Model):
     id = models.AutoField(primary_key=True)
     name = models.TextField()
     created = models.DateTimeField(default=timezone.now, blank=True)
-    started = models.DateTimeField(bull=True)
+    started = models.DateTimeField(null=True)
     ended = models.DateTimeField(null=True)
     options = models.CharField(max_length=80)
     target = models.CharField(max_length=80)
