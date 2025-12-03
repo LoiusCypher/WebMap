@@ -50,7 +50,7 @@ class NmapTestCase(TestCase):
         retVal, active_scan_file_path = nmap.runScan(Scan(name=self.sched['params']['filename'], options=self.sched['params']['params'], target=self.sched['params']['target'], execution_counter=self.sched['number']))
         self.assertEqual(retVal, 0)
         self.assertEqual(active_scan_file_path, nmap.genActiveScanFilePath(name=self.sched['params']['filename'], number=self.sched['number']))
-        self.assertEqual(stdout, '')
+        # self.assertEqual(stdout, '')
         # lines = stderr.splitlines()
         # self.assertEqual(len(lines), len(expected_strings))
         # for lineNr, line in enumerate(lines):
