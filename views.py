@@ -3,7 +3,7 @@ from django.http import HttpResponse
 import xmltodict, json, html, os, hashlib, re, urllib.parse, base64
 from collections import OrderedDict
 from nmapreport.functions import *
-from django.models import ScanJob
+from nmapreport.models import ScanJob
 
 
 def login(request):
