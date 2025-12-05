@@ -6,11 +6,7 @@ import sys
 import requests
 
 
-def getcpe(xmlfilename):
-	return loadScan('/opt/xml/' + xmlfilename)
-
-
-def loadScan(xmlpath):
+def getcpe(xmlpath):
 	oo = xmltodict.parse(open(xmlpath, 'r').read())
 	o = json.loads(json.dumps(oo['nmaprun'], indent=4))
 	return cpeFromDict(o)

@@ -120,6 +120,7 @@ class Scan(models.Model):
     options = models.CharField(max_length=80)
     target = models.CharField(max_length=80)
     execution_counter = models.IntegerField(default=0)
+    filepath = models.CharField(null=True, max_length=80)
     # duration = models.CharField()
     # nmap_version = models.CharField(max_length=20)
     # xml_version = models.CharField(max_length=20)

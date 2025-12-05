@@ -31,7 +31,7 @@ class NmapTestCase(TestCase):
 
     def test_nmap_generate_finished_scan_file_name(self):
         scanmd5 = hashlib.md5(str(self.sched['params']['filename']).encode('utf-8')).hexdigest()
-        self.assertEqual(nmap.genFinishedScanFileName(name=self.sched['params']['filename'], lastrun=self.sched['lastrun']), 'webmapsched_763592814.9651988_' + scanmd5)
+        self.assertEqual(nmap.genFinishedScanFileName(name=self.sched['params']['filename'], lastrun=self.sched['lastrun']), '/opt/xml/webmapsched_763592814.9651988_' + scanmd5)
 
     def test_nmap_genScanCmd(self):
         self.assertEqual(nmap.genScanCmd(name=self.sched['filename'],
