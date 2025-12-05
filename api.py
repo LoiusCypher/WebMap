@@ -439,6 +439,25 @@ def nmap_scanactive(request):
                         res['scans'][f]['type'] = rx.group(1)
                         res['scans'][f]['protocol'] = rx.group(2)
 
+    for scan in Scan.objects.filter(timezone.now() - ended <= 5).order_by('created'):
+            f = scan.filepath
+            res['scans'][f] = {'status':'finished'}
+            with open(f) as n:
+                lines = n.readlines()
+                for line in lines:
+                    #res['out'].append(line.strip())
+                    # <nmaprun scanner="nmap" args="nmap -oG /tmp/test.grep -oX /tmp/scan.xml -sT -sV -sC -T5 scanme.nmap.org" start="1541780258" startstr="Fri Nov  9 16:17:38 2018" version="7.60" xmloutputversion="1.04">
+
+                    rx = re.search(r'args\=.+\-oX \/tmp\/(.+\.xml).+ start\=.+ startstr\=.(.+). version\=', line.strip())
+                    if rx is not None:
+                        res['scans'][f]['filename'] = f
+                        res['scans'][f]['startstr'] = rx.group(2)
+
+                    rx = re.search(r'scaninfo type\=.(.+). protocol\=.(.+). numservices', line.strip())
+                    if rx is not None:
+                        res['scans'][f]['type'] = rx.group(1)
+                        res['scans'][f]['protocol'] = rx.group(2)
+
                     # <finished time="1541780323" timestr="Fri Nov  9 16:18:43 2018" elapsed="65.31" summary="Nmap done at Fri Nov  9 16:18:43 2018; 1 IP address (1 host up) scanned in 65.31 seconds" exit="success"/><hosts up="1" down="0" total="1"/>
                     rx = re.search(r'finished .+ summary\=.(.+). exit\=', line.strip())
                     if rx is not None:

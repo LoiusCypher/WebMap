@@ -28,8 +28,9 @@ def gethours(f):
 
 
 def genFinishedScanFileName(name, lastrun):
-	scanmd5 = hashlib.md5(str(name).encode('utf-8')).hexdigest()
-	return '/opt/xml/' + 'webmapsched_' + str(lastrun) + '_' + scanmd5
+    # scanmd5 = hashlib.md5(str(name).encode('utf-8')).hexdigest()
+    # return '/opt/xml/' + 'webmapsched_' + str(lastrun) + '_' + scanmd5
+	return '/opt/xml/' + 'webmapsched_' + str(lastrun) + '_' + str(name)
 
 
 def genActiveScanFilePath(name, number):

@@ -31,7 +31,7 @@ def cpeFromDict(o):
 
 		if '@addr' in i['address']:
 			address = i['address']['@addr']
-			# print('address: ', address)
+			print('address: ', address)
 		elif type(i['address']) is list:
 			for ai in i['address']:
 				if ai['@addrtype'] == 'ipv4':
@@ -103,7 +103,7 @@ def getCveOnline(cpecve):
 	cvejson = {}
 
 	for i in cpecve['cpe']:
-		# cprint(i)
+		print(i)
 
 		if i not in cvejson:
 			cvejson[i] = []
