@@ -45,6 +45,7 @@
 				<th class="hide-on-small-only">Timestamp</th>
 				<th class="hide-on-small-only">Host Count</th>
 				<th>Stats</th>
+				<th>Delete</th>
 			</tr></thead>
 			<tbody>
 				{% for i,v in tr.items %}
@@ -57,6 +58,7 @@
 							<i class="fas fa-door-closed red-text"></i><span class="red-text">{{ v.portstats.pc }}</span>
 							<i class="fas fa-filter grey-text"></i><span class="grey-text">{{ v.portstats.pf }}</span>
 						</td>
+						<td class="material-icons">delete_forever</td>
 					</tr>
 				{% endfor %}
 			</tbody>
