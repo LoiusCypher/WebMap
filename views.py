@@ -3,6 +3,7 @@ from django.http import HttpResponse
 import xmltodict, json, html, os, hashlib, re, urllib.parse, base64
 from collections import OrderedDict
 from nmapreport.functions import *
+from django.models import ScanJob
 
 
 def login(request):
@@ -434,6 +435,7 @@ def index(request, filterservice="", filterportid=""):
 
 		r['tr'] = OrderedDict(sorted(r['tr'].items()))
 		r['stats']['xmlcount'] = xmlfilescount
+		r['stats']['scedulecount'] = 0 # ScanJob.all()
 
 		return render(request, 'nmapreport/nmap_xmlfiles.html', r)
 
