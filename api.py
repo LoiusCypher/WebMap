@@ -440,7 +440,9 @@ def nmap_scanactive(request):
                         res['scans'][f]['type'] = rx.group(1)
                         res['scans'][f]['protocol'] = rx.group(2)
 
-    for scan in Scan.objects.filter(ended__gte=(timezone.now().timestamp() - 5)).order_by('created'):
+    timemax = timezone.now().timestamp() - 5
+    print('timemax', timemax)
+    for scan in Scan.objects.filter(ended__gte=timemax).order_by('created'):
             f = scan.filepath
             res['scans'][f] = {'status':'finished'}
             with open(f) as n:
