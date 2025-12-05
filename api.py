@@ -1,6 +1,7 @@
 from django.db import models
-from django.shortcuts import render
 from django.http import HttpResponse
+from django.shortcuts import render
+from django.utils import timezone
 import base64
 import json
 import hashlib
@@ -439,7 +440,7 @@ def nmap_scanactive(request):
                         res['scans'][f]['type'] = rx.group(1)
                         res['scans'][f]['protocol'] = rx.group(2)
 
-    for scan in Scan.objects.filter(timezone.now() - ended <= 5).order_by('created'):
+    for scan in Scan.objects.filter(ended__gte=(timezone.now().timestamp() - 5)).order_by('created'):
             f = scan.filepath
             res['scans'][f] = {'status':'finished'}
             with open(f) as n:
