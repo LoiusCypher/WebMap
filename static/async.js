@@ -122,7 +122,7 @@ function checkActiveScan() {
 				}
 			} else {
 
-				$('#activescan_line').css('display','block');
+				// This part does not work anymore !! We need mechanism to track status 'updates'
 				$('#activescan_info').css('display','block');
 				$('#activescan_info').append('<li>'+
 					'<i class="fas fa-info-circle"></i> '+
@@ -149,7 +149,11 @@ function checkActiveScan() {
 		}
 
 		if(c <= 0) {
-			$('#activescancard').css('display','none');
+			$('#activescaYpncard').css('display','none');
+			// because update is no longer working, we always switch off possible displays
+			$('#activescan_progress').css('display','none');
+			$('#activescan_line').css('display','none');
+			$('#activescan_info').css('display','none');
 		}
 	});
 }
